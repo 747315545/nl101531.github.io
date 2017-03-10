@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+    
+  <url>
+    <loc>http://mrdear.cn/2017/03/10/hello-world/</loc>
+    <lastmod>2017-03-10T10:51:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>标签测试文章</title>
+        <pubTime>2017-03-10T01:25:36.000Z</pubTime>
+        
+        <tag>Testing</tag>
+         
+        <tag>Another Tag</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+</urlset>
