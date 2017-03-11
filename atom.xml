@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-03-11T02:09:22.000Z</updated>
+  <updated>2017-03-11T09:22:01.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,67 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker学习记录(一)-基本概念</title>
+    <link href="http://mrdear.cn/2017/03/10/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"/>
+    <id>http://mrdear.cn/2017/03/10/docker/Docker学习记录(一)-基本概念/</id>
+    <published>2017-03-10T09:21:00.000Z</published>
+    <updated>2017-03-11T09:22:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Docker学习记录-一-基本概念"><a href="#Docker学习记录-一-基本概念" class="headerlink" title="Docker学习记录(一)-基本概念"></a>Docker学习记录(一)-基本概念</h1><p>标签（空格分隔）： docker</p>
+<hr>
+<p>因为做的项目用到了docker,所以开始学习下这方面的知识.</p>
+<hr>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p>docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.<br>docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.<br>docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,所以容器就是依赖镜像创建,同样一个类可以有多个实例,那么一个镜像也可以对应多个容器.<br>docker仓库:仓库是镜像市场,里面有别人建立好的Model类,也就是镜像,可以直接拿来使用.</p>
+<p>这样说应该很好理解了吧.</p>
+<p>因此创建一个helloworld的流程就和清晰了.<br>启动docker虚拟机-&gt;创建docker镜像(或者从仓库拉取)-&gt;创建docker容器(运行helloworld)-&gt;结束</p>
+<h2 id="2-docker虚拟机"><a href="#2-docker虚拟机" class="headerlink" title="2.docker虚拟机"></a>2.docker虚拟机</h2><p>首先docker安装后自带的虚拟机配置下载镜像又要GFW的原因速度很慢,一般使用<a href="https://cr.console.aliyun.com" target="_blank" rel="external">阿里云加速器</a>,登陆后找到加速器按照要求先创建一个新的docker主机,然后启动该主机.<br>这里要注意,阿里云给的命令是创建一个名字为default的主机,安装后自带了一个default,所以先运行<code>docker-machine rm default</code>删除默认主机.</p>
+<p>2.1新建主机<br><img src="http://ac-HSNl7zbI.clouddn.com/sAxM3IuAIRznxVzOKQUSSmnVuh4KGub9bNLDN9P3.jpg" alt=""></p>
+<p>2.2为当前shell配置环境<br><img src="http://ac-HSNl7zbI.clouddn.com/AK0TxhfaoaaJgUR6XLDAxWoiml1uNr5aEPyhOHkn.jpg" alt=""></p>
+<p>2.3验证<br><img src="http://ac-HSNl7zbI.clouddn.com/BgvivpB6bjf61IBPyswjjHCb5XfcYjvrpOS9sDNo.jpg" alt=""></p>
+<p>到此docker虚拟机创建完毕,这里需要掌握一些基本增删改查基本命令.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">docker-machine kill 停止某个Docker主机</div><div class="line">docker-machine ls 列出所有管理的Docker主机</div><div class="line">docker-machine regenerate-certs 为某个主机重新成功TLS认证信息</div><div class="line">docker-machine restart 重启Docker主机</div><div class="line">docker-machine rm 删除Docker主机</div><div class="line">docker-machine scp 在Docker主机之间复制文件</div><div class="line">docker-machine ssh SSH到主机上执行命令</div><div class="line">docker-machine start 启动一个主机</div><div class="line">docker-machine status 查看一个主机状态</div><div class="line">docker-machine stop 停止一个主机</div><div class="line">docker-machine upgrade 更新主机Docker版本为最新</div><div class="line">docker-machine url 获取主机的URL</div></pre></td></tr></table></figure></p>
+<h2 id="3-docker镜像"><a href="#3-docker镜像" class="headerlink" title="3.docker镜像"></a>3.docker镜像</h2><p>使用<code>docker images</code>可以列出机器上所有的docker镜像.<br><img src="http://ac-HSNl7zbI.clouddn.com/axr3cW667D3Awsul4QA0qnVlrx2OYsRz0QJel6yG.jpg" alt=""></p>
+<p>其中:<br>REPOSTITORY：表示镜像的仓库源<br>TAG：镜像的标签<br>IMAGE ID：镜像ID<br>CREATED：镜像创建时间<br>SIZE：镜像大小</p>
+<p>使用<code>docker search 镜像名</code>查找某一镜像,例如查找hello world,可以看到带有OFFICIAL的为官方提供的镜像.<br><img src="http://ac-HSNl7zbI.clouddn.com/LGnffJHC3CQIrxAMdBqUr6YXQf4s4CRiMLkhzwzY.jpg" alt=""></p>
+<p>使用<code>docker pull 镜像名</code>获取一个镜像,这里获取hello world,另外镜像后可以跟版本号,例如<code>docker pull redis:3.2</code>,就指定拉去redis3.2版本<br><img src="http://ac-HSNl7zbI.clouddn.com/pGDCyoQUkK3vnLXFRasOUzpDyLFbprXFTghVbzLf.jpg" alt=""></p>
+<p>使用<code>docker run 镜像名</code>从该镜像启动一个实例.</p>
+<p>常见命令,另外对于docker镜像的创建和运行比较重要,后续文章单独学习分析.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">docker inspect 查看镜像详情</div><div class="line">docker rmi 删除镜像,带上-f参数则强制删除</div><div class="line">docker save 导出镜像</div><div class="line">docker load 导入镜像</div><div class="line">docker push 上传镜像到仓库</div><div class="line">docker tag 给镜像设置标签</div></pre></td></tr></table></figure></p>
+<h2 id="4-docker容器"><a href="#4-docker容器" class="headerlink" title="4.docker容器"></a>4.docker容器</h2><p>容器是应用的实例,使用<code>docker create</code>创建一个容器,使用<code>docker start</code>启动一个容器,另一个简单方式就是<code>docker run</code>,等价于先创建再启动.</p>
+<p>那么使用<code>docker run</code>的时候后台做了哪些操作?</p>
+<ol>
+<li>查找是否存在指定镜像,不存在则从公有仓库下载</li>
+<li>利用镜像创建并启动一个容器</li>
+<li>分配一个文件系统,在只读的镜像层外面挂载一层可读写层</li>
+<li>从宿主主机配置的网桥接口中桥接一个虚拟接到容器中去</li>
+<li>从地址池配置一个ip地址给容器</li>
+<li>执行用户指定应用程序</li>
+<li>执行完毕后容器被终止</li>
+</ol>
+<p>使用<code>docker ps -a</code>查看最近启动的容器<br><img src="http://ac-HSNl7zbI.clouddn.com/aYGJha5vP2SwSQUEHtlNmRBU67vXS8co5KTCMO75.jpg" alt=""></p>
+<p>使用<code>docker rm</code>删除容器,清理完毕后再删除hello world镜像.</p>
+<p>下面使用redis镜像实战整个流程,并学习容器常用命令.</p>
+<h2 id="5-创建redis镜像"><a href="#5-创建redis镜像" class="headerlink" title="5.创建redis镜像"></a>5.创建redis镜像</h2><p>有了helloworld经历,这里流程就很清晰了,搜索镜像-&gt;拉去镜像-&gt;创建实例-&gt;连接交互<br><img src="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg" alt=""></p>
+<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射</div></pre></td></tr></table></figure></p>
+<p>首先使用-d -p参数,可以看到redis跑在了后台.<br><img src="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg" alt=""></p>
+<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768</p>
+<p><strong>进入容器</strong><br>使用<code>docker exec</code>命令可以进入容器内部,参数和run的参数作用相同.</p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg" alt=""></p>
+<p>其他命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">docker stop 停止一个容器</div><div class="line">docker rm 删除一个容器</div><div class="line">docker import 导入一个容器</div><div class="line">docker export 导出一个容器</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docker学习记录-一-基本概念&quot;&gt;&lt;a href=&quot;#Docker学习记录-一-基本概念&quot; class=&quot;headerlink&quot; title=&quot;Docker学习记录(一)-基本概念&quot;&gt;&lt;/a&gt;Docker学习记录(一)-基本概念&lt;/h1&gt;&lt;p&gt;标签（空格分隔）
+    
+    </summary>
+    
+      <category term="docker" scheme="http://mrdear.cn/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://mrdear.cn/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>毕业设计周记(一)</title>
