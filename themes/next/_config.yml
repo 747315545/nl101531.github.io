@@ -13,8 +13,13 @@ keywords: "IT小生"
 # Set rss to specific value if you have burned your feed already.
 rss: /atom.xml
 
+
+reward_comment: 坚持原创技术分享，您的支持将鼓励我继续创作！
+wechatpay: /image/wechatpay.png
+alipay: /image/alipay.png
+
 # Specify the date when the site was setup
-#since: 2015
+since: 2017
 
 # icon between year and author @Footer
 authoricon: heart
@@ -219,7 +224,7 @@ excerpt_description: true
 # Automatically Excerpt. Not recommend.
 # Please use <!-- more --> in the post to control excerpt accurately.
 auto_excerpt:
-  enable: false
+  enable: true
   length: 150
 
 # Post meta display settings
@@ -280,7 +285,7 @@ mathjax:
 #swiftype_key:
 
 # Baidu Analytics ID
-baidu_analytics: b42aa2c4f1a05b0701a1b2901bf25603
+#baidu_analytics: b42aa2c4f1a05b0701a1b2901bf25603
 
 # Duoshuo ShortName
 duoshuo_shortname: niuli
@@ -400,7 +405,7 @@ busuanzi_count:
 
 
 # Tencent analytics ID
-# tencent_analytics:
+tencent_analytics: 61130259
 
 # Tencent MTA ID
 # tencent_mta:
