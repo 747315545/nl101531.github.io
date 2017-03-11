@@ -5,7 +5,7 @@ type: "about"
 ---
 
 ### Name:
-屈定
+屈定(公司花名)
 
 ### Status:
 实习
