@@ -285,7 +285,7 @@ mathjax:
 #swiftype_key:
 
 # Baidu Analytics ID
-#baidu_analytics: b42aa2c4f1a05b0701a1b2901bf25603
+baidu_analytics: 05272b7f33b576c5363b4fa34583f3c3
 
 # Duoshuo ShortName
 duoshuo_shortname: niuli
@@ -405,7 +405,7 @@ busuanzi_count:
 
 
 # Tencent analytics ID
-tencent_analytics: 61130259
+#tencent_analytics: 61130259
 
 # Tencent MTA ID
 # tencent_mta:
