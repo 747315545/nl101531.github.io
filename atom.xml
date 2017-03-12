@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-03-11T09:22:01.000Z</updated>
+  <updated>2017-03-11T15:53:51.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker学习记录(二)-Dockerfile创建镜像</title>
+    <link href="http://mrdear.cn/2017/03/10/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Dockerfile%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/"/>
+    <id>http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/</id>
+    <published>2017-03-10T13:21:00.000Z</published>
+    <updated>2017-03-11T15:53:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Docker学习记录-二-Dockerfile创建镜像"><a href="#Docker学习记录-二-Dockerfile创建镜像" class="headerlink" title="Docker学习记录(二)-Dockerfile创建镜像"></a>Docker学习记录(二)-Dockerfile创建镜像</h1><p>标签（空格分隔）： docker</p>
+<hr>
+<p>本文学习Dcokerfile的基本命令,并且创建一个支持ssh服务的镜像.</p>
+<hr>
+<h2 id="1-Dockerfile"><a href="#1-Dockerfile" class="headerlink" title="1.Dockerfile"></a>1.Dockerfile</h2><h3 id="1-1基本案例"><a href="#1-1基本案例" class="headerlink" title="1.1基本案例"></a>1.1基本案例</h3><p>dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">第一行指定该镜像基于的基础镜像(必须)</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">维护者信息</div><div class="line">MAINTAINER quding  niudear@foxmail.com</div><div class="line"></div><div class="line">镜像操作指令</div><div class="line">RUN echo $JAVA_HOME</div><div class="line"></div><div class="line">启动时操作的命令</div><div class="line"></div><div class="line">CMD ./usr/sbin/nginx</div></pre></td></tr></table></figure></p>
+<p>该文件说明从Java8这个基础镜像创建一个新的镜像,输出Java路径,启动成功则启动nginx服务,这也是一个Dockerfile需要包含的操作步骤.</p>
+<h3 id="1-2指令详解"><a href="#1-2指令详解" class="headerlink" title="1.2指令详解"></a>1.2指令详解</h3><p>1.FROM：格式为 <code>FROM &lt;image&gt;</code>或<code>FROM&lt;image&gt;:&lt;tag&gt;</code>第一条指令必须是FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p>
+<p>2.MAINTAINER：格式为MAINTAIER<name>，指定维护者信息。</name></p>
+<p>3.RUN：格式为<code>RUN &lt;command&gt;</code>或者<code>RUN [“executable”，“param1”，“param2”]</code>。前者将在shell终端中运行的命令，即/bin/sh–c；后者则使用exec执行。指定使用其他终端可以通过第二种方式实现，例如<code>RUN[“/bin/bash”，“-c”，“echohello”]</code>。每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像。当命令较长时可以使用\来换行。这实际上就是在容器构建时需要执行哪些指令，例如容器构建时需要下拉代码，但是默认启动的容器中是没有Git指令的，就需要下载，可以执行：<code>RUN apt-get install -y git</code>，然后<code>RUN git clonexxxx</code></p>
+<p>4.CMD：指定容器启动后执行的命令，一般都是早就写好的脚本，例如：<code>CMD[“/run.sh”]</code>。注意：如果Dockerfile中指定了多条命令，只有最后一条会被执行。如果用户启动时候加了运行的命令，则会覆盖掉CMD指定的指令。</p>
+<p>5.EXPOSE：告诉Docker服务端容器需要暴露的端口号，供互联系统使用。在启动容器时需要通过-P（注意是大写），Docker主机会自动分配一个端口转发到指定的端口；使用-p，则可以具体指定哪个本地端口映射过来。<br>例如：我在elasticsearch镜像的Dockerfile中指定了暴露出9200和9300端口，我可以在Dockerfile中写：<code>EXPOSE 9200 9300</code></p>
+<p>6.ENV：创建的时候给容器中加上个需要的环境变量。指定一个值，为后续的RUN指令服务</p>
+<p>7.COPY：复制本地的文件或目录到容器中。目标路径不存在时，会自动创建。</p>
+<p>8.ENTRYPOINT：配置容器启动后执行的命令，并且不可被docker run 提供的参数覆盖。<br>每个Dockerfile中只能有一个ENTRYPOINT，当指定多个ENTRYPOINT时，只有最后一个生效</p>
+<p>9.VOLUME：创建一个挂在点，可以从本机或其他容器挂载的挂载点。意思就是从容器中暴露出一部分，和外界共享这块东西，一般放数据库的数据或者是代码。在容器启动运行的时候，如果需要将volume暴露的东西和本地的一个文件夹进行映射，想要通过本地文件直接访问容器中暴露的部分，可以在运行的时候进行映射：</p>
+<p>10.USER：指定运行容器时的用户名或者UID，后续的RUN也会使用指定的用户。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户。<br>要临时获取管理员权限的时候要使用gosu，不推荐使用sudo。如果不指定，容器默认是root运行。</p>
+<p>11.WORKDIR：定义工作目录，如果容器中没有此目录，会自动创建</p>
+<p>创建指令<code>docker build 路径</code>,该命令会读取路径下的Dockerfile文件和其他文件,然后发送给服务端,由服务端创建镜像.</p>
+<hr>
+<h2 id="2-创建SSH服务镜像"><a href="#2-创建SSH服务镜像" class="headerlink" title="2.创建SSH服务镜像"></a>2.创建SSH服务镜像</h2><h3 id="2-1准备Java8环境"><a href="#2-1准备Java8环境" class="headerlink" title="2.1准备Java8环境"></a>2.1准备Java8环境</h3><p>后续教程需要利用到Java8环境,因此先下载一个官方的Java8镜像作为基础镜像.直接执行如下命令.可以利用之前的教程,启动容器查看下java路径.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull java:8</div></pre></td></tr></table></figure></p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/sJUUIIhnu1bxyfWnYtf8VfN7W3z5NMMj7lARWGpw.jpg" alt=""></p>
+<h3 id="2-2编写Dockerfile"><a href="#2-2编写Dockerfile" class="headerlink" title="2.2编写Dockerfile"></a>2.2编写Dockerfile</h3><p>ssh服务主要是openssh-server来提供,因此需要在容器中安装该服务.<br><strong>Dockerfile:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#显示该镜像是基于java8镜像</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">#维护人信息</div><div class="line">MAINTAINER quding niudear@foxmail.com</div><div class="line">#更新源</div><div class="line">RUN apt-get update</div><div class="line">#安装软件</div><div class="line">RUN apt-get install -y openssh-server</div><div class="line"></div><div class="line">RUN mkdir -p /var/run/sshd</div><div class="line">RUN mkdir -p /root/.ssh</div><div class="line"></div><div class="line">#取消pam限制</div><div class="line">RUN sed -ri &apos;s/session  required   pam_loginuid.so/#session    required  pam_loginuid.so/g&apos; /etc/pam.d/sshd</div><div class="line"></div><div class="line">#复制配置文件到相应位置</div><div class="line">COPY authorized_keys /root/.ssh/authorized_keys</div><div class="line">COPY run.sh /run.sh</div><div class="line"></div><div class="line">#赋予脚本权限</div><div class="line">RUN chmod 755 /run.sh</div><div class="line"></div><div class="line">#开放端口</div><div class="line">EXPOSE 22</div><div class="line"></div><div class="line">#设置启动命令</div><div class="line"></div><div class="line">CMD [&quot;/run.sh&quot;]</div></pre></td></tr></table></figure></p>
+<p><strong>run.sh</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">/usr/sbin/sshd -D</div></pre></td></tr></table></figure></p>
+<p><strong>拷贝本机的id_ras</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cat ~/.ssh/id_rsa.pub &gt;authorized_keys</div><div class="line">//用来免密的</div></pre></td></tr></table></figure></p>
+<p><strong>执行构建</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t sshd:java .</div></pre></td></tr></table></figure></p>
+<p>构建成功后使用<code>docker images</code>即可查看,然后像上篇一样启动容器,暴露出端口,再使用ssh连接,和一般linux系统就没什么差别了.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docker学习记录-二-Dockerfile创建镜像&quot;&gt;&lt;a href=&quot;#Docker学习记录-二-Dockerfile创建镜像&quot; class=&quot;headerlink&quot; title=&quot;Docker学习记录(二)-Dockerfile创建镜像&quot;&gt;&lt;/a&gt;Dock
+    
+    </summary>
+    
+      <category term="docker" scheme="http://mrdear.cn/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://mrdear.cn/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker学习记录(一)-基本概念</title>

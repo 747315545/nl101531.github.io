@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="面试," />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -89,22 +89,30 @@
 
 
 
-<meta name="description" content="从2016.7来到上海后记录下自己的面试经历,希望能对其他人有所帮助,同时给自己一个提醒.
-第二次面试2017.1上一家公司干了六个月,做的还不错,中间涨了一次工资,也就500左右,但是公司没技术氛围,而且加班是家常便饭,所以为了自己打算离开了,这里我是提前和领导说不打算续签的,自己离职不太好意思拿年终奖再离职,不过领导知道后还是给我申请了年终奖,感动Ing
-第二次面试先电面再去公司面试的,总体感">
+<meta name="description" content="Docker学习记录(二)-Dockerfile创建镜像标签（空格分隔）： docker
+
+本文学习Dcokerfile的基本命令,并且创建一个支持ssh服务的镜像.
+
+1.Dockerfile1.1基本案例dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:123456789101112第一行指定该镜像基于的基础镜像(必须)FROM j">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面经">
-<meta property="og:url" content="http://mrdear.cn/2017/01/10/随谈/面经/index.html">
+<meta property="og:title" content="Docker学习记录(二)-Dockerfile创建镜像">
+<meta property="og:url" content="http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="从2016.7来到上海后记录下自己的面试经历,希望能对其他人有所帮助,同时给自己一个提醒.
-第二次面试2017.1上一家公司干了六个月,做的还不错,中间涨了一次工资,也就500左右,但是公司没技术氛围,而且加班是家常便饭,所以为了自己打算离开了,这里我是提前和领导说不打算续签的,自己离职不太好意思拿年终奖再离职,不过领导知道后还是给我申请了年终奖,感动Ing
-第二次面试先电面再去公司面试的,总体感">
-<meta property="og:updated_time" content="2017-03-11T02:08:29.000Z">
+<meta property="og:description" content="Docker学习记录(二)-Dockerfile创建镜像标签（空格分隔）： docker
+
+本文学习Dcokerfile的基本命令,并且创建一个支持ssh服务的镜像.
+
+1.Dockerfile1.1基本案例dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:123456789101112第一行指定该镜像基于的基础镜像(必须)FROM j">
+<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/sJUUIIhnu1bxyfWnYtf8VfN7W3z5NMMj7lARWGpw.jpg">
+<meta property="og:updated_time" content="2017-03-11T15:53:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="面经">
-<meta name="twitter:description" content="从2016.7来到上海后记录下自己的面试经历,希望能对其他人有所帮助,同时给自己一个提醒.
-第二次面试2017.1上一家公司干了六个月,做的还不错,中间涨了一次工资,也就500左右,但是公司没技术氛围,而且加班是家常便饭,所以为了自己打算离开了,这里我是提前和领导说不打算续签的,自己离职不太好意思拿年终奖再离职,不过领导知道后还是给我申请了年终奖,感动Ing
-第二次面试先电面再去公司面试的,总体感">
+<meta name="twitter:title" content="Docker学习记录(二)-Dockerfile创建镜像">
+<meta name="twitter:description" content="Docker学习记录(二)-Dockerfile创建镜像标签（空格分隔）： docker
+
+本文学习Dcokerfile的基本命令,并且创建一个支持ssh服务的镜像.
+
+1.Dockerfile1.1基本案例dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:123456789101112第一行指定该镜像基于的基础镜像(必须)FROM j">
+<meta name="twitter:image" content="http://ac-HSNl7zbI.clouddn.com/sJUUIIhnu1bxyfWnYtf8VfN7W3z5NMMj7lARWGpw.jpg">
 
 
 
@@ -132,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/2017/01/10/随谈/面经/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/"/>
 
 
 
 
 
-  <title> 面经 | 屈定's Blog </title>
+  <title> Docker学习记录(二)-Dockerfile创建镜像 | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -319,7 +327,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/01/10/随谈/面经/">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Niu li">
@@ -340,7 +348,7 @@
             
             
               
-                面经
+                Docker学习记录(二)-Dockerfile创建镜像
               
             
           </h2>
@@ -355,8 +363,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-10T09:50:00+08:00">
-                2017-01-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-10T21:21:00+08:00">
+                2017-03-10
               </time>
             
 
@@ -378,8 +386,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随谈/" itemprop="url" rel="index">
-                    <span itemprop="name">随谈</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -396,8 +404,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/10/随谈/面经/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/10/随谈/面经/" itemprop="commentCount"></span>
+                <a href="/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -423,16 +431,32 @@
       
 
       
-        <p>从2016.7来到上海后记录下自己的面试经历,希望能对其他人有所帮助,同时给自己一个提醒.</p>
-<h2 id="第二次面试2017-1"><a href="#第二次面试2017-1" class="headerlink" title="第二次面试2017.1"></a>第二次面试2017.1</h2><p>上一家公司干了六个月,做的还不错,中间涨了一次工资,也就500左右,但是公司没技术氛围,而且加班是家常便饭,所以为了自己打算离开了,这里我是提前和领导说不打算续签的,自己离职不太好意思拿年终奖再离职,不过领导知道后还是给我申请了年终奖,感动Ing</p>
-<p>第二次面试先电面再去公司面试的,总体感觉很不错,结果还在等…</p>
-<p>###1.电面<br>首先自我介绍,这个很随意,技术人员一般都不看重这个.<br><strong>1.ArrayList的扩容机制.</strong><br>这个抓住几个点,本质是一个Object的数组,初始容量10,1.7JDK之后每次扩容是1.5倍,但是1.6的JDK版本是1.5倍+1,这个回答出来说明你研究过这个而不是直接背答案.每次add都会进行容量检查,扩容是调用一个native方法System.arrayCopy,<br><strong>2.Map的containsKey和List的contain方法效率一样吗?</strong><br>这个问题回答要表现出List基于数组在查找方面的缺点,就是最坏情况下是查找全部元素后才找到,但是Map是基于Hash链表,查找是根据hash计算出来的索引地址,找到索引后会判断上面是否有链表存在,有的话会接着查找,补充下JDK8之后的HashMap当哈希桶上的链表长度大于8则会转换为一颗红黑树,因此随着碰撞增加仍然会提供稳定的性能.<br><strong>3.自己的项目问题</strong><br>这个就实打实的说就好了.其中有一个项目提到了python,因此面试官问我python学的怎么样,可以来聊聊python,但是我就会基础,所以不了了之,简历上不熟的东西尽量少写.</p>
-<p>###2.现场面<br>现场面就没问很多基础问题了,主要是一些突发的问题,问了不少Linux的知识,自己又不是太熟,所以处于被虐状态…<br><strong>1.Linux的top命令</strong><br>不会,我说因为公司有运维,用服务器也就查看日志什么,自己不是很了解.<br>面试官说了一句话,说我们这是工程师和运维不分家的,一个好的工程师必然要了解代码是怎么运行的,也就需要对代码运行环境有很深的了解,这样才能写出优秀的代码,大概意思是这样的,感觉很有道理,自己Linux的服务器知识欠缺很多.<br><strong>2.Linux下怎么查看日志</strong><br>因为上面提到了自己用服务器查看日志,所以就直接被问了,博主说一般用cat命令配合grep来查看,或者使用VIM来查看,用tail -f查看实时日志,head查看开始日志等,然后被问了假设<strong>日志是10G大小,怎么快速找到自己想要的东西</strong>?这个问题想了一会,直接说不会….尴尬,后来提示用less命令,该命令不会全部加载文件.参考博文:<a href="http://www.cnblogs.com/aijianshi/p/5750911.html" target="_blank" rel="external">Linux下的more和less的使用</a><br><strong>3.爬取新浪微博用户,怎么判断该用户是否已经爬过</strong><br>博主说了数据量小的话使用Map集合或者Set集合,数据量多的话,就把某一个唯一字段设置为数据库主键,爬取的用户插入到数据库,去重交给数据库来做就好了.<br>接着面试官问如果不使用数据库呢?<br>博主想了想,就随口说爬取一部分用户后写入到文件,然后生成MD5摘要,这样每次写入文件后判断该摘要是否已存在,存在就不写入,牺牲时间,保证最终的结果重复性最低.现在想来还是有问题,爬取是随机的,所以导致生成摘要碰撞几率太低.可能多一个字符少一个字符就导致摘要不同.没想到好办法…<br><strong>4.在做项目中有没有什么取巧的经历?</strong><br>一时间还真想不到…就没答上来.<br><strong>5.在项目中遇到的难点</strong><br>博主说了自己写的集成微信,支付宝,银联,预付费卡的一个支付模块,主要讲了遇到问题怎么解决的,然后怎么封装的.<br><strong>6.关于代码洁癖举个例子</strong><br>博主简历上写自己有代码洁癖,所以就被问了这个,我举了前公司,也就第一家面试的,使用JPA的多表查询时候返回一个Objec[]数组,导致代码没法维护,并且重复代码太多,自己使用queryDSL,对公司代码进行了大面积的修改.</p>
-<p>本以为要挂了,最后说技术面过了,不知道是安慰我还是什么,接着是HR面,聊了聊公司现状,待遇问题等,最后也没说过还是不过等通知.因为现在时间点比较尴尬,我提出年后入职,也不知道可不可以….<strong>等消息中</strong><br>更新:<br>已收到offer,年后入职,这家公司效率真不错,接下来希望自己有所提高!</p>
+        <h1 id="Docker学习记录-二-Dockerfile创建镜像"><a href="#Docker学习记录-二-Dockerfile创建镜像" class="headerlink" title="Docker学习记录(二)-Dockerfile创建镜像"></a>Docker学习记录(二)-Dockerfile创建镜像</h1><p>标签（空格分隔）： docker</p>
 <hr>
-<h2 id="第一次面试2016-7"><a href="#第一次面试2016-7" class="headerlink" title="第一次面试2016.7"></a>第一次面试2016.7</h2><p>首先简历很重要,程序员不需要太花哨的简历,尽可能的展现出自己的特点就可以了,推荐下面简历,很不错的一个模板.<br><a href="https://github.com/penglongli/My-Resume" target="_blank" rel="external">https://github.com/penglongli/My-Resume</a></p>
-<p>第一次面试没有多紧张,可能对方是小公司吧,感觉很随意,面试就问了三个问题.<br><strong>1.谈一谈Java集合</strong><br>这种问题一般都很宽泛,博主就从List讲到Set再到Map这样的顺序来讲的,重点描述Arraylist,LinkedList,HashMap,TreeMap,最后再总结下什么样的场景用什么,算是回答好了.<br><strong>2.谈谈对Spring的理解.</strong><br>博主当时心里我哩个擦,又是这种宽泛的问题.但是还是微笑着回答Spring的核心是Ioc和AOP,其中Ioc是基于反射实现的,AOP是动态代理实现的,然后讲了从读取xml配置文件,实例化Spring容器,然后实例化Bean(这个过程挺复杂的,一会附上一张图),最后销毁Bean这一过程,结束.具体可以参考:<a href="http://blog.csdn.net/u013256816/article/details/51386182" target="_blank" rel="external">Spring知识点提炼</a><br><strong>3.自己项目中的问题.</strong><br>自己在学校接到过一个微信公众号的开发,问了怎么实现的,遇到的问题之类的.这种问题回答要表现出<strong>自己不是很了解的情况下是如何快速解决一个问题的能力</strong></p>
-<p>拿到offer,博主是比较安逸的人,薪资还不错就不继续再找工作了,其实应该多投几家的,才能选择最适合自己的.</p>
+<p>本文学习Dcokerfile的基本命令,并且创建一个支持ssh服务的镜像.</p>
+<hr>
+<h2 id="1-Dockerfile"><a href="#1-Dockerfile" class="headerlink" title="1.Dockerfile"></a>1.Dockerfile</h2><h3 id="1-1基本案例"><a href="#1-1基本案例" class="headerlink" title="1.1基本案例"></a>1.1基本案例</h3><p>dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">第一行指定该镜像基于的基础镜像(必须)</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">维护者信息</div><div class="line">MAINTAINER quding  niudear@foxmail.com</div><div class="line"></div><div class="line">镜像操作指令</div><div class="line">RUN echo $JAVA_HOME</div><div class="line"></div><div class="line">启动时操作的命令</div><div class="line"></div><div class="line">CMD ./usr/sbin/nginx</div></pre></td></tr></table></figure></p>
+<p>该文件说明从Java8这个基础镜像创建一个新的镜像,输出Java路径,启动成功则启动nginx服务,这也是一个Dockerfile需要包含的操作步骤.</p>
+<h3 id="1-2指令详解"><a href="#1-2指令详解" class="headerlink" title="1.2指令详解"></a>1.2指令详解</h3><p>1.FROM：格式为 <code>FROM &lt;image&gt;</code>或<code>FROM&lt;image&gt;:&lt;tag&gt;</code>第一条指令必须是FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p>
+<p>2.MAINTAINER：格式为MAINTAIER<name>，指定维护者信息。</name></p>
+<p>3.RUN：格式为<code>RUN &lt;command&gt;</code>或者<code>RUN [“executable”，“param1”，“param2”]</code>。前者将在shell终端中运行的命令，即/bin/sh–c；后者则使用exec执行。指定使用其他终端可以通过第二种方式实现，例如<code>RUN[“/bin/bash”，“-c”，“echohello”]</code>。每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像。当命令较长时可以使用\来换行。这实际上就是在容器构建时需要执行哪些指令，例如容器构建时需要下拉代码，但是默认启动的容器中是没有Git指令的，就需要下载，可以执行：<code>RUN apt-get install -y git</code>，然后<code>RUN git clonexxxx</code></p>
+<p>4.CMD：指定容器启动后执行的命令，一般都是早就写好的脚本，例如：<code>CMD[“/run.sh”]</code>。注意：如果Dockerfile中指定了多条命令，只有最后一条会被执行。如果用户启动时候加了运行的命令，则会覆盖掉CMD指定的指令。</p>
+<p>5.EXPOSE：告诉Docker服务端容器需要暴露的端口号，供互联系统使用。在启动容器时需要通过-P（注意是大写），Docker主机会自动分配一个端口转发到指定的端口；使用-p，则可以具体指定哪个本地端口映射过来。<br>例如：我在elasticsearch镜像的Dockerfile中指定了暴露出9200和9300端口，我可以在Dockerfile中写：<code>EXPOSE 9200 9300</code></p>
+<p>6.ENV：创建的时候给容器中加上个需要的环境变量。指定一个值，为后续的RUN指令服务</p>
+<p>7.COPY：复制本地的文件或目录到容器中。目标路径不存在时，会自动创建。</p>
+<p>8.ENTRYPOINT：配置容器启动后执行的命令，并且不可被docker run 提供的参数覆盖。<br>每个Dockerfile中只能有一个ENTRYPOINT，当指定多个ENTRYPOINT时，只有最后一个生效</p>
+<p>9.VOLUME：创建一个挂在点，可以从本机或其他容器挂载的挂载点。意思就是从容器中暴露出一部分，和外界共享这块东西，一般放数据库的数据或者是代码。在容器启动运行的时候，如果需要将volume暴露的东西和本地的一个文件夹进行映射，想要通过本地文件直接访问容器中暴露的部分，可以在运行的时候进行映射：</p>
+<p>10.USER：指定运行容器时的用户名或者UID，后续的RUN也会使用指定的用户。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户。<br>要临时获取管理员权限的时候要使用gosu，不推荐使用sudo。如果不指定，容器默认是root运行。</p>
+<p>11.WORKDIR：定义工作目录，如果容器中没有此目录，会自动创建</p>
+<p>创建指令<code>docker build 路径</code>,该命令会读取路径下的Dockerfile文件和其他文件,然后发送给服务端,由服务端创建镜像.</p>
+<hr>
+<h2 id="2-创建SSH服务镜像"><a href="#2-创建SSH服务镜像" class="headerlink" title="2.创建SSH服务镜像"></a>2.创建SSH服务镜像</h2><h3 id="2-1准备Java8环境"><a href="#2-1准备Java8环境" class="headerlink" title="2.1准备Java8环境"></a>2.1准备Java8环境</h3><p>后续教程需要利用到Java8环境,因此先下载一个官方的Java8镜像作为基础镜像.直接执行如下命令.可以利用之前的教程,启动容器查看下java路径.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull java:8</div></pre></td></tr></table></figure></p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/sJUUIIhnu1bxyfWnYtf8VfN7W3z5NMMj7lARWGpw.jpg" alt=""></p>
+<h3 id="2-2编写Dockerfile"><a href="#2-2编写Dockerfile" class="headerlink" title="2.2编写Dockerfile"></a>2.2编写Dockerfile</h3><p>ssh服务主要是openssh-server来提供,因此需要在容器中安装该服务.<br><strong>Dockerfile:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#显示该镜像是基于java8镜像</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">#维护人信息</div><div class="line">MAINTAINER quding niudear@foxmail.com</div><div class="line">#更新源</div><div class="line">RUN apt-get update</div><div class="line">#安装软件</div><div class="line">RUN apt-get install -y openssh-server</div><div class="line"></div><div class="line">RUN mkdir -p /var/run/sshd</div><div class="line">RUN mkdir -p /root/.ssh</div><div class="line"></div><div class="line">#取消pam限制</div><div class="line">RUN sed -ri &apos;s/session  required   pam_loginuid.so/#session    required  pam_loginuid.so/g&apos; /etc/pam.d/sshd</div><div class="line"></div><div class="line">#复制配置文件到相应位置</div><div class="line">COPY authorized_keys /root/.ssh/authorized_keys</div><div class="line">COPY run.sh /run.sh</div><div class="line"></div><div class="line">#赋予脚本权限</div><div class="line">RUN chmod 755 /run.sh</div><div class="line"></div><div class="line">#开放端口</div><div class="line">EXPOSE 22</div><div class="line"></div><div class="line">#设置启动命令</div><div class="line"></div><div class="line">CMD [&quot;/run.sh&quot;]</div></pre></td></tr></table></figure></p>
+<p><strong>run.sh</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">/usr/sbin/sshd -D</div></pre></td></tr></table></figure></p>
+<p><strong>拷贝本机的id_ras</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cat ~/.ssh/id_rsa.pub &gt;authorized_keys</div><div class="line">//用来免密的</div></pre></td></tr></table></figure></p>
+<p><strong>执行构建</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t sshd:java .</div></pre></td></tr></table></figure></p>
+<p>构建成功后使用<code>docker images</code>即可查看,然后像上篇一样启动容器,暴露出端口,再使用ssh连接,和一般linux系统就没什么差别了.</p>
 
       
     </div>
@@ -477,7 +501,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/面试/" rel="tag"># 面试</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
           
         </div>
       
@@ -490,15 +514,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/10/docker/Docker学习记录(一)-基本概念/" rel="next" title="Docker学习记录(一)-基本概念">
+                <i class="fa fa-chevron-left"></i> Docker学习记录(一)-基本概念
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/01/随谈/如何学习一门新技术/" rel="prev" title="如何学习一门新技术">
-                如何学习一门新技术 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -524,8 +548,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/10/随谈/面经/"
-           data-title="面经" data-url="http://mrdear.cn/2017/01/10/随谈/面经/">
+      <div class="ds-thread" data-thread-key="2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/"
+           data-title="Docker学习记录(二)-Dockerfile创建镜像" data-url="http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/">
       </div>
     
   </div>
@@ -663,7 +687,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二次面试2017-1"><span class="nav-number">1.</span> <span class="nav-text">第二次面试2017.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一次面试2016-7"><span class="nav-number">2.</span> <span class="nav-text">第一次面试2016.7</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker学习记录-二-Dockerfile创建镜像"><span class="nav-number">1.</span> <span class="nav-text">Docker学习记录(二)-Dockerfile创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Dockerfile"><span class="nav-number">1.1.</span> <span class="nav-text">1.Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1基本案例"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1基本案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2指令详解"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2指令详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-创建SSH服务镜像"><span class="nav-number">1.2.</span> <span class="nav-text">2.创建SSH服务镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1准备Java8环境"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1准备Java8环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2编写Dockerfile"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2编写Dockerfile</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
