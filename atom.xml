@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-03-11T15:53:51.000Z</updated>
+  <updated>2017-03-12T08:20:12.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker学习记录(三)-构建非跨平台项目编译环境</title>
+    <link href="http://mrdear.cn/2017/03/12/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)-%E6%9E%84%E5%BB%BA%E9%9D%9E%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%A1%B9%E7%9B%AE%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/"/>
+    <id>http://mrdear.cn/2017/03/12/docker/Docker学习记录(三)-构建非跨平台项目编译环境/</id>
+    <published>2017-03-12T07:21:00.000Z</published>
+    <updated>2017-03-12T08:20:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Docker学习记录-三-构建非跨平台项目编译环境"><a href="#Docker学习记录-三-构建非跨平台项目编译环境" class="headerlink" title="Docker学习记录(三)-构建非跨平台项目编译环境"></a>Docker学习记录(三)-构建非跨平台项目编译环境</h1><p>标签（空格分隔）： docker</p>
+<hr>
+<p>因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程.</p>
+<hr>
+<h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h2><p>在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题.另外该子模块在mac下无法使用maven打包,所以打包也需要放在docker中.<br>因此docker需要环境 java maven gcc g++ make</p>
+<h2 id="2-构建编译环境"><a href="#2-构建编译环境" class="headerlink" title="2.构建编译环境"></a>2.构建编译环境</h2><p>编写dockerfile文件,该文件的maven包我是从本机复制进去的,同样你也可以从外网下载.<br>Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#构建judger端需要的环境,方便本地测试</div><div class="line">#基于java8环境</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">#维护人信息</div><div class="line">MAINTAINER quding niudear@foxmail.com</div><div class="line">#更新源</div><div class="line">RUN apt-get update</div><div class="line">#gcc g++ make安装</div><div class="line">RUN apt-get install -y gcc-4.9</div><div class="line">RUN apt-get install -y g++-4.9</div><div class="line">RUN apt-get install -y build-essential</div><div class="line"></div><div class="line">#配置mvn环境</div><div class="line">ADD apache-maven-3.3.9.tar.gz /usr/local</div><div class="line">ENV M2_HOME /usr/local/apache-maven-3.3.9</div><div class="line">ENV PATH $PATH:$JAVA_HOME/bin:$M2_HOME/bin</div><div class="line"></div><div class="line">#jni环境</div><div class="line">RUN cp $JAVA_HOME/include/linux/jawt_md.h $JAVA_HOME/include/</div><div class="line">RUN cp $JAVA_HOME/include/linux/jni_md.h $JAVA_HOME/include/</div></pre></td></tr></table></figure></p>
+<p>构建命令:<br><code>docker build -t dev .</code></p>
+<h2 id="3-挂载运行"><a href="#3-挂载运行" class="headerlink" title="3.挂载运行"></a>3.挂载运行</h2><p>运行时需要挂载本项目到docker中,该挂载是映射,因此本地和docker任意位置改变项目中文件都会反映在真实项目中,这也是想要的结果.<br>挂载命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker run -ti -p 50013:50013  -v /Users/niuli/workspace/git/AUSTOJ2/:/AUSTOJ2 </div><div class="line">-v /Users/niuli/workspace/git/testcase/:/austoj/testcase dev</div></pre></td></tr></table></figure></p>
+<p>该命令以交互模式启动一个docker容器,同时绑定docker的50013端口到此容器的50013,因为我的项目使用的是50013端口.另外我挂载了本项目目录AUSTOJ2和测试数据目录分别到docker的/AUSTOJ2目录和/austoj/testcase目录.</p>
+<p>那么启动之后如下所示:<br><img src="http://ac-HSNl7zbI.clouddn.com/sVRm9T6RaAgcL0tqAX7vGz0kaTVDT21kJbSSokIA.jpg" alt=""></p>
+<p>ok,到此编译环境搞定,可以随心所欲的编译启动该子模块,并且还能实时反映到本机目录下</p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/y020GeCL2UrSuASyDaYbvWs0XF3LWRYqRbej5pAB.jpg" alt=""></p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/bOKHInF9SpgHTSmr361EhU2geUFRjKW1yPwHap6s.jpg" alt=""></p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/JXVXNAq7Q6JtPc9QhKzJAdu1h3HskLriYhruA1tY.jpg" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docker学习记录-三-构建非跨平台项目编译环境&quot;&gt;&lt;a href=&quot;#Docker学习记录-三-构建非跨平台项目编译环境&quot; class=&quot;headerlink&quot; title=&quot;Docker学习记录(三)-构建非跨平台项目编译环境&quot;&gt;&lt;/a&gt;Docker学习记录
+    
+    </summary>
+    
+      <category term="docker" scheme="http://mrdear.cn/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://mrdear.cn/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker学习记录(二)-Dockerfile创建镜像</title>
