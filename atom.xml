@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-03-18T04:14:29.000Z</updated>
+  <updated>2017-03-18T14:52:43.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>毕业设计周记(二)</title>
+    <link href="http://mrdear.cn/2017/03/18/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%BA%8C)/"/>
+    <id>http://mrdear.cn/2017/03/18/毕业设计/毕业设计周记(二)/</id>
+    <published>2017-03-18T14:50:00.000Z</published>
+    <updated>2017-03-18T14:52:43.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>上周学习docker之后,建立起docker的判题环境,目前已成功判题,前端部分也打通.目前支持语言C,C++,Java,后续会添加更多语言支持.接下来的任务是整理代码,重构部分逻辑代码,还有竞赛判题的支持.预计下周完成.</p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/M4V64IgxeMaWtWlUVumAWBvLrUh9VBT1rfWnLuKF.jpg" alt=""></p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/Yd4SAenh4N3THhsau4GxNdxKE4XnpiTRqfsvhpkk.jpg" alt=""></p>
+<p>因此目前进度:</p>
+<ol>
+<li>WEB端和Judge端打通,近期部署到自己的服务器上,以便展示.</li>
+</ol>
+<p>等待完成:</p>
+<p>1.竞赛的支持<br>2.代码重构,一些体验上的逻辑优化</p>
+<p>源码地址:</p>
+<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上周学习docker之后,建立起docker的判题环境,目前已成功判题,前端部分也打通.目前支持语言C,C++,Java,后续会添加更多语言支持.接下来的任务是整理代码,重构部分逻辑代码,还有竞赛判题的支持.预计下周完成.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://a
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>动漫推荐</title>
