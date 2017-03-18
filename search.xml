@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[动漫推荐]]></title>
+      <url>%2F2017%2F03%2F18%2F%E5%8A%A8%E6%BC%AB%2F%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90%2F</url>
+      <content type="text"><![CDATA[动漫推荐标签（空格分隔）： 动漫 从小就是个动漫爱好者,年轻时追番,现在老了追不动了,只追动漫电影和一些经典动漫剧场版.我也不知道自己是什么风格的动漫迷,只是觉得好看,有共鸣就认为是好作品.人们总是把自己喜爱的东西推荐给别人,我也不例外,下面推荐我认为很不错的片子.(排名不分先后) 异邦人 无皇刃谭2017年初来在上海实习时看的,故事很温情,对于刚到一个陌生城市打拼的青年来说很容易引起共鸣,也因此我感触颇深,异邦人都是孤独的存在,内心是挣扎的,想要找到自己的归属,然而哪里才是归属?背景音乐很赞,听起来内心有点温暖,但是又会觉得很伤感,充满了无奈 秒速五厘米大概高一的时候第一次看了这个作品,唯美的画面,伤感的故事,再加上年少懵懂的恋爱经历,从此新海诚一生粉.回想以前是不是很多事情都可以 One more time,One more chance]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Docker学习记录(三)-构建非跨平台项目编译环境]]></title>
       <url>%2F2017%2F03%2F12%2Fdocker%2FDocker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)-%E6%9E%84%E5%BB%BA%E9%9D%9E%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%A1%B9%E7%9B%AE%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%2F</url>
       <content type="text"><![CDATA[Docker学习记录(三)-构建非跨平台项目编译环境标签（空格分隔）： docker 因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程. 1.问题在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题.另外该子模块在mac下无法使用maven打包,所以打包也需要放在docker中.因此docker需要环境 java maven gcc g++ make 2.构建编译环境编写dockerfile文件,该文件的maven包我是从本机复制进去的,同样你也可以从外网下载.Dockerfile:123456789101112131415161718192021#构建judger端需要的环境,方便本地测试#基于java8环境FROM java:8#维护人信息MAINTAINER quding niudear@foxmail.com#更新源RUN apt-get update#gcc g++ make安装RUN apt-get install -y gcc-4.9RUN apt-get install -y g++-4.9RUN apt-get install -y build-essential#配置mvn环境ADD apache-maven-3.3.9.tar.gz /usr/localENV M2_HOME /usr/local/apache-maven-3.3.9ENV PATH $PATH:$JAVA_HOME/bin:$M2_HOME/bin#jni环境RUN cp $JAVA_HOME/include/linux/jawt_md.h $JAVA_HOME/include/RUN cp $JAVA_HOME/include/linux/jni_md.h $JAVA_HOME/include/ 构建命令:docker build -t dev . 3.挂载运行运行时需要挂载本项目到docker中,该挂载是映射,因此本地和docker任意位置改变项目中文件都会反映在真实项目中,这也是想要的结果.挂载命令:12docker run -ti -p 50013:50013 -v /Users/niuli/workspace/git/AUSTOJ2/:/AUSTOJ2 -v /Users/niuli/workspace/git/testcase/:/austoj/testcase dev 该命令以交互模式启动一个docker容器,同时绑定docker的50013端口到此容器的50013,因为我的项目使用的是50013端口.另外我挂载了本项目目录AUSTOJ2和测试数据目录分别到docker的/AUSTOJ2目录和/austoj/testcase目录. 那么启动之后如下所示: ok,到此编译环境搞定,可以随心所欲的编译启动该子模块,并且还能实时反映到本机目录下]]></content>
