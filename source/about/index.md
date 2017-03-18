@@ -8,7 +8,7 @@ type: "about"
 屈定(公司花名)
 
 ### Status:
-实习
+实习  AND Change
 
 ### Info:
 之前在csdn写博客,后来迁移到简书,最后在github上定居,只想要一种自由的感觉,符合条件的还是hexo!
