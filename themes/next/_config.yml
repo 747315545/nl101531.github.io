@@ -324,14 +324,12 @@ duoshuo_shortname: niuli
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
-#google_site_verification:
+google_site_verification: vI-8_Ee7chpyEu09yCt-bC91dWWmTx08Bb_Mv1gltl0
 
 # Google Analytics
 #google_analytics:
 
-# Yandex Webmaster tools verification setting
-# See: https://webmaster.yandex.ru/
-#yandex_site_verification:
+baidu_site_verification: ZJAkxniqr5
 
 # CNZZ count
 #cnzz_siteid:
