@@ -1,0 +1,13 @@
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: http://mrdear.cn/sitemap.xml
+Sitemap: http://mrdear.cn/baidusitemap.xml
