@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-03-19T10:20:29.000Z</updated>
+  <updated>2017-03-25T13:26:29.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>毕业设计周记(三)</title>
+    <link href="http://mrdear.cn/2017/03/25/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%89)/"/>
+    <id>http://mrdear.cn/2017/03/25/毕业设计/毕业设计周记(三)/</id>
+    <published>2017-03-25T13:50:00.000Z</published>
+    <updated>2017-03-25T13:26:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>花了一下午的时间把服务器重装了,所有实例包括mysql,redis,nginx都跑在docker中,项目也是跑在docker中,目前来看效果很不错,对服务器的利用率比之前高太多了.</p>
+<p>部署的OJ漏洞挺多的,体验上也没怎么优化,尤其是注册流程,问题多多,接下来要优化代码,优化这个流程.</p>
+<p>竞赛方面的支持,因为上周公司出了几个大活动,一直比较忙,而没去做,本周也继续做竞赛方面支持.</p>
+<p>因此目前进度:</p>
+<ol>
+<li>服务器部署全部docker化</li>
+<li>线上可以直接判题</li>
+</ol>
+<p>测试地址:  <a href="http://oj.mrdear.cn/" target="_blank" rel="external">http://oj.mrdear.cn/</a>    服务器比价渣,速度比较慢</p>
+<p>测试账号:   1015315668@qq.com    密码: 111111</p>
+<p>等待完成:</p>
+<p>1.竞赛的支持<br>2.注册流程优化</p>
+<p>源码地址:</p>
+<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;花了一下午的时间把服务器重装了,所有实例包括mysql,redis,nginx都跑在docker中,项目也是跑在docker中,目前来看效果很不错,对服务器的利用率比之前高太多了.&lt;/p&gt;
+&lt;p&gt;部署的OJ漏洞挺多的,体验上也没怎么优化,尤其是注册流程,问题多多,接下来要优
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>ERP叛逃者(转)</title>
@@ -103,7 +140,7 @@
     <link href="http://mrdear.cn/2017/03/18/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     <id>http://mrdear.cn/2017/03/18/动漫/动漫推荐/</id>
     <published>2017-03-18T03:21:00.000Z</published>
-    <updated>2017-03-20T13:46:30.000Z</updated>
+    <updated>2017-03-25T14:02:48.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="动漫推荐"><a href="#动漫推荐" class="headerlink" title="动漫推荐"></a>动漫推荐</h1><p>标签（空格分隔）： 动漫</p>
 <hr>
@@ -116,6 +153,9 @@
 
 <h3 id="你看起来很好吃"><a href="#你看起来很好吃" class="headerlink" title="你看起来很好吃"></a>你看起来很好吃</h3><p>相当有趣的一部动漫,看起来完全没有负重感,从母爱,父爱,独立,自强等方面诠释了一个龙的成长.电影版是温情的结局,萌萌的画面,治愈的故事,给心情带来不一样的体验.<br>记住:哭闹的孩子 不管在哪里都会被霸王龙叼走</p>
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=795251922&auto=0&height=66"></iframe>
+
+<h3 id="萤火之森"><a href="#萤火之森" class="headerlink" title="萤火之森"></a>萤火之森</h3><p>无法触碰的爱情,只是梦中的憧憬,这样的动漫是提醒你,在你年轻的时候曾经心里也住着一个无法触碰的他/她.</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=541381&auto=0&height=66"></iframe>
 
 
 
