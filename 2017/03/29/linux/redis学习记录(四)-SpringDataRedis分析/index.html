@@ -109,7 +109,7 @@ Redis学习记录(一)–入门知识Redis学习记录(二)–使用Jedis连接r
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/9O9oRCxhlph8oRYL6YirrY192jaYIOHAlGXAUemJ.jpg">
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/3PAtzJjJHXquNpAVgWJI0OVh8pJWDhVEl3FbD571.jpg">
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/yhidqhoWBD7Un7XLH6WQYjIEl82Ve0R2jzCEzMrn.jpg">
-<meta property="og:updated_time" content="2017-03-29T23:15:31.000Z">
+<meta property="og:updated_time" content="2017-03-30T01:41:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis学习记录(四)-SpringDataRedis分析">
 <meta name="twitter:description" content="redis学习记录(四)-SpringDataRedis分析标签（空格分隔）： redis
@@ -452,7 +452,7 @@ Redis学习记录(一)–入门知识Redis学习记录(二)–使用Jedis连接r
 </ol>
 <p>那么就开始入口学习.</p>
 <hr>
-<h3 id="3-RedisTemplate"><a href="#3-RedisTemplate" class="headerlink" title="3.RedisTemplate"></a>3.RedisTemplate<k, v=""></k,></h3><p>RedisTemplate是操作的入口.该类继承了<code>RedisAccessor</code>,可以通过其拿到redia连接,实现了<code>RedisOperations</code>接口,获得了操作redis的能力,如下图所示:<br><img src="http://ac-HSNl7zbI.clouddn.com/rUB5pG7qryosXsqkMNQ1u52FgHMVMwAX7OeVM3jy.jpg" alt=""></p>
+<h3 id="3-RedisTemplate"><a href="#3-RedisTemplate" class="headerlink" title="3.RedisTemplate"></a>3.RedisTemplate<k, v=""></k,></h3><p>RedisTemplate是操作的入口.该类继承了<code>RedisAccessor</code>,可以通过其拿到redis连接,实现了<code>RedisOperations</code>接口,获得了操作redis的能力,如下图所示:<br><img src="http://ac-HSNl7zbI.clouddn.com/rUB5pG7qryosXsqkMNQ1u52FgHMVMwAX7OeVM3jy.jpg" alt=""></p>
 <h4 id="3-1-Test-case"><a href="#3-1-Test-case" class="headerlink" title="3.1 Test case"></a>3.1 Test case</h4><p>那么具体操作过程是怎么样子的呢?写一个简单的测试去跟踪代码,如下代码,往redis中设置key为ping的字串.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</div><div class="line"><span class="meta">@SpringBootTest</span>(classes = Application.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConnectTest</span> </span>&#123;</div><div class="line">  <span class="meta">@Resource</span></div><div class="line">  <span class="keyword">private</span> RedisTemplate&lt;String,String&gt; redisTemplate;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSetAndGet</span><span class="params">()</span> </span>&#123;</div><div class="line">    redisTemplate.opsForValue().set(<span class="string">"ping"</span>,<span class="string">"pong"</span>);</div><div class="line">    System.out.println(redisTemplate.opsForValue().get(<span class="string">"ping"</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>运行之后查看redis数据库,你会发现很奇怪的事情,如下图,代码中存入的是ping,但是到redis中后却是一堆字符+ping,这个原因是什么呢?接着跟踪代码.<br><img src="http://ac-HSNl7zbI.clouddn.com/9O9oRCxhlph8oRYL6YirrY192jaYIOHAlGXAUemJ.jpg" alt=""></p>
 <h4 id="3-2-XXXOperations"><a href="#3-2-XXXOperations" class="headerlink" title="3.2 XXXOperations"></a>3.2 XXXOperations<k, v=""></k,></h4><p>上述代码的第一步先获取到了<code>ValueOperations</code>,在<code>RedisTemplate</code>中同样还有其他<code>XXXOperations</code>,根据官方文档,这些接口是针对redis的每一种命令的操作.如下表:</p>
@@ -544,6 +544,8 @@ Redis学习记录(一)–入门知识Redis学习记录(二)–使用Jedis连接r
 <p>还有脚本执行等,在官方文档中都有案例,这里就不复制粘贴了,如有错误请指出,不胜感激.</p>
 <p>参考文档:</p>
 <p><a href="http://docs.spring.io/spring-data/redis/docs/1.8.1.RELEASE/reference/html/#redis:template" target="_blank" rel="external">http://docs.spring.io/spring-data/redis/docs/1.8.1.RELEASE/reference/html/#redis:template</a></p>
+<p>github:</p>
+<p><a href="https://github.com/nl101531/JavaWEB" target="_blank" rel="external">https://github.com/nl101531/JavaWEB</a></p>
 
       
     </div>
