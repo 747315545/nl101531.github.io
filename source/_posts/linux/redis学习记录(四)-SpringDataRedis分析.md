@@ -24,7 +24,7 @@ Spring Data Redis是对redis客户端(如jedis)的高度封装,支持多种客�
 本文是在Spring boot 1.5.2版本下测试.
 
 需要引入架包
-```
+```xml
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -59,7 +59,7 @@ Spring Data Redis是对redis客户端(如jedis)的高度封装,支持多种客�
 在Spring Boot下默认使用jedis作为客户端,并在包`org.springframework.boot.autoconfigure.data.redis`下,提供自动配置类`RedisProperties`,`RedisAutoConfiguration`等.
 
 根据`RedisProperties`可以定位到可配置的属性,如:
-```
+``` properties
 # Redis数据库索引（默认为0）
 spring.redis.database=0
 # Redis服务器地址
@@ -79,7 +79,7 @@ spring.redis.pool.min-idle=0
 # 连接超时时间（毫秒）
 spring.redis.timeout=2000
 ```
-另外还有`Sentinel`和`Cluster`说明支持分布式和集群,博主研究不多就不瞎说这个了.
+在application.properties中配置即可,另外还有`Sentinel`和`Cluster`说明支持分布式和集群,博主研究不多就不瞎说这个了.
 
 自动配置主要在`RedisAutoConfiguration`中,该类会提供三个bean:
 1. JedisConnectionFactory : jedis连接控制工厂
@@ -91,12 +91,12 @@ spring.redis.timeout=2000
 ----------
 ### 3.RedisTemplate<K, V>
 
-RedisTemplate是操作的入口.该类继承了`RedisAccessor`,可以通过其拿到redia连接,实现了`RedisOperations`接口,获得了操作redis的能力,如下图所示:
+RedisTemplate是操作的入口.该类继承了`RedisAccessor`,可以通过其拿到redis连接,实现了`RedisOperations`接口,获得了操作redis的能力,如下图所示:
 ![](http://ac-HSNl7zbI.clouddn.com/rUB5pG7qryosXsqkMNQ1u52FgHMVMwAX7OeVM3jy.jpg)
 
 #### 3.1 Test case
 那么具体操作过程是怎么样子的呢?写一个简单的测试去跟踪代码,如下代码,往redis中设置key为ping的字串.
-```
+```java
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
 public class RedisConnectTest {
@@ -115,28 +115,29 @@ public class RedisConnectTest {
 
 #### 3.2 XXXOperations<K, V>
 上述代码的第一步先获取到了`ValueOperations`,在`RedisTemplate`中同样还有其他`XXXOperations`,根据官方文档,这些接口是针对redis的每一种命令的操作.如下表:
-接口 | 操作 
-----|------
-ValueOperations | Redis string (or value) operations  
-ListOperations | Redis list operations  
-SetOperations | Redis set operations  
-ZSetOperations | Redis zset (or sorted set) operations
-HashOperations | Redis hash operations
-HyperLogLogOperations | Redis HyperLogLog operations like (pfadd, pfcount,…​)
-GeoOperations | Redis geospatial operations like GEOADD, GEORADIUS,…​)
- - | -
-BoundValueOperations | Redis string (or value) key bound operations
-BoundListOperations | Redis list key bound operations
-BoundSetOperations | Redis set key bound operations
-BoundZSetOperations | Redis zset (or sorted set) key bound operations
-BoundHashOperations | Redis hash key bound operations
-BoundGeoOperations | Redis key bound geospatial operations.
+
+ | 接口 | 操作 | 
+|:-----|:-----|
+| ValueOperations | Redis string (or value) operations  |
+| ListOperations | Redis list operations  |
+| SetOperations | Redis set operations  |
+| ZSetOperations | Redis zset (or sorted set) operations  |
+| HashOperations | Redis hash operations  |
+| HyperLogLogOperations | Redis HyperLogLog operations like (pfadd, pfcount,…​) |
+| GeoOperations | Redis geospatial operations like GEOADD, GEORADIUS,…​) |
+| BoundValueOperations | Redis string (or value) key bound operations |
+| BoundListOperations | Redis list key bound operations |
+| BoundSetOperations | Redis set key bound operations |
+| BoundZSetOperations | Redis zset (or sorted set) key bound operations |
+| BoundHashOperations | Redis hash key bound operations |
+| BoundGeoOperations | Redis key bound geospatial operations. |
 
 其中`BoundXXXOperations`是在key已知的情况下使用,其所有操作都是建立在有一个`certain key`的前提.可以看下源码就能明白了.
 
 #### 3.3 XXXSerializer
 那测试代码中第一步是获取了string类型的redis操作入口,然后执行set方法设置键和值,接着分析set方法.
-```
+
+```java
 	public void set(K key, V value) {
 		final byte[] rawValue = rawValue(value);
 		execute(new ValueDeserializingRedisCallback(key) {
@@ -149,7 +150,7 @@ BoundGeoOperations | Redis key bound geospatial operations.
 	}
 ```
 可以发现`rawKey()`方法和`rawValue()`方法对key和value进行了一次序列化操作.该序列化使用的类为RedisTemplate中的`XXXSerializer`,那么回到RedisTemplate,在`afterPropertiesSet()`方法中有以下初始化方法,默认使用的序列化方式为`JdkSerializationRedisSerializer`,也就是ObjectInputStream和ObjectOutputStream写入和读取.这也是写入到redis中却在redis数据库通过"ping"访问不到的原因.
-```
+```java
 if (defaultSerializer == null) {
 
 			defaultSerializer = new JdkSerializationRedisSerializer(
@@ -182,7 +183,7 @@ OxmSerializer : xml格式
 JacksonJsonRedisSerializer : json格式
 
 通过手动注入RedisTemplate,更改所选择的序列化方式.另外Spring提供了最常使用的`StringRedisTemplate`,实现了`StringRedisSerializer`序列化方式.
-```
+```java
 	public StringRedisTemplate() {
 		RedisSerializer<String> stringSerializer = new StringRedisSerializer();
 		setKeySerializer(stringSerializer);
@@ -205,7 +206,7 @@ JacksonJsonRedisSerializer : json格式
 ### 4.发布与订阅
 发布与订阅过程需要发布者,订阅者,以及把两者连在一起的桥梁.那么在SpringRedis中怎么实现呢?
 订阅者:里面有一个处理方法即可.
-```
+```java
 @Component
 public class Listen {
 
@@ -227,7 +228,7 @@ public class Listen {
 
 连接桥梁:RedisMessageListenerContainer,该container监听Redis的消息,分发给各自的监听者.关键代码为
 
-```
+```java
 @Configuration
 public class PublishConfig {
   /**
@@ -255,7 +256,7 @@ public class PublishConfig {
 ```
 
 测试:
-```
+```java
   @Test
   public void testPublish() throws InterruptedException {
     stringRedisTemplate.convertAndSend("java","hello world");
@@ -266,11 +267,11 @@ public class PublishConfig {
 
 ### 5.事务
 对于事务的操作是通过SessionCallback实现,该接口保证其内部所有操作都是在同一个Session中的,在最后exec的时候执行全部操作.关键代码如下
-```
+```java
     RedisConnectionUtils.bindConnection(factory, enableTransactionSupport);
     execute(this)
 ```
-```
+```java
  @Test
   public void testMulti() {
     boolean isThrow = false;
@@ -300,7 +301,7 @@ public class PublishConfig {
 
 ### 6.管道
 直接引用官方案例
-```
+```java
 //pop a specified number of items from a queue
 List<Object> results = stringRedisTemplate.executePipelined(
   new RedisCallback<Object>() {
@@ -320,6 +321,10 @@ List<Object> results = stringRedisTemplate.executePipelined(
 参考文档:
 
 http://docs.spring.io/spring-data/redis/docs/1.8.1.RELEASE/reference/html/#redis:template
+
+github:
+
+https://github.com/nl101531/JavaWEB
 
 
   [1]: http://www.jianshu.com/p/da69edda2a43
