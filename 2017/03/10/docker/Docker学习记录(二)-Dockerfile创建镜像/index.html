@@ -408,8 +408,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/" itemprop="commentCount"></span>
+                <a class="cloud-tie-join-count" href="/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -418,6 +418,11 @@
           
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -556,9 +561,7 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/"
-           data-title="Docker学习记录(二)-Dockerfile创建镜像" data-url="http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/">
-      </div>
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -695,7 +698,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker学习记录-二-Dockerfile创建镜像"><span class="nav-number">1.</span> <span class="nav-text">Docker学习记录(二)-Dockerfile创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Dockerfile"><span class="nav-number">1.1.</span> <span class="nav-text">1.Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1基本案例"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1基本案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2指令详解"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2指令详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-创建SSH服务镜像"><span class="nav-number">1.2.</span> <span class="nav-text">2.创建SSH服务镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1准备Java8环境"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1准备Java8环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2编写Dockerfile"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2编写Dockerfile</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker学习记录-二-Dockerfile创建镜像"><span class="nav-text">Docker学习记录(二)-Dockerfile创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Dockerfile"><span class="nav-text">1.Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1基本案例"><span class="nav-text">1.1基本案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2指令详解"><span class="nav-text">1.2指令详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-创建SSH服务镜像"><span class="nav-text">2.创建SSH服务镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1准备Java8环境"><span class="nav-text">2.1准备Java8环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2编写Dockerfile"><span class="nav-text">2.2编写Dockerfile</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -739,6 +742,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -820,35 +839,31 @@
 
   
 
-  
-    
+
+
   
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"niuli"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
+
+
+
+	
+
+
+
+
 
   
     
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "f928d3f9d6e242eab0d4ba8bf8099ee6",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
   
-
-
-
-
-
-
 
 
 
