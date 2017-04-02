@@ -317,7 +317,7 @@
     <link href="http://mrdear.cn/2017/03/18/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     <id>http://mrdear.cn/2017/03/18/动漫/动漫推荐/</id>
     <published>2017-03-18T03:21:00.000Z</published>
-    <updated>2017-03-25T14:02:48.000Z</updated>
+    <updated>2017-04-02T03:11:01.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="动漫推荐"><a href="#动漫推荐" class="headerlink" title="动漫推荐"></a>动漫推荐</h1><p>标签（空格分隔）： 动漫</p>
 <hr>
@@ -333,6 +333,9 @@
 
 <h3 id="萤火之森"><a href="#萤火之森" class="headerlink" title="萤火之森"></a>萤火之森</h3><p>无法触碰的爱情,只是梦中的憧憬,这样的动漫是提醒你,在你年轻的时候曾经心里也住着一个无法触碰的他/她.</p>
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=541381&auto=0&height=66"></iframe>
+
+<h3 id="fate-stay-night"><a href="#fate-stay-night" class="headerlink" title="fate stay night"></a>fate stay night</h3><p>作为番剧来说最喜欢的一个系列,fate stay night也是最早出来的一部,配乐,战斗,剧情都那么引人入胜,虽然fate zero也非常不错,但是让我来选择的话还是该部更让我难忘.</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=448119&auto=0&height=66"></iframe>
 
 
 
@@ -359,10 +362,13 @@
     <link href="http://mrdear.cn/2017/03/12/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)-%E6%9E%84%E5%BB%BA%E9%9D%9E%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%A1%B9%E7%9B%AE%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/"/>
     <id>http://mrdear.cn/2017/03/12/docker/Docker学习记录(三)-构建非跨平台项目编译环境/</id>
     <published>2017-03-12T07:21:00.000Z</published>
-    <updated>2017-03-12T08:20:12.000Z</updated>
+    <updated>2017-04-02T02:14:05.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker学习记录-三-构建非跨平台项目编译环境"><a href="#Docker学习记录-三-构建非跨平台项目编译环境" class="headerlink" title="Docker学习记录(三)-构建非跨平台项目编译环境"></a>Docker学习记录(三)-构建非跨平台项目编译环境</h1><p>标签（空格分隔）： docker</p>
 <hr>
+<blockquote>
+<p>个人独立博客: <a href="http://mrdear.cn">http://mrdear.cn</a></p>
+</blockquote>
 <p>因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程.</p>
 <hr>
 <h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h2><p>在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题.另外该子模块在mac下无法使用maven打包,所以打包也需要放在docker中.<br>因此docker需要环境 java maven gcc g++ make</p>
@@ -395,7 +401,7 @@
     <link href="http://mrdear.cn/2017/03/10/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Dockerfile%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/"/>
     <id>http://mrdear.cn/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/</id>
     <published>2017-03-10T13:21:00.000Z</published>
-    <updated>2017-03-11T15:53:51.000Z</updated>
+    <updated>2017-04-02T02:10:09.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker学习记录-二-Dockerfile创建镜像"><a href="#Docker学习记录-二-Dockerfile创建镜像" class="headerlink" title="Docker学习记录(二)-Dockerfile创建镜像"></a>Docker学习记录(二)-Dockerfile创建镜像</h1><p>标签（空格分隔）： docker</p>
 <hr>
@@ -403,17 +409,18 @@
 <hr>
 <h2 id="1-Dockerfile"><a href="#1-Dockerfile" class="headerlink" title="1.Dockerfile"></a>1.Dockerfile</h2><h3 id="1-1基本案例"><a href="#1-1基本案例" class="headerlink" title="1.1基本案例"></a>1.1基本案例</h3><p>dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">第一行指定该镜像基于的基础镜像(必须)</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">维护者信息</div><div class="line">MAINTAINER quding  niudear@foxmail.com</div><div class="line"></div><div class="line">镜像操作指令</div><div class="line">RUN echo $JAVA_HOME</div><div class="line"></div><div class="line">启动时操作的命令</div><div class="line"></div><div class="line">CMD ./usr/sbin/nginx</div></pre></td></tr></table></figure></p>
 <p>该文件说明从Java8这个基础镜像创建一个新的镜像,输出Java路径,启动成功则启动nginx服务,这也是一个Dockerfile需要包含的操作步骤.</p>
-<h3 id="1-2指令详解"><a href="#1-2指令详解" class="headerlink" title="1.2指令详解"></a>1.2指令详解</h3><p>1.FROM：格式为 <code>FROM &lt;image&gt;</code>或<code>FROM&lt;image&gt;:&lt;tag&gt;</code>第一条指令必须是FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p>
-<p>2.MAINTAINER：格式为MAINTAIER<name>，指定维护者信息。</name></p>
-<p>3.RUN：格式为<code>RUN &lt;command&gt;</code>或者<code>RUN [“executable”，“param1”，“param2”]</code>。前者将在shell终端中运行的命令，即/bin/sh–c；后者则使用exec执行。指定使用其他终端可以通过第二种方式实现，例如<code>RUN[“/bin/bash”，“-c”，“echohello”]</code>。每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像。当命令较长时可以使用\来换行。这实际上就是在容器构建时需要执行哪些指令，例如容器构建时需要下拉代码，但是默认启动的容器中是没有Git指令的，就需要下载，可以执行：<code>RUN apt-get install -y git</code>，然后<code>RUN git clonexxxx</code></p>
-<p>4.CMD：指定容器启动后执行的命令，一般都是早就写好的脚本，例如：<code>CMD[“/run.sh”]</code>。注意：如果Dockerfile中指定了多条命令，只有最后一条会被执行。如果用户启动时候加了运行的命令，则会覆盖掉CMD指定的指令。</p>
-<p>5.EXPOSE：告诉Docker服务端容器需要暴露的端口号，供互联系统使用。在启动容器时需要通过-P（注意是大写），Docker主机会自动分配一个端口转发到指定的端口；使用-p，则可以具体指定哪个本地端口映射过来。<br>例如：我在elasticsearch镜像的Dockerfile中指定了暴露出9200和9300端口，我可以在Dockerfile中写：<code>EXPOSE 9200 9300</code></p>
-<p>6.ENV：创建的时候给容器中加上个需要的环境变量。指定一个值，为后续的RUN指令服务</p>
-<p>7.COPY：复制本地的文件或目录到容器中。目标路径不存在时，会自动创建。</p>
-<p>8.ENTRYPOINT：配置容器启动后执行的命令，并且不可被docker run 提供的参数覆盖。<br>每个Dockerfile中只能有一个ENTRYPOINT，当指定多个ENTRYPOINT时，只有最后一个生效</p>
-<p>9.VOLUME：创建一个挂在点，可以从本机或其他容器挂载的挂载点。意思就是从容器中暴露出一部分，和外界共享这块东西，一般放数据库的数据或者是代码。在容器启动运行的时候，如果需要将volume暴露的东西和本地的一个文件夹进行映射，想要通过本地文件直接访问容器中暴露的部分，可以在运行的时候进行映射：</p>
-<p>10.USER：指定运行容器时的用户名或者UID，后续的RUN也会使用指定的用户。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户。<br>要临时获取管理员权限的时候要使用gosu，不推荐使用sudo。如果不指定，容器默认是root运行。</p>
-<p>11.WORKDIR：定义工作目录，如果容器中没有此目录，会自动创建</p>
+<h3 id="1-2指令详解"><a href="#1-2指令详解" class="headerlink" title="1.2指令详解"></a>1.2指令详解</h3><p><strong>1.FROM</strong>：格式为 <code>FROM &lt;image&gt;</code>或<code>FROM&lt;image&gt;:&lt;tag&gt;</code>第一条指令必须是FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p>
+<p><strong>2.MAINTAINER</strong>：格式为MAINTAIER<name>，指定维护者信息。</name></p>
+<p><strong>3.RUN</strong>：格式为<code>RUN &lt;command&gt;</code>或者<code>RUN [“executable”，“param1”，“param2”]</code>。前者将在shell终端中运行的命令，即/bin/sh–c；后者则使用exec执行。指定使用其他终端可以通过第二种方式实现，例如<code>RUN[“/bin/bash”，“-c”，“echohello”]</code>。每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像。当命令较长时可以使用\来换行。这实际上就是在容器构建时需要执行哪些指令，例如容器构建时需要下拉代码，但是默认启动的容器中是没有Git指令的，就需要下载，可以执行：<code>RUN apt-get install -y git</code>，然后<code>RUN git clonexxxx</code></p>
+<p><strong>4.CMD</strong>：指定容器启动后执行的命令<br>命令格式为:<br>sh格式: CMD &lt;命令&gt;<br>exec格式:CMD [“可执行文件”,”参数1”,”参数2”]<br>一般都是早就写好的脚本或者启动一个服务，例如：<code>CMD[“/run.sh”]</code>。注意：如果Dockerfile中指定了多条命令，只有最后一条会被执行。如果用户启动时候加了运行的命令，则会覆盖掉CMD指定的指令。</p>
+<p>这里有一个问题,很多时候我们想要docker一直在后台运行,但是往往docker启动后就停止.原因就在于此.<br>比如执行<code>CMD serice mysql start</code>,那么翻译过来的话是<code>CMD [&quot;sh&quot;,&quot;-c&quot;,&quot;serice mysql start&quot;]</code>,那么对于docker来说CMD主进程为sh,那么sh执行完该命令就结束,所以导致docker停止.所以要改成直接启动文件形式<code>CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;&quot;daemon off;]</code>,指定前台运行.</p>
+<p><strong>5.EXPOSE</strong>：告诉Docker服务端容器需要暴露的端口号，供互联系统使用。在启动容器时需要通过-P（注意是大写），Docker主机会自动分配一个端口转发到指定的端口；使用-p，则可以具体指定哪个本地端口映射过来。<br>例如：我在elasticsearch镜像的Dockerfile中指定了暴露出9200和9300端口，我可以在Dockerfile中写：<code>EXPOSE 9200 9300</code></p>
+<p><strong>6.ENV</strong>：创建的时候给容器中加上个需要的环境变量。指定一个值，为后续的RUN指令服务</p>
+<p><strong>7.COPY</strong>：复制本地的文件或目录到容器中。目标路径不存在时，会自动创建。</p>
+<p><strong>8.ENTRYPOINT</strong>：配置容器启动后执行的命令，并且不可被docker run 提供的参数覆盖。<br>每个Dockerfile中只能有一个ENTRYPOINT，当指定多个ENTRYPOINT时，只有最后一个生效</p>
+<p><strong>9.VOLUME</strong>：创建一个挂在点，可以从本机或其他容器挂载的挂载点。意思就是从容器中暴露出一部分，和外界共享这块东西，一般放数据库的数据或者是代码。在容器启动运行的时候，如果需要将volume暴露的东西和本地的一个文件夹进行映射，想要通过本地文件直接访问容器中暴露的部分，可以在运行的时候进行映射：</p>
+<p><strong>10.USER</strong>：指定运行容器时的用户名或者UID，后续的RUN也会使用指定的用户。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户。<br>要临时获取管理员权限的时候要使用gosu，不推荐使用sudo。如果不指定，容器默认是root运行。</p>
+<p><strong>11.WORKDIR</strong>：定义工作目录，如果容器中没有此目录，会自动创建</p>
 <p>创建指令<code>docker build 路径</code>,该命令会读取路径下的Dockerfile文件和其他文件,然后发送给服务端,由服务端创建镜像.</p>
 <hr>
 <h2 id="2-创建SSH服务镜像"><a href="#2-创建SSH服务镜像" class="headerlink" title="2.创建SSH服务镜像"></a>2.创建SSH服务镜像</h2><h3 id="2-1准备Java8环境"><a href="#2-1准备Java8环境" class="headerlink" title="2.1准备Java8环境"></a>2.1准备Java8环境</h3><p>后续教程需要利用到Java8环境,因此先下载一个官方的Java8镜像作为基础镜像.直接执行如下命令.可以利用之前的教程,启动容器查看下java路径.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull java:8</div></pre></td></tr></table></figure></p>
@@ -443,7 +450,7 @@
     <link href="http://mrdear.cn/2017/03/10/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"/>
     <id>http://mrdear.cn/2017/03/10/docker/Docker学习记录(一)-基本概念/</id>
     <published>2017-03-10T09:21:00.000Z</published>
-    <updated>2017-03-11T09:22:01.000Z</updated>
+    <updated>2017-04-02T02:12:44.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker学习记录-一-基本概念"><a href="#Docker学习记录-一-基本概念" class="headerlink" title="Docker学习记录(一)-基本概念"></a>Docker学习记录(一)-基本概念</h1><p>标签（空格分隔）： docker</p>
 <hr>
@@ -478,9 +485,9 @@
 <p>使用<code>docker rm</code>删除容器,清理完毕后再删除hello world镜像.</p>
 <p>下面使用redis镜像实战整个流程,并学习容器常用命令.</p>
 <h2 id="5-创建redis镜像"><a href="#5-创建redis镜像" class="headerlink" title="5.创建redis镜像"></a>5.创建redis镜像</h2><p>有了helloworld经历,这里流程就很清晰了,搜索镜像-&gt;拉去镜像-&gt;创建实例-&gt;连接交互<br><img src="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg" alt=""></p>
-<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射</div></pre></td></tr></table></figure></p>
+<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射,该参数可以使得容器端口和主机端口相互映射</div></pre></td></tr></table></figure></p>
 <p>首先使用-d -p参数,可以看到redis跑在了后台.<br><img src="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg" alt=""></p>
-<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768</p>
+<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768,如果想用主机地址访问的话,就需要-p参数加上主机端口映射了</p>
 <p><strong>进入容器</strong><br>使用<code>docker exec</code>命令可以进入容器内部,参数和run的参数作用相同.</p>
 <p><img src="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg" alt=""></p>
 <p>其他命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">docker stop 停止一个容器</div><div class="line">docker rm 删除一个容器</div><div class="line">docker import 导入一个容器</div><div class="line">docker export 导出一个容器</div></pre></td></tr></table></figure></p>

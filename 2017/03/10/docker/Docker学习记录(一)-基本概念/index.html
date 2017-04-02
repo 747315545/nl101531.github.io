@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg">
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg">
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg">
-<meta property="og:updated_time" content="2017-03-11T09:22:01.000Z">
+<meta property="og:updated_time" content="2017-04-02T02:12:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker学习记录(一)-基本概念">
 <meta name="twitter:description" content="Docker学习记录(一)-基本概念标签（空格分隔）： docker
@@ -475,9 +475,9 @@
 <p>使用<code>docker rm</code>删除容器,清理完毕后再删除hello world镜像.</p>
 <p>下面使用redis镜像实战整个流程,并学习容器常用命令.</p>
 <h2 id="5-创建redis镜像"><a href="#5-创建redis镜像" class="headerlink" title="5.创建redis镜像"></a>5.创建redis镜像</h2><p>有了helloworld经历,这里流程就很清晰了,搜索镜像-&gt;拉去镜像-&gt;创建实例-&gt;连接交互<br><img src="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg" alt=""></p>
-<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射</div></pre></td></tr></table></figure></p>
+<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射,该参数可以使得容器端口和主机端口相互映射</div></pre></td></tr></table></figure></p>
 <p>首先使用-d -p参数,可以看到redis跑在了后台.<br><img src="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg" alt=""></p>
-<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768</p>
+<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768,如果想用主机地址访问的话,就需要-p参数加上主机端口映射了</p>
 <p><strong>进入容器</strong><br>使用<code>docker exec</code>命令可以进入容器内部,参数和run的参数作用相同.</p>
 <p><img src="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg" alt=""></p>
 <p>其他命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">docker stop 停止一个容器</div><div class="line">docker rm 删除一个容器</div><div class="line">docker import 导入一个容器</div><div class="line">docker export 导出一个容器</div></pre></td></tr></table></figure></p>
@@ -681,11 +681,11 @@
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://www.jianshu.com/u/fd3d072db53b" target="_blank" title="简书">
+                <a href="http://blog.csdn.net/u012706811" target="_blank" title="CSDN">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
-                  简书
+                  CSDN
                 </a>
               </span>
             
