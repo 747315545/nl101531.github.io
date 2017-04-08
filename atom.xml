@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-04-03T23:37:33.000Z</updated>
+  <updated>2017-04-08T14:48:08.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -16,9 +16,38 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>毕业设计周记(五)</title>
+    <link href="http://mrdear.cn/2017/04/08/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%BA%94)/"/>
+    <id>http://mrdear.cn/2017/04/08/毕业设计/毕业设计周记(五)/</id>
+    <published>2017-04-08T14:50:00.000Z</published>
+    <updated>2017-04-08T14:48:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本周一直在重构前端,目前登录注册+侧边栏都已经完成,在此过程熟悉了angular2的开发模式,不得不佩服这些前端大神们,搞出来ng2这种类似后端写法的框架,下周进度会更加快,希望下周重构完成.</p>
+<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
+<p>等待完成:</p>
+<p>1.前端页面的重构</p>
+<p>源码地址:</p>
+<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本周一直在重构前端,目前登录注册+侧边栏都已经完成,在此过程熟悉了angular2的开发模式,不得不佩服这些前端大神们,搞出来ng2这种类似后端写法的框架,下周进度会更加快,希望下周重构完成.&lt;/p&gt;
+&lt;p&gt;前端项目地址: &lt;a href=&quot;https://github.c
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
     <title>毕业设计周记(四)</title>
-    <link href="http://mrdear.cn/2017/04/03/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E5%9C%A8%E6%AD%A4%E5%A4%84%E8%BE%93%E5%85%A5%E6%A0%87%E9%A2%98/"/>
-    <id>http://mrdear.cn/2017/04/03/毕业设计/在此处输入标题/</id>
+    <link href="http://mrdear.cn/2017/04/03/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%9B%9B)/"/>
+    <id>http://mrdear.cn/2017/04/03/毕业设计/毕业设计周记(四)/</id>
     <published>2017-04-03T13:50:00.000Z</published>
     <updated>2017-04-03T23:37:33.000Z</updated>
     

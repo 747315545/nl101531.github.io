@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docker," />
+  <meta name="keywords" content="毕业设计," />
 
 
 
@@ -86,42 +86,22 @@
 
 
 
-<meta name="description" content="Docker学习记录(三)-构建非跨平台项目编译环境标签（空格分隔）： docker
-
-
-个人独立博客: http://mrdear.cn
-
-因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程.
-
-1.问题在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题">
+<meta name="description" content="上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了.
+测试地址:  http://oj.mrdear.cn/    服务器比价渣,速度比较慢
+测试账号:   1015315668@qq.com    密码:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker学习记录(三)-构建非跨平台项目编译环境">
-<meta property="og:url" content="http://mrdear.cn/2017/03/12/docker/Docker学习记录(三)-构建非跨平台项目编译环境/index.html">
+<meta property="og:title" content="毕业设计周记(四)">
+<meta property="og:url" content="http://mrdear.cn/2017/04/03/毕业设计/毕业设计周记(四)/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="Docker学习记录(三)-构建非跨平台项目编译环境标签（空格分隔）： docker
-
-
-个人独立博客: http://mrdear.cn
-
-因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程.
-
-1.问题在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/sVRm9T6RaAgcL0tqAX7vGz0kaTVDT21kJbSSokIA.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/y020GeCL2UrSuASyDaYbvWs0XF3LWRYqRbej5pAB.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/bOKHInF9SpgHTSmr361EhU2geUFRjKW1yPwHap6s.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/JXVXNAq7Q6JtPc9QhKzJAdu1h3HskLriYhruA1tY.jpg">
-<meta property="og:updated_time" content="2017-04-02T02:14:05.000Z">
+<meta property="og:description" content="上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了.
+测试地址:  http://oj.mrdear.cn/    服务器比价渣,速度比较慢
+测试账号:   1015315668@qq.com    密码:">
+<meta property="og:updated_time" content="2017-04-03T23:37:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker学习记录(三)-构建非跨平台项目编译环境">
-<meta name="twitter:description" content="Docker学习记录(三)-构建非跨平台项目编译环境标签（空格分隔）： docker
-
-
-个人独立博客: http://mrdear.cn
-
-因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程.
-
-1.问题在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题">
-<meta name="twitter:image" content="http://ac-HSNl7zbI.clouddn.com/sVRm9T6RaAgcL0tqAX7vGz0kaTVDT21kJbSSokIA.jpg">
+<meta name="twitter:title" content="毕业设计周记(四)">
+<meta name="twitter:description" content="上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了.
+测试地址:  http://oj.mrdear.cn/    服务器比价渣,速度比较慢
+测试账号:   1015315668@qq.com    密码:">
 
 
 
@@ -149,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/2017/03/12/docker/Docker学习记录(三)-构建非跨平台项目编译环境/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/04/03/毕业设计/毕业设计周记(四)/"/>
 
 
 
 
 
-  <title> Docker学习记录(三)-构建非跨平台项目编译环境 | 屈定's Blog </title>
+  <title> 毕业设计周记(四) | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -336,7 +316,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/03/12/docker/Docker学习记录(三)-构建非跨平台项目编译环境/">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/04/03/毕业设计/毕业设计周记(四)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Niu li">
@@ -357,7 +337,7 @@
             
             
               
-                Docker学习记录(三)-构建非跨平台项目编译环境
+                毕业设计周记(四)
               
             
           </h2>
@@ -372,8 +352,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T15:21:00+08:00">
-                2017-03-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-03T21:50:00+08:00">
+                2017-04-03
               </time>
             
 
@@ -395,8 +375,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/随谈/" itemprop="url" rel="index">
+                    <span itemprop="name">随谈</span>
                   </a>
                 </span>
 
@@ -413,7 +393,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/03/12/docker/Docker学习记录(三)-构建非跨平台项目编译环境/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/04/03/毕业设计/毕业设计周记(四)/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -445,23 +425,13 @@
       
 
       
-        <h1 id="Docker学习记录-三-构建非跨平台项目编译环境"><a href="#Docker学习记录-三-构建非跨平台项目编译环境" class="headerlink" title="Docker学习记录(三)-构建非跨平台项目编译环境"></a>Docker学习记录(三)-构建非跨平台项目编译环境</h1><p>标签（空格分隔）： docker</p>
-<hr>
-<blockquote>
-<p>个人独立博客: <a href="http://mrdear.cn">http://mrdear.cn</a></p>
-</blockquote>
-<p>因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程.</p>
-<hr>
-<h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h2><p>在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题.另外该子模块在mac下无法使用maven打包,所以打包也需要放在docker中.<br>因此docker需要环境 java maven gcc g++ make</p>
-<h2 id="2-构建编译环境"><a href="#2-构建编译环境" class="headerlink" title="2.构建编译环境"></a>2.构建编译环境</h2><p>编写dockerfile文件,该文件的maven包我是从本机复制进去的,同样你也可以从外网下载.<br>Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#构建judger端需要的环境,方便本地测试</div><div class="line">#基于java8环境</div><div class="line">FROM java:8</div><div class="line"></div><div class="line">#维护人信息</div><div class="line">MAINTAINER quding niudear@foxmail.com</div><div class="line">#更新源</div><div class="line">RUN apt-get update</div><div class="line">#gcc g++ make安装</div><div class="line">RUN apt-get install -y gcc-4.9</div><div class="line">RUN apt-get install -y g++-4.9</div><div class="line">RUN apt-get install -y build-essential</div><div class="line"></div><div class="line">#配置mvn环境</div><div class="line">ADD apache-maven-3.3.9.tar.gz /usr/local</div><div class="line">ENV M2_HOME /usr/local/apache-maven-3.3.9</div><div class="line">ENV PATH $PATH:$JAVA_HOME/bin:$M2_HOME/bin</div><div class="line"></div><div class="line">#jni环境</div><div class="line">RUN cp $JAVA_HOME/include/linux/jawt_md.h $JAVA_HOME/include/</div><div class="line">RUN cp $JAVA_HOME/include/linux/jni_md.h $JAVA_HOME/include/</div></pre></td></tr></table></figure></p>
-<p>构建命令:<br><code>docker build -t dev .</code></p>
-<h2 id="3-挂载运行"><a href="#3-挂载运行" class="headerlink" title="3.挂载运行"></a>3.挂载运行</h2><p>运行时需要挂载本项目到docker中,该挂载是映射,因此本地和docker任意位置改变项目中文件都会反映在真实项目中,这也是想要的结果.<br>挂载命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker run -ti -p 50013:50013  -v /Users/niuli/workspace/git/AUSTOJ2/:/AUSTOJ2 </div><div class="line">-v /Users/niuli/workspace/git/testcase/:/austoj/testcase dev</div></pre></td></tr></table></figure></p>
-<p>该命令以交互模式启动一个docker容器,同时绑定docker的50013端口到此容器的50013,因为我的项目使用的是50013端口.另外我挂载了本项目目录AUSTOJ2和测试数据目录分别到docker的/AUSTOJ2目录和/austoj/testcase目录.</p>
-<p>那么启动之后如下所示:<br><img src="http://ac-HSNl7zbI.clouddn.com/sVRm9T6RaAgcL0tqAX7vGz0kaTVDT21kJbSSokIA.jpg" alt=""></p>
-<p>ok,到此编译环境搞定,可以随心所欲的编译启动该子模块,并且还能实时反映到本机目录下</p>
-<p><img src="http://ac-HSNl7zbI.clouddn.com/y020GeCL2UrSuASyDaYbvWs0XF3LWRYqRbej5pAB.jpg" alt=""></p>
-<p><img src="http://ac-HSNl7zbI.clouddn.com/bOKHInF9SpgHTSmr361EhU2geUFRjKW1yPwHap6s.jpg" alt=""></p>
-<p><img src="http://ac-HSNl7zbI.clouddn.com/JXVXNAq7Q6JtPc9QhKzJAdu1h3HskLriYhruA1tY.jpg" alt=""></p>
+        <p>上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了.</p>
+<p>测试地址:  <a href="http://oj.mrdear.cn/" target="_blank" rel="external">http://oj.mrdear.cn/</a>    服务器比价渣,速度比较慢</p>
+<p>测试账号:   1015315668@qq.com    密码: 111111</p>
+<p>等待完成:</p>
+<p>1.前端页面的重构</p>
+<p>源码地址:</p>
+<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
 
       
     </div>
@@ -506,7 +476,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"># docker</a>
+            <a href="/tags/毕业设计/" rel="tag"># 毕业设计</a>
           
         </div>
       
@@ -519,8 +489,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/" rel="next" title="Docker学习记录(二)-Dockerfile创建镜像">
-                <i class="fa fa-chevron-left"></i> Docker学习记录(二)-Dockerfile创建镜像
+              <a href="/2017/03/29/linux/redis学习记录(四)-SpringDataRedis分析/" rel="next" title="redis学习记录(四)-SpringDataRedis分析">
+                <i class="fa fa-chevron-left"></i> redis学习记录(四)-SpringDataRedis分析
               </a>
             
           </div>
@@ -529,8 +499,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/18/动漫/动漫推荐/" rel="prev" title="动漫推荐">
-                动漫推荐 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/08/毕业设计/毕业设计周记(五)/" rel="prev" title="毕业设计周记(五)">
+                毕业设计周记(五) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -580,17 +550,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
@@ -684,22 +645,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker学习记录-三-构建非跨平台项目编译环境"><span class="nav-text">Docker学习记录(三)-构建非跨平台项目编译环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-问题"><span class="nav-text">1.问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-构建编译环境"><span class="nav-text">2.构建编译环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-挂载运行"><span class="nav-text">3.挂载运行</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
