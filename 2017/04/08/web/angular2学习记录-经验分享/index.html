@@ -1,0 +1,1067 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vI-8_Ee7chpyEu09yCt-bC91dWWmTx08Bb_Mv1gltl0" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="ZJAkxniqr5" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="angular," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="屈定's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="angular2学习记录-经验分享标签（空格分隔）： web
+
+1.前言前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了.
+这里就要说下个人观点了,安利一波:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="angular2学习记录-经验分享">
+<meta property="og:url" content="http://mrdear.cn/2017/04/08/web/angular2学习记录-经验分享/index.html">
+<meta property="og:site_name" content="屈定's Blog">
+<meta property="og:description" content="angular2学习记录-经验分享标签（空格分隔）： web
+
+1.前言前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了.
+这里就要说下个人观点了,安利一波:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上">
+<meta property="og:image" content="http://img.blog.csdn.net/20170408234307620?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwNjgxMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-04-09T12:56:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="angular2学习记录-经验分享">
+<meta name="twitter:description" content="angular2学习记录-经验分享标签（空格分隔）： web
+
+1.前言前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了.
+这里就要说下个人观点了,安利一波:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170408234307620?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwNjgxMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6338709381080679000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mrdear.cn/2017/04/08/web/angular2学习记录-经验分享/"/>
+
+
+
+
+
+  <title> angular2学习记录-经验分享 | 屈定's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?05272b7f33b576c5363b4fa34583f3c3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">屈定's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">change from today</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/04/08/web/angular2学习记录-经验分享/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Niu li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="屈定's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                angular2学习记录-经验分享
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-08T23:00:00+08:00">
+                2017-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/04/08/web/angular2学习记录-经验分享/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="angular2学习记录-经验分享"><a href="#angular2学习记录-经验分享" class="headerlink" title="angular2学习记录-经验分享"></a>angular2学习记录-经验分享</h1><p>标签（空格分隔）： web</p>
+<hr>
+<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了.</p>
+<p><strong>这里就要说下个人观点了,安利一波</strong>:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上面的项目,可能该项目一开始很简单,但是随着你不断的学习,不断的把新知识运用进去,这个项目就会伴随着你的成长而丰富起来,给你带来的则是更多的实战经验.</p>
+<h3 id="2-angular2简介"><a href="#2-angular2简介" class="headerlink" title="2.angular2简介"></a>2.angular2简介</h3><ol>
+<li>angular2是类似全家桶组合的框架,所需要的东西几乎都包办了,所以开发起来很迅速.</li>
+<li>使用TypeScript作为开发语言,对于Java和C#程序员可以快速上手,还有就是我比较喜欢强类型语言,每个变量各司其职,由其的类型来限定,开发人员也很明确知道变量的作用.</li>
+<li>google和Microsoft支持</li>
+<li>WebStorm对angular2的强大支持.</li>
+<li>一篇安利文章<a href="http://www.infoq.com/cn/articles/why-choose-angular2/" target="_blank" rel="external">http://www.infoq.com/cn/articles/why-choose-angular2/</a></li>
+</ol>
+<blockquote>
+<p>一些学习资料<br>ECMAScript 6入门  <a href="http://es6.ruanyifeng.com/" target="_blank" rel="external">http://es6.ruanyifeng.com/</a><br>TypeScript入门   <a href="http://www.imooc.com/learn/763" target="_blank" rel="external">http://www.imooc.com/learn/763</a><br>TypeScript中文网  <a href="https://www.tslang.cn/docs/tutorial.html" target="_blank" rel="external">https://www.tslang.cn/docs/tutorial.html</a><br>慕课网1小时快速上手视频  <a href="http://www.imooc.com/learn/789" target="_blank" rel="external">http://www.imooc.com/learn/789</a><br>官方文档  <a href="https://www.angular.cn/docs/ts/latest/cli-quickstart.html" target="_blank" rel="external">https://www.angular.cn/docs/ts/latest/cli-quickstart.html</a></p>
+</blockquote>
+<h3 id="3-遇到的问题"><a href="#3-遇到的问题" class="headerlink" title="3.遇到的问题"></a>3.遇到的问题</h3><h4 id="3-1滚动监听"><a href="#3-1滚动监听" class="headerlink" title="3.1滚动监听"></a>3.1滚动监听</h4><p>要实现页面滚动后导航栏会变色的效果,如下图(图来自我的csdn博客,没找到其他好图床)<br><img src="http://img.blog.csdn.net/20170408234307620?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwNjgxMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图来自我的csdn博客"></p>
+<p>之前使用Jq是<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">window</span>).scroll(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    indexApp.scrollBar = <span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.scrollTop||<span class="built_in">document</span>.documentElement.scrollTop);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>不打算依赖Jq,搜了点资料发现了下面两种写法.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//下面这种写法在TS下不会有效果.</span></div><div class="line">  isAddBackColor()&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.getIsIndex())&#123;</div><div class="line">       <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">       <span class="comment">//该处使用匿名函数,而不是箭头函数.</span></div><div class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">let</span> marginTop = <span class="built_in">document</span>.body.scrollTop|| <span class="built_in">document</span>.documentElement.scrollTop;</div><div class="line">        self.isBackColor = marginTop &gt; <span class="number">20</span> &amp;&amp; self.getIsIndex();</div><div class="line">      &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">   * 判断是否需要加背景色(有效果的)</div><div class="line">   * 使用isBackColor控制结果</div><div class="line">   */</div><div class="line">  isAddBackColor()&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.getIsIndex())&#123;</div><div class="line">      <span class="comment">//监听事件使用箭头函数,这样ng2才会管理该变量</span></div><div class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,() =&gt; &#123;</div><div class="line">        <span class="keyword">let</span> marginTop = <span class="built_in">document</span>.body.scrollTop|| <span class="built_in">document</span>.documentElement.scrollTop;</div><div class="line">        <span class="keyword">this</span>.isBackColor = marginTop &gt; <span class="number">20</span> &amp;&amp; <span class="keyword">this</span>.getIsIndex();</div><div class="line">      &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>原因不明,猜想是<code>var self = this;</code>赋值操作后相当于一个全新的变量,self并不受angular管理,导致刷新的变量是self中的isBackColor.</p>
+<h4 id="3-2http参数传递"><a href="#3-2http参数传递" class="headerlink" title="3.2http参数传递"></a>3.2http参数传递</h4><p>按照下面代码传参数应该是没有问题的,但是我遇到了url被编码问题,例如输入<code>1111@qq.com</code>会被转换为<code>1111%40qq.com</code>,导致服务端解析失败,找了很多原因才发现是<code>URLSearchParams</code>这个对象用错了,angular2提供了这个对象,es6里面也有一个该对象,换成ng2中对象即可,<code>import {URLSearchParams} from &quot;@angular/http&quot;;</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> urlParams = <span class="keyword">new</span> URLSearchParams();</div><div class="line">urlParams.set(<span class="string">'search'</span>,search);</div><div class="line">urlParams.set(<span class="string">'order'</span>,order);</div><div class="line">urlParams.set(<span class="string">'pageNum'</span>,pageNum.toString());</div><div class="line">urlParams.set(<span class="string">'pageSize'</span>,pageSize.toString());</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>.http.get(Config.url_problem_stage + stage,&#123;<span class="attr">params</span>:urlParams&#125;).toPromise()</div><div class="line">          .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</div><div class="line">          .catch(LogService.handleError)</div></pre></td></tr></table></figure></p>
+<h4 id="3-3跨域问题"><a href="#3-3跨域问题" class="headerlink" title="3.3跨域问题"></a>3.3跨域问题</h4><p>浏览器要求同源下才可请求,否则就产生跨域问题.</p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>说明</th>
+<th>是否允许通信</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a><br><a href="http://www.a.com/b.js" target="_blank" rel="external">http://www.a.com/b.js</a></td>
+<td>同一域名下</td>
+<td>允许</td>
+</tr>
+<tr>
+<td><a href="http://www.a.com/lab/a.js" target="_blank" rel="external">http://www.a.com/lab/a.js</a> <br><a href="http://www.a.com/script/b.js" target="_blank" rel="external">http://www.a.com/script/b.js</a></td>
+<td>同一域名下不同文件夹</td>
+<td>允许</td>
+</tr>
+<tr>
+<td><a href="http://www.a.com:8000/a.js" target="_blank" rel="external">http://www.a.com:8000/a.js</a> <br><a href="http://www.a.com/b.js" target="_blank" rel="external">http://www.a.com/b.js</a></td>
+<td>同一域名，不同端口</td>
+<td>不允许</td>
+</tr>
+<tr>
+<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="https://www.a.com/b.js" target="_blank" rel="external">https://www.a.com/b.js</a></td>
+<td>同一域名，不同协议</td>
+<td>不允许</td>
+</tr>
+<tr>
+<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="http://70.32.92.74/b.js" target="_blank" rel="external">http://70.32.92.74/b.js</a></td>
+<td>域名和域名对应ip</td>
+<td>不允许</td>
+</tr>
+<tr>
+<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="http://script.a.com/b.js" target="_blank" rel="external">http://script.a.com/b.js</a></td>
+<td>主域相同，子域不同</td>
+<td>不允许</td>
+</tr>
+<tr>
+<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="http://a.com/b.js" target="_blank" rel="external">http://a.com/b.js</a></td>
+<td>同一域名，不同二级域名（同上）</td>
+<td>不允许（cookie这种情况下也不允许访问）</td>
+</tr>
+<tr>
+<td><a href="http://www.cnblogs.com/a.js" target="_blank" rel="external">http://www.cnblogs.com/a.js</a> <br><a href="http://www.a.com/b.js" target="_blank" rel="external">http://www.a.com/b.js</a></td>
+<td>不同域名</td>
+<td>不允许</td>
+</tr>
+</tbody>
+</table>
+<p>解决方案是用nginx反向代理到不同端口,模拟同一域名下不同文件夹情况.nginx监听本地888端口,这个也是项目入口,对于带api标识的请求转到后端服务器,对于其他请求则到前端服务器.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       8888;</div><div class="line">    server_name  localhost;</div><div class="line"></div><div class="line">    #charset koi8-r;</div><div class="line"></div><div class="line">    #access_log  logs/host.access.log  main;</div><div class="line"></div><div class="line">    location /api &#123;</div><div class="line">        proxy_pass   http://127.0.0.1:8080;</div><div class="line">    &#125;</div><div class="line">    location / &#123;</div><div class="line">        proxy_pass   http://127.0.0.1:4200;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="3-4路由问题"><a href="#3-4路由问题" class="headerlink" title="3.4路由问题"></a>3.4路由问题</h4><p>angular2的路由匹配规则是从根路由也就是<code>forRoot()</code>的这个开始.在该处匹配寻找规则.</p>
+<p><strong>根路由:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> appRoutes: Routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">''</span>,</div><div class="line">    <span class="attr">component</span>: IndexComponent,</div><div class="line">    <span class="attr">pathMatch</span>:<span class="string">'full'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'aust'</span>,</div><div class="line">    <span class="attr">loadChildren</span>:<span class="string">'./content/content.module#ContentAndAsideModule'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'index'</span>,</div><div class="line">    <span class="attr">component</span>: IndexComponent,</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'**'</span>,</div><div class="line">    <span class="attr">loadChildren</span>:<span class="string">'./content/content.module#ContentAndAsideModule'</span></div><div class="line">  &#125;,</div><div class="line">];</div></pre></td></tr></table></figure></p>
+<p><strong>子路由:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> childRouter : Routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">''</span>,</div><div class="line">    <span class="attr">component</span>:ContentAndAsideComponent,</div><div class="line">    <span class="attr">children</span>:[</div><div class="line">      &#123;<span class="attr">path</span>:<span class="string">''</span>,<span class="attr">redirectTo</span>:<span class="string">'/index'</span>,<span class="attr">pathMatch</span>:<span class="string">'full'</span>&#125;,</div><div class="line">      &#123;<span class="attr">path</span>:<span class="string">'start'</span>,<span class="attr">component</span>:StartComponent&#125;,</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">  ];</div></pre></td></tr></table></figure></p>
+<p><strong>举例:</strong><br>访问<code>/</code>,则先在根路由寻找,找到其跳转到IndexComponent,完成任务<br>访问<code>/aust</code>.则先在根路由找,发现需要到子路由里面寻找,到子路由后,在children中发现被重定向到<code>/index</code>,那么回到根路由,找到IndexComponent完成任务.<br>访问<code>/aust/start</code>,则先在根路由找,发现需要到子路由,到子路由匹配到StartComponent,完成任务.</p>
+<h4 id="3-5组件通信"><a href="#3-5组件通信" class="headerlink" title="3.5组件通信"></a>3.5组件通信</h4><p>父-&gt;子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.<br>子-&gt;父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.<br>任意组件:使用service通讯,service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取.</p>
+<h4 id="3-6单例"><a href="#3-6单例" class="headerlink" title="3.6单例?"></a>3.6单例?</h4><p>agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着不同module中的service并不是共享的.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/image/wechatpay.png" alt="Niu li WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/image/alipay.png" alt="Niu li Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/angular/" rel="tag"># angular</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/08/毕业设计/毕业设计周记(五)/" rel="next" title="毕业设计周记(五)">
+                <i class="fa fa-chevron-left"></i> 毕业设计周记(五)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
+               alt="Niu li" />
+          <p class="site-author-name" itemprop="name">Niu li</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nl101531" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/niu.dear/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012706811" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#angular2学习记录-经验分享"><span class="nav-text">angular2学习记录-经验分享</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-前言"><span class="nav-text">1.前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-angular2简介"><span class="nav-text">2.angular2简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-遇到的问题"><span class="nav-text">3.遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1滚动监听"><span class="nav-text">3.1滚动监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2http参数传递"><span class="nav-text">3.2http参数传递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3跨域问题"><span class="nav-text">3.3跨域问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4路由问题"><span class="nav-text">3.4路由问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5组件通信"><span class="nav-text">3.5组件通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6单例"><span class="nav-text">3.6单例?</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niu li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "f928d3f9d6e242eab0d4ba8bf8099ee6",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+
+</body>
+</html>
