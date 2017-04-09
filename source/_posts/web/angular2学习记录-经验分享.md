@@ -48,7 +48,7 @@ $(window).scroll(function () {
 });
 ```
 不打算依赖Jq,搜了点资料发现了下面两种写法.
-```
+``` javaScript
 //下面这种写法在TS下不会有效果.
   isAddBackColor(){
     if (this.getIsIndex()){
@@ -63,7 +63,7 @@ $(window).scroll(function () {
 ```
 
 
-```javaScript
+``` javaScript
 /**
    * 判断是否需要加背景色(有效果的)
    * 使用isBackColor控制结果
@@ -84,7 +84,7 @@ $(window).scroll(function () {
 #### 3.2http参数传递
 按照下面代码传参数应该是没有问题的,但是我遇到了url被编码问题,例如输入`1111@qq.com`会被转换为`1111%40qq.com`,导致服务端解析失败,找了很多原因才发现是`URLSearchParams`这个对象用错了,angular2提供了这个对象,es6里面也有一个该对象,换成ng2中对象即可,`import {URLSearchParams} from "@angular/http";
 `
-```
+``` javaScript
     let urlParams = new URLSearchParams();
     urlParams.set('search',search);
     urlParams.set('order',order);
@@ -112,7 +112,7 @@ $(window).scroll(function () {
 
 
 解决方案是用nginx反向代理到不同端口,模拟同一域名下不同文件夹情况.nginx监听本地888端口,这个也是项目入口,对于带api标识的请求转到后端服务器,对于其他请求则到前端服务器.
-```
+``` conf
     server {
         listen       8888;
         server_name  localhost;
@@ -134,7 +134,7 @@ $(window).scroll(function () {
 angular2的路由匹配规则是从根路由也就是`forRoot()`的这个开始.在该处匹配寻找规则.
 
 **根路由:**
-```javaScript
+``` javaScript
 export const appRoutes: Routes = [
   {
     path:'',
@@ -157,7 +157,7 @@ export const appRoutes: Routes = [
 
 ```
 **子路由:**
-```
+``` javaScript
 export const childRouter : Routes = [
   {
     path: '',
