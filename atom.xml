@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-04-10T08:59:22.000Z</updated>
+  <updated>2017-04-10T09:09:19.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://mrdear.cn/2017/04/08/web/angular2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
     <id>http://mrdear.cn/2017/04/08/web/angular2学习记录-经验分享/</id>
     <published>2017-04-08T15:00:00.000Z</published>
-    <updated>2017-04-10T08:59:22.000Z</updated>
+    <updated>2017-04-10T09:09:19.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="angular2学习记录-经验分享"><a href="#angular2学习记录-经验分享" class="headerlink" title="angular2学习记录-经验分享"></a>angular2学习记录-经验分享</h1><p>标签（空格分隔）： web</p>
 <hr>
@@ -101,7 +101,8 @@
 <p><strong>举例:</strong><br>访问<code>/</code>,则先在根路由寻找,找到其跳转到IndexComponent,完成任务<br>访问<code>/aust</code>.则先在根路由找,发现需要到子路由里面寻找,到子路由后,在children中发现被重定向到<code>/index</code>,那么回到根路由,找到IndexComponent完成任务.<br>访问<code>/aust/start</code>,则先在根路由找,发现需要到子路由,到子路由匹配到StartComponent,完成任务.</p>
 <h4 id="3-5组件通信"><a href="#3-5组件通信" class="headerlink" title="3.5组件通信"></a>3.5组件通信</h4><p>父-&gt;子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.<br>子-&gt;父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.<br>任意组件:使用service通讯(要求service单例),service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取.</p>
 <h4 id="3-6单例"><a href="#3-6单例" class="headerlink" title="3.6单例?"></a>3.6单例?</h4><p>agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着每一个providers提供的是一个实例,旗下的组件都是享用这一个实例,那么怎么实现全局单例呢?很简单在根module中提供服务且其他组件不要自己providers该服务.</p>
-<h4 id="3-7组件生命周期"><a href="#3-7组件生命周期" class="headerlink" title="3.7组件生命周期"></a>3.7组件生命周期</h4><p>组件生命周期看下面这张图.<br><img src="http://ac-HSNl7zbI.clouddn.com/eCsidPMfsdB3oeoAsRIPUJ0JbRBJpQcSKDq0rxcc.jpg" alt=""></p>
+<h4 id="3-7组件生命周期"><a href="#3-7组件生命周期" class="headerlink" title="3.7组件生命周期"></a>3.7组件生命周期</h4><p>组件生命周期看下面这张图.图中没有<code>onChanges(changes: SimpleChanges)</code>方法的调用,该方法检测到组件的<strong>输入属性</strong>发生变化时调用,也就是存在<strong>@inpu</strong>t装饰的属性,该属性每次变化时会调该方法.</p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/eCsidPMfsdB3oeoAsRIPUJ0JbRBJpQcSKDq0rxcc.jpg" alt=""></p>
 <hr>
 <p>angular2项目:<br><a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
 ]]></content>
