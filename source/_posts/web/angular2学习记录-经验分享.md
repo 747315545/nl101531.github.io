@@ -177,7 +177,17 @@ export const childRouter : Routes = [
 #### 3.5组件通信
 父->子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.
 子->父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.
-任意组件:使用service通讯,service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取.
+任意组件:使用service通讯(要求service单例),service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取.
 
 #### 3.6单例?
-agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着不同module中的service并不是共享的.
+agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着每一个providers提供的是一个实例,旗下的组件都是享用这一个实例,那么怎么实现全局单例呢?很简单在根module中提供服务且其他组件不要自己providers该服务.
+
+#### 3.7组件生命周期
+组件生命周期看下面这张图.
+![](http://ac-HSNl7zbI.clouddn.com/eCsidPMfsdB3oeoAsRIPUJ0JbRBJpQcSKDq0rxcc.jpg)
+
+
+----------
+
+angular2项目:
+https://github.com/nl101531/AUSTOJ-WEB
