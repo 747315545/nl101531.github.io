@@ -183,7 +183,8 @@ export const childRouter : Routes = [
 agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着每一个providers提供的是一个实例,旗下的组件都是享用这一个实例,那么怎么实现全局单例呢?很简单在根module中提供服务且其他组件不要自己providers该服务.
 
 #### 3.7组件生命周期
-组件生命周期看下面这张图.
+组件生命周期看下面这张图.图中没有`onChanges(changes: SimpleChanges)`方法的调用,该方法检测到组件的**输入属性**发生变化时调用,也就是存在**@inpu**t装饰的属性,该属性每次变化时会调该方法.
+
 ![](http://ac-HSNl7zbI.clouddn.com/eCsidPMfsdB3oeoAsRIPUJ0JbRBJpQcSKDq0rxcc.jpg)
 
 
