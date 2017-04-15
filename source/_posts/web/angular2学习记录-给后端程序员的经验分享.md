@@ -1,5 +1,5 @@
 ﻿---
-title: angular2学习记录-经验分享
+title: angular2学习记录-给后端程序员的经验分享
 tags:
   - angular
 categories: web
@@ -8,7 +8,7 @@ date: 2017-04-08 23:00:00
 ---
 
 
-# angular2学习记录-经验分享
+# angular2学习记录-给后端程序员的经验分享
 
 标签（空格分隔）： web
 
@@ -185,8 +185,7 @@ agular2的service是providers提供的,该组件如果引用了这个service,那
 #### 3.7组件生命周期
 组件生命周期看下面这张图.图中没有`onChanges(changes: SimpleChanges)`方法的调用,该方法检测到组件的**输入属性**发生变化时调用,也就是存在**@inpu**t装饰的属性,该属性每次变化时会调该方法.
 
-![](http://ac-HSNl7zbI.clouddn.com/eCsidPMfsdB3oeoAsRIPUJ0JbRBJpQcSKDq0rxcc.jpg)
-
+![](http://ac-HSNl7zbI.clouddn.com/kRRpNMw13FEBLykaLlty4NQsVYFpeEl2OCBifcB2.jpg)
 
 ----------
 
