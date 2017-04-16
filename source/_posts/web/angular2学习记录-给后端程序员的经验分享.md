@@ -174,6 +174,19 @@ export const childRouter : Routes = [
 访问`/aust`.则先在根路由找,发现需要到子路由里面寻找,到子路由后,在children中发现被重定向到`/index`,那么回到根路由,找到IndexComponent完成任务.
 访问`/aust/start`,则先在根路由找,发现需要到子路由,到子路由匹配到StartComponent,完成任务.
 
+**路由参数**
+路由传参数主要有两种方式,一种是restful风格的,一种是?号参数风格的.两种参数都保存在`ActivatedRoute`对象中,因此下面代码中的`route`为此对象
+--- restful风格
+配置:`{path:'article/:id',component:ArticleComponent}`
+链接:`http://domain/article/1`
+路由:`[routerLink]="['article',article.id]"`或者直接拼接url
+js获取:`this.route.params`中的一系列方法,或者`this.route.snapshot.params['id']`
+--- 问号参数风格
+配置:`{path:'article',component:ArticleComponent}`
+链接:`http://domain/article?id=1`
+路由:`routerLink="article" queryParams="{id: article.id}"`
+js获取:`this.route.queryParams`中的一系列方法,或者`this.route.snapshot.queryParams['id']`
+
 #### 3.5组件通信
 父->子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.
 子->父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.
