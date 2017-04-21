@@ -200,6 +200,26 @@ agular2的service是providers提供的,该组件如果引用了这个service,那
 
 ![](http://ac-HSNl7zbI.clouddn.com/kRRpNMw13FEBLykaLlty4NQsVYFpeEl2OCBifcB2.jpg)
 
+#### 3.8部署问题
+单页应用部署到服务器上可能会出现访问`www.domain.xx`可以访问,并且点击什么的都能成功,但是直接访问其中一个路由`www.domain.xx/aust/start`却报404.
+先分析下问题的原因,我们的单页应用只有一个入口,报404也就是没找到这个入口.看nginx的配置.nginx收到请求后会去root下寻找`aust/start`下的index.html那么自然找不到,所以直接访问就会404.
+那么问题来了为什么访问`www.domain.xx`之后页面内跳转到路由没问题呢?这是因为访问主域名后angular的js都已经全部加载了,这个时候跳转是js来控制的,不经过nginx自然不会出现上面的问题.
+```
+        location / {
+            root /Users/niuli/workspace/web/austoj/dist;
+            index  index.html index.htm;
+        }
+```
+**解决方法:**
+解决方法就是让其对于路由都去加载index.html这个文件.使用try_files指令,该指令会把uri当成一个文件,去根目录下寻找,找不到的话则内部重定向到配置的`/index.html`.这样配置的好处,对于静态资源try_files会直接找到后就返回,对于路由则会定向到`/index.html`.
+```
+        location / {
+            try_files $uri /index.html;
+            root /Users/niuli/workspace/web/austoj/dist;
+            index  index.html index.htm;
+        }
+```
+
 ----------
 
 angular2项目:
