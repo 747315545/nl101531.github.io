@@ -1,6 +1,6 @@
 ﻿---
 title: ERP叛逃者(转)
-categories: 随谈
+categories: 经验
 tags:
  - 选择
 date: 2017-03-19 18:21:00
