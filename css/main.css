@@ -189,7 +189,7 @@ body {
   font-size: 14px;
   line-height: 2;
   color: #555;
-  background: #fff;
+  background: #eae8df;
 }
 @media (max-width: 767px) {
   body {
@@ -277,13 +277,13 @@ p {
   margin: 0 0 25px 0;
 }
 a {
-  color: #555;
+  color: #34495e;
   text-decoration: none;
   border-bottom: 1px solid #999;
   word-wrap: break-word;
 }
 a:hover {
-  color: #222;
+  color: #1abc9c;
   border-bottom-color: #222;
 }
 blockquote {
@@ -487,7 +487,7 @@ code {
 code {
   padding: 2px 4px;
   word-wrap: break-word;
-  color: #555;
+  color: #cd5555;
   background: #eee;
   border-radius: 3px;
   font-size: 13px;
@@ -971,7 +971,7 @@ pre .javascript .function {
   bottom: 19px;
 }
 .header {
-  background: #fff;
+  background: #edeff1;
 }
 .header-inner {
   position: relative;
@@ -1436,9 +1436,9 @@ pre .javascript .function {
   margin-top: 50px;
 }
 .post-button .btn {
-  color: #555;
+  color: #34495e;
   font-size: 14px;
-  background: transparent;
+  background: #eae8df;
   border-radius: 0;
   line-height: 2;
   margin: 0 4px 8px 4px;
@@ -1477,11 +1477,11 @@ pre .javascript .function {
   display: block;
   line-height: 25px;
   font-size: 14px;
-  color: #555;
+  color: #34495e;
   border-bottom: none;
 }
 .post-nav-item a:hover {
-  color: #222;
+  color: #1abc9c;
   border-bottom: none;
 }
 .post-nav-item a:active {
@@ -1813,7 +1813,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #cce560;
+  background: #ded64e;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2899,4 +2899,8 @@ hr {
     width: auto;
     text-align: center;
   }
+}
+# 自定义css h3,
+.post-body h3 {
+  color: #10a3ee;
 }
