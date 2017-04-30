@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-04-24T11:07:52.000Z</updated>
+  <updated>2017-04-30T00:34:33.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,89 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对一个WEB请求的理解</title>
+    <link href="http://mrdear.cn/2017/04/30/%E8%BF%90%E7%BB%B4/%E5%AF%B9%E4%B8%80%E4%B8%AAWEB%E8%AF%B7%E6%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/</id>
+    <published>2017-04-29T16:00:00.000Z</published>
+    <updated>2017-04-30T00:34:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.</p>
+<h3 id="URL解析"><a href="#URL解析" class="headerlink" title="URL解析"></a>URL解析</h3><p>首先把URL分割为几个部分,以地址<code>http://mrdear.cn/2017/04/15/动漫推荐/</code>为例<br>协议: http<br>网址: mrdear.cn<br>资源路径: 2017/04/15/动漫推荐/</p>
+<p>浏览器拿到地址后会对其中非ASCII码的Unicode字符解析,比如空格会变成%20,汉字也会变成其16进制对应的编码值,如下例子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">上面链接等价于</div><div class="line">http:<span class="comment">//mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</span></div></pre></td></tr></table></figure></p>
+<p>中间还有其他很复杂的流程,比如参数,协议,请求头,请求体等建立.</p>
+<h3 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h3><p>对于网址mrdear.cn,浏览器并不知道他所处的服务器位置,因此需要解析出其服务器ip,这个过程就是DNS域名解析.</p>
+<ul>
+<li>浏览器首先检查自身缓存dns解析,以chrome为例,输入<code>chrome://net-internals/#dns</code>即可看到缓存列表.该缓存通常几分钟到几小时不等,存在的话就直接返回,否则下一步</li>
+<li>和浏览器同样策略,OS对每一次解析结果也会做缓存,浏览器中不存在则在OS的缓存中查找.这个过成功也包括在本地hosts中查找.找到则返回,找不到则向本机的dns服务器发送查找请求.</li>
+<li><p>DNS服务器和本机在一个子网内,则APR解析到具体设备的mac地址,然后向其查找.如果不在一个子网,则直接ARP解析当前主机网关地址,网关一般是上一个路由节点,也就是把查询转交给上一层服务器,那么上一层服务器找不到还会转交给它的上一层,如此形成一个递归查询过程,直到查找到根服务器.找不到则返回失败.找到则返回ip地址和其TTL时间.<br>linux和unix下的dns配置在<code>/etc/resolv.conf</code>中,可以使用<code>nslookup或者dig查</code>看解析过程.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p" alt=""></p>
+</li>
+<li><p>解析成功后,浏览器创建与服务器的socket连接,构造请求信息,进行TCP三次握手,开始向服务器传输消息,并等服务器回复信息,这也是TPC可靠的一个原因.</p>
+</li>
+</ul>
+<h3 id="服务器响应"><a href="#服务器响应" class="headerlink" title="服务器响应"></a>服务器响应</h3><p>服务器以nginx+tomcat为例,经过以上步骤后请求到达了nginx,nginx对URL进行分析,验证其所在机器上有所需要的服务,并且用户是有权限调用的,决定该URL由哪一个tomcat服务处理,捕获处理结果,返回给请求者,最后四次挥手结束请求.到此完成浏览器,服务端的通信.</p>
+<h3 id="浏览器渲染"><a href="#浏览器渲染" class="headerlink" title="浏览器渲染"></a>浏览器渲染</h3><p>浏览器拿到了服务器的返回信息后会对内容进行解析,展现成用户所需要的内容,如html,pdf等.</p>
+<hr>
+<p>那么整个过程总结来看就是 用户输入URL -&gt; 浏览器解析地址 -&gt; DNS查找域名对应ip -&gt; 服务器响应 -&gt;浏览器拿到响应渲染.</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="1-CDN网络"><a href="#1-CDN网络" class="headerlink" title="1.CDN网络"></a>1.CDN网络</h4><p>CDN又叫内容分布网络,一般用于静态资源如html,css,js的存储,简单的理解为一张大网,网上每一个节点都有着很多资源.那么每一个用户想要访问的时候就会去找离他最近的节点上面获取需要的内容.从而加快了网站整体访问速度.<br>举个例子:用户访问taobao的某css文件,首先浏览器会发送请求 -&gt; DNS解析域名,这里一般会有一个DNS负载均衡服务器,其得到最适合用户的CDN节点ip -&gt; 用户拿到CDN节点ip得到资源.</p>
+<h4 id="2-DNS劫持"><a href="#2-DNS劫持" class="headerlink" title="2.DNS劫持"></a>2.DNS劫持</h4><p>了解了DNS的解析是一个递归过程,找到域名 &lt;-&gt; ip就返回,如果有人手动修改了该条映射信息,那么就会返回到错误的ip地址,这种行为也叫DNS劫持,对于客户端来说,没有很好地方式能认为服务器返回的信息是可靠的,也就是不可靠的HTTP通信,所以也就导致了这一层的攻击漏洞,而这种事一般是天朝的电信运营商能干得出来,所以选择一个靠谱的DNS是非常重要,推荐<code>114.114.114.114</code></p>
+<h4 id="3-HTTPS"><a href="#3-HTTPS" class="headerlink" title="3.HTTPS"></a>3.HTTPS</h4><p>应对HTTP的不可靠通信,所以诞生了HTTPS,即HTTP over SSL,使用SSL/TLS对HTTP的内容进行加密解密.整个流程如下图:</p>
+<p><center><img src="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p" alt=""></center></p>
+<ul>
+<li>在SSL握手阶段，客户端浏览器会认证服务器的身份，这是通过“证书”来实现的，证书由证书权威（CA）为某个域名签发，可以理解为网站的身份证件，客户端需要对这个证件进行认证，需要确定该证书是否属于目标网站并确认证书本身是否有效。最后在握手阶段，通信的双方还会协商出一个用于加密和解密的会话密钥。</li>
+<li>SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。<br>HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.</li>
+</ul>
+<h4 id="3-乱码问题"><a href="#3-乱码问题" class="headerlink" title="3.乱码问题"></a>3.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
+<p>这里要保证不乱码,下一步tomcat建立了ServletRequest和ServletResponse,那么这里也有编码,一般是post表单或者request body乱码,那么就需要指定ServletRequest和ServletResponse的编码格式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(encoding);<span class="comment">//设置请求信息编码</span></div><div class="line">response.setCharacterEncoding(encoding);<span class="comment">//设置返回信息编码</span></div></pre></td></tr></table></figure></p>
+<p>Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.<br>浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如<code>Content-Type: text/html;charset=UTF-8</code>,指定以UTF-8渲染该text/html返回.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.&lt;/p&gt;
+&lt;h3 id=&quot;URL解析&quot;&gt;&lt;a href=&quot;#URL解析&quot;
+    
+    </summary>
+    
+      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
+    
+    
+      <category term="http" scheme="http://mrdear.cn/tags/http/"/>
+    
+      <category term="web" scheme="http://mrdear.cn/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>毕业设计周记(八)</title>
+    <link href="http://mrdear.cn/2017/04/29/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%85%AB)/"/>
+    <id>http://mrdear.cn/2017/04/29/毕业设计/毕业设计周记(八)/</id>
+    <published>2017-04-29T10:00:00.000Z</published>
+    <updated>2017-04-29T11:08:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.</p>
+<p>修改数据库模型后代码不少地方重新写了下,耽误了点时间,五一期间仍然是写毕业论文.</p>
+<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
+<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
+<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
+<p>测试账号: 1015315668@qq.com<br>          111111</p>
+<p>等待完成:</p>
+<p>1.毕业论文</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,control
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>毕业设计周记(七)</title>
@@ -177,7 +260,7 @@
     <link href="http://mrdear.cn/2017/04/08/web/angular2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E7%BB%99%E5%90%8E%E7%AB%AF%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
     <id>http://mrdear.cn/2017/04/08/web/angular2学习记录-给后端程序员的经验分享/</id>
     <published>2017-04-08T15:00:00.000Z</published>
-    <updated>2017-04-24T13:36:04.000Z</updated>
+    <updated>2017-04-29T08:25:27.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了.</p>
 <p><strong>这里就要说下个人观点了,安利一波</strong>:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上面的项目,可能该项目一开始很简单,但是随着你不断的学习,不断的把新知识运用进去,这个项目就会伴随着你的成长而丰富起来,给你带来的则是更多的实战经验.</p>
@@ -254,7 +337,7 @@
 <p><strong>根路由:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> appRoutes: Routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">''</span>,</div><div class="line">    <span class="attr">component</span>: IndexComponent,</div><div class="line">    <span class="attr">pathMatch</span>:<span class="string">'full'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'aust'</span>,</div><div class="line">    <span class="attr">loadChildren</span>:<span class="string">'./content/content.module#ContentAndAsideModule'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'index'</span>,</div><div class="line">    <span class="attr">component</span>: IndexComponent,</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'**'</span>,</div><div class="line">    <span class="attr">loadChildren</span>:<span class="string">'./content/content.module#ContentAndAsideModule'</span></div><div class="line">  &#125;,</div><div class="line">];</div></pre></td></tr></table></figure></p>
 <p><strong>子路由:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> childRouter : Routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">''</span>,</div><div class="line">    <span class="attr">component</span>:ContentAndAsideComponent,</div><div class="line">    <span class="attr">children</span>:[</div><div class="line">      &#123;<span class="attr">path</span>:<span class="string">''</span>,<span class="attr">redirectTo</span>:<span class="string">'/index'</span>,<span class="attr">pathMatch</span>:<span class="string">'full'</span>&#125;,</div><div class="line">      &#123;<span class="attr">path</span>:<span class="string">'start'</span>,<span class="attr">component</span>:StartComponent&#125;,</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">  ];</div></pre></td></tr></table></figure></p>
 <p><strong>举例:</strong><br>访问<code>/</code>,则先在根路由寻找,找到其跳转到IndexComponent,完成任务<br>访问<code>/aust</code>.则先在根路由找,发现需要到子路由里面寻找,到子路由后,在children中发现被重定向到<code>/index</code>,那么回到根路由,找到IndexComponent完成任务.<br>访问<code>/aust/start</code>,则先在根路由找,发现需要到子路由,到子路由匹配到StartComponent,完成任务.</p>
-<p><strong>路由参数</strong><br>路由传参数主要有两种方式,一种是restful风格的,一种是?号参数风格的.两种参数都保存在<code>ActivatedRoute</code>对象中,因此下面代码中的<code>route</code>为此对象<br>— restful风格<br>配置:<code>{path:&#39;article/:id&#39;,component:ArticleComponent}</code><br>链接:<code>http://domain/article/1</code><br>路由:<code>[routerLink]=&quot;[&#39;article&#39;,article.id]&quot;</code>或者直接拼接url<br>js获取:<code>this.route.params</code>中的一系列方法,或者<code>this.route.snapshot.params[&#39;id&#39;]</code><br>— 问号参数风格<br>配置:<code>{path:&#39;article&#39;,component:ArticleComponent}</code><br>链接:<code>http://domain/article?id=1</code><br>路由:<code>routerLink=&quot;article&quot; queryParams=&quot;{id: article.id}&quot;</code><br>js获取:<code>this.route.queryParams</code>中的一系列方法,或者<code>this.route.snapshot.queryParams[&#39;id&#39;]</code></p>
+<p><strong>路由参数</strong><br>路由传参数主要有两种方式,一种是restful风格的,一种是?号参数风格的.两种参数都保存在<code>ActivatedRoute</code>对象中,因此下面代码中的<code>route</code>为此对象<br>— restful风格<br>配置:<code>{path:&#39;article/:id&#39;,component:ArticleComponent}</code><br>链接:<code>http://domain/article/1</code><br>路由:<code>[routerLink]=&quot;[&#39;article&#39;,article.id]&quot;</code>或者直接拼接url<br>js获取:<code>this.route.params</code>中的一系列方法,或者<code>this.route.snapshot.params[&#39;id&#39;]</code><br>— 问号参数风格<br>配置:<code>{path:&#39;article&#39;,component:ArticleComponent}</code><br>链接:<code>http://domain/article?id=1</code><br>路由:<code>routerLink=&quot;article&quot; [queryParams]=&quot;{id: article.id}&quot;</code><br>js获取:<code>this.route.queryParams</code>中的一系列方法,或者<code>this.route.snapshot.queryParams[&#39;id&#39;]</code>,另外可以使用订阅模式queryParamMap.subscribe(),路由参数更新时自动通知</p>
 <h4 id="3-5组件通信"><a href="#3-5组件通信" class="headerlink" title="3.5组件通信"></a>3.5组件通信</h4><p>父-&gt;子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.<br>子-&gt;父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.<br>任意组件:使用service通讯(要求service单例),service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取.</p>
 <h4 id="3-6单例"><a href="#3-6单例" class="headerlink" title="3.6单例?"></a>3.6单例?</h4><p>agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着每一个providers提供的是一个实例,旗下的组件都是享用这一个实例,那么怎么实现全局单例呢?很简单在根module中提供服务且其他组件不要自己providers该服务.</p>
 <h4 id="3-7组件生命周期"><a href="#3-7组件生命周期" class="headerlink" title="3.7组件生命周期"></a>3.7组件生命周期</h4><p>组件生命周期看下面这张图.图中没有<code>onChanges(changes: SimpleChanges)</code>方法的调用,该方法检测到组件的<strong>输入属性</strong>发生变化时调用,也就是存在<strong>@inpu</strong>t装饰的属性,该属性每次变化时会调该方法.</p>
@@ -887,72 +970,6 @@
     
     
       <category term="工作" scheme="http://mrdear.cn/tags/%E5%B7%A5%E4%BD%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何学习一门新技术</title>
-    <link href="http://mrdear.cn/2017/02/01/%E9%9A%8F%E8%B0%88/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E9%97%A8%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
-    <id>http://mrdear.cn/2017/02/01/随谈/如何学习一门新技术/</id>
-    <published>2017-02-01T02:37:00.000Z</published>
-    <updated>2017-04-21T01:40:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在看他人博客的时候发现的,自己也是一直按照这样的模式去学,现在分享下整个流程.</p>
-<p>图片来源: <a href="http://dreamfy.cn/2016/11/24/%E4%B8%80%E5%BC%A0%E5%9B%BE%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E6%96%B0%E6%8A%80%E6%9C%AF/" target="_blank" rel="external">dreamfy</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2148449-71e36af82735d03d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
-<h3 id="是什么-为什么会出现"><a href="#是什么-为什么会出现" class="headerlink" title="是什么?为什么会出现?"></a>是什么?为什么会出现?</h3><p>这一阶段主要是对该技术有一个整体了解,他所解决的是什么问题,他的整体结构等.</p>
-<h3 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做?"></a>怎么做?</h3><p>最简单的是找一个上手视频,因为视频是非常直观的展示了技术的使用.先学会用是最根本的,对于没有视频的技术的话,就可以搜索XX上手教程,XX学习记录之类的关键词,很轻松就找到了相关的上手博文,这一阶段一般都是环境整合搭建,然后写一个简单的入门Demo.</p>
-<p>第二个阶段,学会基本使用了就要去看官方文档,文档会让你更加详细的了解该技术的特性,开一个Demo项目把官方的一些例子都试试.</p>
-<p>第三个阶段,尝试在一些复杂的项目中使用(非生产项目),使用过程中难免会遇到各种各样的问题,官方文档和搜索引擎会帮助你解决,这一过程你会对该技术掌握更加娴熟.</p>
-<p>第三个阶段,去github上找一些别人的项目,主要是看他人的使用方法,模块设计,代码封装等.</p>
-<p>第四个阶段,生产项目使用吧,遇到问题还是官方文档和搜索引擎.</p>
-<h3 id="分享"><a href="#分享" class="headerlink" title="分享"></a>分享</h3><p>好记性不如烂笔头,博客记录是一个很好地习惯,能把自己学的东西和他人讲清楚才叫真正的懂了这个技术.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在看他人博客的时候发现的,自己也是一直按照这样的模式去学,现在分享下整个流程.&lt;/p&gt;
-&lt;p&gt;图片来源: &lt;a href=&quot;http://dreamfy.cn/2016/11/24/%E4%B8%80%E5%BC%A0%E5%9B%BE%E6%95%99%E4%BD%A0%
-    
-    </summary>
-    
-      <category term="经验" scheme="http://mrdear.cn/categories/%E7%BB%8F%E9%AA%8C/"/>
-    
-    
-      <category term="学习方法" scheme="http://mrdear.cn/tags/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面经</title>
-    <link href="http://mrdear.cn/2017/01/10/%E9%9A%8F%E8%B0%88/%E9%9D%A2%E7%BB%8F/"/>
-    <id>http://mrdear.cn/2017/01/10/随谈/面经/</id>
-    <published>2017-01-10T01:50:00.000Z</published>
-    <updated>2017-04-21T01:39:51.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>从2016.7来到上海后记录下自己的面试经历,希望能对其他人有所帮助,同时给自己一个提醒.</p>
-<h2 id="第二次面试2017-1"><a href="#第二次面试2017-1" class="headerlink" title="第二次面试2017.1"></a>第二次面试2017.1</h2><p>上一家公司干了六个月,做的还不错,中间涨了一次工资,也就500左右,但是公司没技术氛围,而且加班是家常便饭,所以为了自己打算离开了,这里我是提前和领导说不打算续签的,自己离职不太好意思拿年终奖再离职,不过领导知道后还是给我申请了年终奖,感动Ing</p>
-<p>第二次面试先电面再去公司面试的,总体感觉很不错,结果还在等…</p>
-<p>###1.电面<br>首先自我介绍,这个很随意,技术人员一般都不看重这个.<br><strong>1.ArrayList的扩容机制.</strong><br>这个抓住几个点,本质是一个Object的数组,初始容量10,1.7JDK之后每次扩容是1.5倍,但是1.6的JDK版本是1.5倍+1,这个回答出来说明你研究过这个而不是直接背答案.每次add都会进行容量检查,扩容是调用一个native方法System.arrayCopy,<br><strong>2.Map的containsKey和List的contain方法效率一样吗?</strong><br>这个问题回答要表现出List基于数组在查找方面的缺点,就是最坏情况下是查找全部元素后才找到,但是Map是基于Hash链表,查找是根据hash计算出来的索引地址,找到索引后会判断上面是否有链表存在,有的话会接着查找,补充下JDK8之后的HashMap当哈希桶上的链表长度大于8则会转换为一颗红黑树,因此随着碰撞增加仍然会提供稳定的性能.<br><strong>3.自己的项目问题</strong><br>这个就实打实的说就好了.其中有一个项目提到了python,因此面试官问我python学的怎么样,可以来聊聊python,但是我就会基础,所以不了了之,简历上不熟的东西尽量少写.</p>
-<p>###2.现场面<br>现场面就没问很多基础问题了,主要是一些突发的问题,问了不少Linux的知识,自己又不是太熟,所以处于被虐状态…<br><strong>1.Linux的top命令</strong><br>不会,我说因为公司有运维,用服务器也就查看日志什么,自己不是很了解.<br>面试官说了一句话,说我们这是工程师和运维不分家的,一个好的工程师必然要了解代码是怎么运行的,也就需要对代码运行环境有很深的了解,这样才能写出优秀的代码,大概意思是这样的,感觉很有道理,自己Linux的服务器知识欠缺很多.<br><strong>2.Linux下怎么查看日志</strong><br>因为上面提到了自己用服务器查看日志,所以就直接被问了,博主说一般用cat命令配合grep来查看,或者使用VIM来查看,用tail -f查看实时日志,head查看开始日志等,然后被问了假设<strong>日志是10G大小,怎么快速找到自己想要的东西</strong>?这个问题想了一会,直接说不会….尴尬,后来提示用less命令,该命令不会全部加载文件.参考博文:<a href="http://www.cnblogs.com/aijianshi/p/5750911.html" target="_blank" rel="external">Linux下的more和less的使用</a><br><strong>3.爬取新浪微博用户,怎么判断该用户是否已经爬过</strong><br>博主说了数据量小的话使用Map集合或者Set集合,数据量多的话,就把某一个唯一字段设置为数据库主键,爬取的用户插入到数据库,去重交给数据库来做就好了.<br>接着面试官问如果不使用数据库呢?<br>博主想了想,就随口说爬取一部分用户后写入到文件,然后生成MD5摘要,这样每次写入文件后判断该摘要是否已存在,存在就不写入,牺牲时间,保证最终的结果重复性最低.现在想来还是有问题,爬取是随机的,所以导致生成摘要碰撞几率太低.可能多一个字符少一个字符就导致摘要不同.没想到好办法…<br><strong>4.在做项目中有没有什么取巧的经历?</strong><br>一时间还真想不到…就没答上来.<br><strong>5.在项目中遇到的难点</strong><br>博主说了自己写的集成微信,支付宝,银联,预付费卡的一个支付模块,主要讲了遇到问题怎么解决的,然后怎么封装的.<br><strong>6.关于代码洁癖举个例子</strong><br>博主简历上写自己有代码洁癖,所以就被问了这个,我举了前公司,也就第一家面试的,使用JPA的多表查询时候返回一个Objec[]数组,导致代码没法维护,并且重复代码太多,自己使用queryDSL,对公司代码进行了大面积的修改.</p>
-<p>本以为要挂了,最后说技术面过了,不知道是安慰我还是什么,接着是HR面,聊了聊公司现状,待遇问题等,最后也没说过还是不过等通知.因为现在时间点比较尴尬,我提出年后入职,也不知道可不可以….<strong>等消息中</strong><br>更新:<br>已收到offer,年后入职,这家公司效率真不错,接下来希望自己有所提高!</p>
-<hr>
-<h2 id="第一次面试2016-7"><a href="#第一次面试2016-7" class="headerlink" title="第一次面试2016.7"></a>第一次面试2016.7</h2><p>首先简历很重要,程序员不需要太花哨的简历,尽可能的展现出自己的特点就可以了,推荐下面简历,很不错的一个模板.<br><a href="https://github.com/penglongli/My-Resume" target="_blank" rel="external">https://github.com/penglongli/My-Resume</a></p>
-<p>第一次面试没有多紧张,可能对方是小公司吧,感觉很随意,面试就问了三个问题.<br><strong>1.谈一谈Java集合</strong><br>这种问题一般都很宽泛,博主就从List讲到Set再到Map这样的顺序来讲的,重点描述Arraylist,LinkedList,HashMap,TreeMap,最后再总结下什么样的场景用什么,算是回答好了.<br><strong>2.谈谈对Spring的理解.</strong><br>博主当时心里我哩个擦,又是这种宽泛的问题.但是还是微笑着回答Spring的核心是Ioc和AOP,其中Ioc是基于反射实现的,AOP是动态代理实现的,然后讲了从读取xml配置文件,实例化Spring容器,然后实例化Bean(这个过程挺复杂的,一会附上一张图),最后销毁Bean这一过程,结束.具体可以参考:<a href="http://blog.csdn.net/u013256816/article/details/51386182" target="_blank" rel="external">Spring知识点提炼</a><br><strong>3.自己项目中的问题.</strong><br>自己在学校接到过一个微信公众号的开发,问了怎么实现的,遇到的问题之类的.这种问题回答要表现出<strong>自己不是很了解的情况下是如何快速解决一个问题的能力</strong></p>
-<p>拿到offer,博主是比较安逸的人,薪资还不错就不继续再找工作了,其实应该多投几家的,才能选择最适合自己的.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;从2016.7来到上海后记录下自己的面试经历,希望能对其他人有所帮助,同时给自己一个提醒.&lt;/p&gt;
-&lt;h2 id=&quot;第二次面试2017-1&quot;&gt;&lt;a href=&quot;#第二次面试2017-1&quot; class=&quot;headerlink&quot; title=&quot;第二次面试2017.1&quot;&gt;&lt;/a&gt;
-    
-    </summary>
-    
-      <category term="经验" scheme="http://mrdear.cn/categories/%E7%BB%8F%E9%AA%8C/"/>
-    
-    
-      <category term="面试" scheme="http://mrdear.cn/tags/%E9%9D%A2%E8%AF%95/"/>
     
   </entry>
   
