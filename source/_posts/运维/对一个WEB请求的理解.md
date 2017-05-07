@@ -55,7 +55,7 @@ CDN又叫内容分布网络,一般用于静态资源如html,css,js的存储,简�
 - SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。
 HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.
 
-#### 3.乱码问题
+#### 4.乱码问题
 流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.
 以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding
 ``` xml
@@ -69,3 +69,17 @@ response.setCharacterEncoding(encoding);//设置返回信息编码
 ```
 Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.
 浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如`Content-Type: text/html;charset=UTF-8`,指定以UTF-8渲染该text/html返回.
+
+#### 5.几种域名解析
+域名解析记录主要分为：A 记录、MX记录、CNAME 记录、NS记录和 TXT记录
+- A记录：A 代表的是Address，用来指定域名对应的IP地址。域名可以多对一但是不能一对多。
+- MX记录：Mail Exchange,就是讲某个域名下的邮件服务器指向自己的Mail Server。
+- CNAME记录：别名解析。将一个域名设置一个或者多个别名。
+- NS记录：为某个域名指定DNS解析服务器。
+- TXT记录：为某个主机名或者域名设置文字说明。
+本站是托管于github的,主域名`mrdear.cn`是使用CNAME解析到`nl101531.github.io`的,二级域名`oj.mrdear.cn`和`md.mrdear.cn`都是使用A记录解析到对应主机的ip地址,到达主机后再使用Nginx进行不同的服务器转发.
+![](http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p)
+
+### 后记
+个人总结,如有错误请指出,以免误人子弟.
+
