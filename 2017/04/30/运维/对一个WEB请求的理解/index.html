@@ -96,7 +96,8 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
 URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p">
-<meta property="og:updated_time" content="2017-04-30T00:34:33.000Z">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p">
+<meta property="og:updated_time" content="2017-05-06T01:13:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对一个WEB请求的理解">
 <meta name="twitter:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
@@ -450,9 +451,18 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
 <li>在SSL握手阶段，客户端浏览器会认证服务器的身份，这是通过“证书”来实现的，证书由证书权威（CA）为某个域名签发，可以理解为网站的身份证件，客户端需要对这个证件进行认证，需要确定该证书是否属于目标网站并确认证书本身是否有效。最后在握手阶段，通信的双方还会协商出一个用于加密和解密的会话密钥。</li>
 <li>SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。<br>HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.</li>
 </ul>
-<h4 id="3-乱码问题"><a href="#3-乱码问题" class="headerlink" title="3.乱码问题"></a>3.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="4-乱码问题"><a href="#4-乱码问题" class="headerlink" title="4.乱码问题"></a>4.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
 <p>这里要保证不乱码,下一步tomcat建立了ServletRequest和ServletResponse,那么这里也有编码,一般是post表单或者request body乱码,那么就需要指定ServletRequest和ServletResponse的编码格式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(encoding);<span class="comment">//设置请求信息编码</span></div><div class="line">response.setCharacterEncoding(encoding);<span class="comment">//设置返回信息编码</span></div></pre></td></tr></table></figure></p>
 <p>Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.<br>浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如<code>Content-Type: text/html;charset=UTF-8</code>,指定以UTF-8渲染该text/html返回.</p>
+<h4 id="5-几种域名解析"><a href="#5-几种域名解析" class="headerlink" title="5.几种域名解析"></a>5.几种域名解析</h4><p>域名解析记录主要分为：A 记录、MX记录、CNAME 记录、NS记录和 TXT记录</p>
+<ul>
+<li>A记录：A 代表的是Address，用来指定域名对应的IP地址。域名可以多对一但是不能一对多。</li>
+<li>MX记录：Mail Exchange,就是讲某个域名下的邮件服务器指向自己的Mail Server。</li>
+<li>CNAME记录：别名解析。将一个域名设置一个或者多个别名。</li>
+<li>NS记录：为某个域名指定DNS解析服务器。</li>
+<li>TXT记录：为某个主机名或者域名设置文字说明。<br>本站是托管于github的,主域名<code>mrdear.cn</code>是使用CNAME解析到<code>nl101531.github.io</code>的,二级域名<code>oj.mrdear.cn</code>和<code>md.mrdear.cn</code>都是使用A记录解析到对应主机的ip地址,到达主机后再使用Nginx进行不同的服务器转发.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p" alt=""></li>
+</ul>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>个人总结,如有错误请指出,以免误人子弟.</p>
 
       
     </div>
@@ -521,6 +531,10 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/02/工具/Java中的序列化相关知识/" rel="prev" title="Java中序列化相关知识">
+                Java中序列化相关知识 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -594,7 +608,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -603,7 +617,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -612,7 +626,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -683,7 +697,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#URL解析"><span class="nav-text">URL解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS域名解析"><span class="nav-text">DNS域名解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器响应"><span class="nav-text">服务器响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器渲染"><span class="nav-text">浏览器渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录"><span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CDN网络"><span class="nav-text">1.CDN网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS劫持"><span class="nav-text">2.DNS劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-HTTPS"><span class="nav-text">3.HTTPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-乱码问题"><span class="nav-text">3.乱码问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#URL解析"><span class="nav-text">URL解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS域名解析"><span class="nav-text">DNS域名解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器响应"><span class="nav-text">服务器响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器渲染"><span class="nav-text">浏览器渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录"><span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CDN网络"><span class="nav-text">1.CDN网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS劫持"><span class="nav-text">2.DNS劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-HTTPS"><span class="nav-text">3.HTTPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-乱码问题"><span class="nav-text">4.乱码问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-几种域名解析"><span class="nav-text">5.几种域名解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>

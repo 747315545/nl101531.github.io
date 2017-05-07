@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docker," />
+  <meta name="keywords" content="jdk," />
 
 
 
@@ -86,39 +86,19 @@
 
 
 
-<meta name="description" content="Docker学习记录(一)-基本概念标签（空格分隔）： docker
-
-因为做的项目用到了docker,所以开始学习下这方面的知识.
-
-1.基本概念docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,">
+<meta name="description" content="今天线上遇到了DTO类实现了Serializable接口,但是其并没有显示声明serialVersionUID,这样的话每次打包有改动JDK就会为其重新生成serialVersionUID.这就带来了不同版本之间的实体类可能反序列化不成功,线上RPC调用出现了问题.那么就深入探讨一下原因.
+Serializable的作用看该类的JDK注释可以发现The serialization interfac">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker学习记录(一)-基本概念">
-<meta property="og:url" content="http://mrdear.cn/2017/03/10/docker/Docker学习记录(一)-基本概念/index.html">
+<meta property="og:title" content="Java中序列化相关知识">
+<meta property="og:url" content="http://mrdear.cn/2017/05/02/工具/Java中的序列化相关知识/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="Docker学习记录(一)-基本概念标签（空格分隔）： docker
-
-因为做的项目用到了docker,所以开始学习下这方面的知识.
-
-1.基本概念docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/sAxM3IuAIRznxVzOKQUSSmnVuh4KGub9bNLDN9P3.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/AK0TxhfaoaaJgUR6XLDAxWoiml1uNr5aEPyhOHkn.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/BgvivpB6bjf61IBPyswjjHCb5XfcYjvrpOS9sDNo.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/axr3cW667D3Awsul4QA0qnVlrx2OYsRz0QJel6yG.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/LGnffJHC3CQIrxAMdBqUr6YXQf4s4CRiMLkhzwzY.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/pGDCyoQUkK3vnLXFRasOUzpDyLFbprXFTghVbzLf.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/aYGJha5vP2SwSQUEHtlNmRBU67vXS8co5KTCMO75.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg">
-<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg">
-<meta property="og:updated_time" content="2017-04-02T02:12:44.000Z">
+<meta property="og:description" content="今天线上遇到了DTO类实现了Serializable接口,但是其并没有显示声明serialVersionUID,这样的话每次打包有改动JDK就会为其重新生成serialVersionUID.这就带来了不同版本之间的实体类可能反序列化不成功,线上RPC调用出现了问题.那么就深入探讨一下原因.
+Serializable的作用看该类的JDK注释可以发现The serialization interfac">
+<meta property="og:updated_time" content="2017-05-07T13:13:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker学习记录(一)-基本概念">
-<meta name="twitter:description" content="Docker学习记录(一)-基本概念标签（空格分隔）： docker
-
-因为做的项目用到了docker,所以开始学习下这方面的知识.
-
-1.基本概念docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,">
-<meta name="twitter:image" content="http://ac-HSNl7zbI.clouddn.com/sAxM3IuAIRznxVzOKQUSSmnVuh4KGub9bNLDN9P3.jpg">
+<meta name="twitter:title" content="Java中序列化相关知识">
+<meta name="twitter:description" content="今天线上遇到了DTO类实现了Serializable接口,但是其并没有显示声明serialVersionUID,这样的话每次打包有改动JDK就会为其重新生成serialVersionUID.这就带来了不同版本之间的实体类可能反序列化不成功,线上RPC调用出现了问题.那么就深入探讨一下原因.
+Serializable的作用看该类的JDK注释可以发现The serialization interfac">
 
 
 
@@ -146,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/2017/03/10/docker/Docker学习记录(一)-基本概念/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/05/02/工具/Java中的序列化相关知识/"/>
 
 
 
 
 
-  <title> Docker学习记录(一)-基本概念 | 屈定's Blog </title>
+  <title> Java中序列化相关知识 | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -333,7 +313,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/03/10/docker/Docker学习记录(一)-基本概念/">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/05/02/工具/Java中的序列化相关知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Niu li">
@@ -354,7 +334,7 @@
             
             
               
-                Docker学习记录(一)-基本概念
+                Java中序列化相关知识
               
             
           </h2>
@@ -369,8 +349,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-10T17:21:00+08:00">
-                2017-03-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T16:00:00+08:00">
+                2017-05-02
               </time>
             
 
@@ -392,8 +372,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/工作问题/" itemprop="url" rel="index">
+                    <span itemprop="name">工作问题</span>
                   </a>
                 </span>
 
@@ -410,7 +390,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/03/10/docker/Docker学习记录(一)-基本概念/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/05/02/工具/Java中的序列化相关知识/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -442,45 +422,14 @@
       
 
       
-        <h1 id="Docker学习记录-一-基本概念"><a href="#Docker学习记录-一-基本概念" class="headerlink" title="Docker学习记录(一)-基本概念"></a>Docker学习记录(一)-基本概念</h1><p>标签（空格分隔）： docker</p>
-<hr>
-<p>因为做的项目用到了docker,所以开始学习下这方面的知识.</p>
-<hr>
-<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p>docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.<br>docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.<br>docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,所以容器就是依赖镜像创建,同样一个类可以有多个实例,那么一个镜像也可以对应多个容器.<br>docker仓库:仓库是镜像市场,里面有别人建立好的Model类,也就是镜像,可以直接拿来使用.</p>
-<p>这样说应该很好理解了吧.</p>
-<p>因此创建一个helloworld的流程就和清晰了.<br>启动docker虚拟机-&gt;创建docker镜像(或者从仓库拉取)-&gt;创建docker容器(运行helloworld)-&gt;结束</p>
-<h2 id="2-docker虚拟机"><a href="#2-docker虚拟机" class="headerlink" title="2.docker虚拟机"></a>2.docker虚拟机</h2><p>首先docker安装后自带的虚拟机配置下载镜像又要GFW的原因速度很慢,一般使用<a href="https://cr.console.aliyun.com" target="_blank" rel="external">阿里云加速器</a>,登陆后找到加速器按照要求先创建一个新的docker主机,然后启动该主机.<br>这里要注意,阿里云给的命令是创建一个名字为default的主机,安装后自带了一个default,所以先运行<code>docker-machine rm default</code>删除默认主机.</p>
-<p>2.1新建主机<br><img src="http://ac-HSNl7zbI.clouddn.com/sAxM3IuAIRznxVzOKQUSSmnVuh4KGub9bNLDN9P3.jpg" alt=""></p>
-<p>2.2为当前shell配置环境<br><img src="http://ac-HSNl7zbI.clouddn.com/AK0TxhfaoaaJgUR6XLDAxWoiml1uNr5aEPyhOHkn.jpg" alt=""></p>
-<p>2.3验证<br><img src="http://ac-HSNl7zbI.clouddn.com/BgvivpB6bjf61IBPyswjjHCb5XfcYjvrpOS9sDNo.jpg" alt=""></p>
-<p>到此docker虚拟机创建完毕,这里需要掌握一些基本增删改查基本命令.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">docker-machine kill 停止某个Docker主机</div><div class="line">docker-machine ls 列出所有管理的Docker主机</div><div class="line">docker-machine regenerate-certs 为某个主机重新成功TLS认证信息</div><div class="line">docker-machine restart 重启Docker主机</div><div class="line">docker-machine rm 删除Docker主机</div><div class="line">docker-machine scp 在Docker主机之间复制文件</div><div class="line">docker-machine ssh SSH到主机上执行命令</div><div class="line">docker-machine start 启动一个主机</div><div class="line">docker-machine status 查看一个主机状态</div><div class="line">docker-machine stop 停止一个主机</div><div class="line">docker-machine upgrade 更新主机Docker版本为最新</div><div class="line">docker-machine url 获取主机的URL</div></pre></td></tr></table></figure></p>
-<h2 id="3-docker镜像"><a href="#3-docker镜像" class="headerlink" title="3.docker镜像"></a>3.docker镜像</h2><p>使用<code>docker images</code>可以列出机器上所有的docker镜像.<br><img src="http://ac-HSNl7zbI.clouddn.com/axr3cW667D3Awsul4QA0qnVlrx2OYsRz0QJel6yG.jpg" alt=""></p>
-<p>其中:<br>REPOSTITORY：表示镜像的仓库源<br>TAG：镜像的标签<br>IMAGE ID：镜像ID<br>CREATED：镜像创建时间<br>SIZE：镜像大小</p>
-<p>使用<code>docker search 镜像名</code>查找某一镜像,例如查找hello world,可以看到带有OFFICIAL的为官方提供的镜像.<br><img src="http://ac-HSNl7zbI.clouddn.com/LGnffJHC3CQIrxAMdBqUr6YXQf4s4CRiMLkhzwzY.jpg" alt=""></p>
-<p>使用<code>docker pull 镜像名</code>获取一个镜像,这里获取hello world,另外镜像后可以跟版本号,例如<code>docker pull redis:3.2</code>,就指定拉去redis3.2版本<br><img src="http://ac-HSNl7zbI.clouddn.com/pGDCyoQUkK3vnLXFRasOUzpDyLFbprXFTghVbzLf.jpg" alt=""></p>
-<p>使用<code>docker run 镜像名</code>从该镜像启动一个实例.</p>
-<p>常见命令,另外对于docker镜像的创建和运行比较重要,后续文章单独学习分析.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">docker inspect 查看镜像详情</div><div class="line">docker rmi 删除镜像,带上-f参数则强制删除</div><div class="line">docker save 导出镜像</div><div class="line">docker load 导入镜像</div><div class="line">docker push 上传镜像到仓库</div><div class="line">docker tag 给镜像设置标签</div></pre></td></tr></table></figure></p>
-<h2 id="4-docker容器"><a href="#4-docker容器" class="headerlink" title="4.docker容器"></a>4.docker容器</h2><p>容器是应用的实例,使用<code>docker create</code>创建一个容器,使用<code>docker start</code>启动一个容器,另一个简单方式就是<code>docker run</code>,等价于先创建再启动.</p>
-<p>那么使用<code>docker run</code>的时候后台做了哪些操作?</p>
-<ol>
-<li>查找是否存在指定镜像,不存在则从公有仓库下载</li>
-<li>利用镜像创建并启动一个容器</li>
-<li>分配一个文件系统,在只读的镜像层外面挂载一层可读写层</li>
-<li>从宿主主机配置的网桥接口中桥接一个虚拟接到容器中去</li>
-<li>从地址池配置一个ip地址给容器</li>
-<li>执行用户指定应用程序</li>
-<li>执行完毕后容器被终止</li>
-</ol>
-<p>使用<code>docker ps -a</code>查看最近启动的容器<br><img src="http://ac-HSNl7zbI.clouddn.com/aYGJha5vP2SwSQUEHtlNmRBU67vXS8co5KTCMO75.jpg" alt=""></p>
-<p>使用<code>docker rm</code>删除容器,清理完毕后再删除hello world镜像.</p>
-<p>下面使用redis镜像实战整个流程,并学习容器常用命令.</p>
-<h2 id="5-创建redis镜像"><a href="#5-创建redis镜像" class="headerlink" title="5.创建redis镜像"></a>5.创建redis镜像</h2><p>有了helloworld经历,这里流程就很清晰了,搜索镜像-&gt;拉去镜像-&gt;创建实例-&gt;连接交互<br><img src="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg" alt=""></p>
-<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射,该参数可以使得容器端口和主机端口相互映射</div></pre></td></tr></table></figure></p>
-<p>首先使用-d -p参数,可以看到redis跑在了后台.<br><img src="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg" alt=""></p>
-<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768,如果想用主机地址访问的话,就需要-p参数加上主机端口映射了</p>
-<p><strong>进入容器</strong><br>使用<code>docker exec</code>命令可以进入容器内部,参数和run的参数作用相同.</p>
-<p><img src="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg" alt=""></p>
-<p>其他命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">docker stop 停止一个容器</div><div class="line">docker rm 删除一个容器</div><div class="line">docker import 导入一个容器</div><div class="line">docker export 导出一个容器</div></pre></td></tr></table></figure></p>
+        <p>今天线上遇到了DTO类实现了<code>Serializable</code>接口,但是其并没有显示声明<code>serialVersionUID</code>,这样的话每次打包有改动JDK就会为其重新生成<code>serialVersionUID</code>.这就带来了不同版本之间的实体类可能反序列化不成功,线上RPC调用出现了问题.那么就深入探讨一下原因.</p>
+<h3 id="Serializable的作用"><a href="#Serializable的作用" class="headerlink" title="Serializable的作用"></a>Serializable的作用</h3><p>看该类的JDK注释可以发现<code>The serialization interface has no methods or fields and serves only to identify the semantics of being serializable.</code>也就是说Serializable是一个标识接口,和<code>Cloneable</code>接口等一样的效果.<br>如下面的User类,实现了序列化接口,并使用<code>serialVersionUID</code>标识其序列化对应的ID序号.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">5768430629641297769L</span>;</div><div class="line">  <span class="keyword">private</span> String nickname;</div><div class="line">  <span class="keyword">private</span> String passwd;</div><div class="line">  <span class="comment">//省略get和set</span></div></pre></td></tr></table></figure></p>
+<h3 id="如何序列化"><a href="#如何序列化" class="headerlink" title="如何序列化"></a>如何序列化</h3><p><code>java.io.ObjectOutputStream</code>代表对象输出流,其使用writeObject()方法把对象实例转换为字节流然后写入到文件,或者用于网络传输.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testWriteObj</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">  User userDO = <span class="keyword">new</span> User();</div><div class="line">  userDO.setNickname(<span class="string">"屈定"</span>);</div><div class="line">  userDO.setPasswd(<span class="string">"123456"</span>);</div><div class="line">  File file = <span class="keyword">new</span> File(<span class="string">"user.out"</span>);</div><div class="line">  ObjectOutputStream outputStream = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(file));</div><div class="line">  outputStream.writeObject(userDO);<span class="comment">//序列化写入到文件中.</span></div><div class="line">  outputStream.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="如何反序列化"><a href="#如何反序列化" class="headerlink" title="如何反序列化"></a>如何反序列化</h3><p><code>java.io.ObjectInputStream</code>代表对象输入流,其使用readObject()方法读取序列化的字节,然后再转换为对象.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testReadObj</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</div><div class="line">  File file = <span class="keyword">new</span> File(base+File.separator+<span class="string">"user.out"</span>);</div><div class="line">  ObjectInputStream inputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(file));</div><div class="line">  User user = (User) inputStream.readObject();</div><div class="line">  Assert.assertTrue(StringUtils.equals(user.getNickname(),<span class="string">"屈定"</span>));</div><div class="line">  Assert.assertTrue(StringUtils.equals(user.getPasswd(),<span class="string">"123456"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="serialVersionUID的作用"><a href="#serialVersionUID的作用" class="headerlink" title="serialVersionUID的作用"></a>serialVersionUID的作用</h3><p>按照上面代码,序列化和反序列化都是成功的,如果在已经序列化后,对User要作修改,增加一个email字段,再试试反序列化.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">5768430629641297769L</span>;</div><div class="line">    <span class="keyword">private</span> String nickname;</div><div class="line">    <span class="keyword">private</span> String passwd;</div><div class="line">    <span class="keyword">private</span> String email;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>程序会正常运行,而且这个email会被很智能的初始化为null.<br>修改<code>serialVersionUID</code>为1L再试试.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.io.InvalidClassException: cn.edu.aust.test.ObjectTest$User; local class incompatible: stream classdesc serialVersionUID = 5768430629641297769, local class serialVersionUID = 1</div></pre></td></tr></table></figure></p>
+<p>报错很明显,两边类的<code>serialVersionUID</code>不一样,也就是说对于编译好的class,其<code>serialVersionUID</code>是其序列化的唯一标识,如果未显示声明JDK则会自动为其加上,可以使用命令<code>seriserialver</code>可以查看一个class文件的<code>serialVersionUID</code>,当线上版本忘记加该字段的时候该命令还是很有用处的.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">seriserialver cn.edu.aust.test.ObjectTest\<span class="variable">$User</span> </div><div class="line">cn.edu.aust.test.ObjectTest<span class="variable">$User</span>:    private static final long serialVersionUID = 1L;</div></pre></td></tr></table></figure></p>
+<h3 id="transient的作用"><a href="#transient的作用" class="headerlink" title="transient的作用"></a>transient的作用</h3><p>transient翻译为瞬时,也就是被其修饰的变量序列化时会忽略该字段.什么时候需要用到这个字段呢?<br>在Java中对象之间的关系会组成一个对象图,序列化的过程是对该对象图的遍历,那么反序列化也仍然是对该对象图的遍历.对于对象里面的对象就是递归过程,对于链表之类的数据结构递归的话很容易引起栈溢出,那么就可以使用<code>transient</code>忽略该字段.</p>
 
       
     </div>
@@ -525,7 +474,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"># docker</a>
+            <a href="/tags/jdk/" rel="tag"># jdk</a>
           
         </div>
       
@@ -538,8 +487,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/10/毕业设计/毕业设计周记(一)/" rel="next" title="毕业设计周记(一)">
-                <i class="fa fa-chevron-left"></i> 毕业设计周记(一)
+              <a href="/2017/04/30/运维/对一个WEB请求的理解/" rel="next" title="对一个WEB请求的理解">
+                <i class="fa fa-chevron-left"></i> 对一个WEB请求的理解
               </a>
             
           </div>
@@ -547,10 +496,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/10/docker/Docker学习记录(二)-Dockerfile创建镜像/" rel="prev" title="Docker学习记录(二)-Dockerfile创建镜像">
-                Docker学习记录(二)-Dockerfile创建镜像 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -713,7 +658,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker学习记录-一-基本概念"><span class="nav-text">Docker学习记录(一)-基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本概念"><span class="nav-text">1.基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-docker虚拟机"><span class="nav-text">2.docker虚拟机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-docker镜像"><span class="nav-text">3.docker镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-docker容器"><span class="nav-text">4.docker容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-创建redis镜像"><span class="nav-text">5.创建redis镜像</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable的作用"><span class="nav-text">Serializable的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何序列化"><span class="nav-text">如何序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何反序列化"><span class="nav-text">如何反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#serialVersionUID的作用"><span class="nav-text">serialVersionUID的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transient的作用"><span class="nav-text">transient的作用</span></a></li></ol></div>
             
 
           </div>
