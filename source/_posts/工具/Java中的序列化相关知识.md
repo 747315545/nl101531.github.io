@@ -1,5 +1,5 @@
 ---
-title: Java中的serialVersionUID
+title: Java中序列化相关知识
 tags:
   - jdk      
 categories: 工作问题
