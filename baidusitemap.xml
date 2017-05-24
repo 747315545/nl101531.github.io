@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>http://mrdear.cn/2017/05/20/java/Java8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Stream%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2017-05-24T03:05:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java8学习记录(二)-Stream原理</title>
+        <pubTime>2017-05-20T11:06:51.000Z</pubTime>
+        
+        <tag>java8</tag>
+         
+         
+           
+             
+              <breadCrumb title="java" url="http://mrdear.cn/categories/java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://mrdear.cn/2017/05/22/web/WEB%E5%B0%8F%E7%9F%A5%E8%AF%86-HTTP%E8%AF%B7%E6%B1%82%E5%AF%B9+%E5%92%8C&%E7%9A%84%E5%A4%84%E7%90%86/</loc>
+    <lastmod>2017-05-22T15:59:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>WEB小知识-HTTP请求对+和&的处理</title>
+        <pubTime>2017-05-22T14:18:00.000Z</pubTime>
+        
+        <tag>bug</tag>
+         
+         
+           
+             
+              <breadCrumb title="web" url="http://mrdear.cn/categories/web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://mrdear.cn/2017/05/18/java/Java8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)-%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/</loc>
     <lastmod>2017-05-20T10:47:52.000Z</lastmod>
     <data>

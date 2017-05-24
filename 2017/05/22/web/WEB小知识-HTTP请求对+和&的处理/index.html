@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="IT小生" />
+  <meta name="keywords" content="bug," />
 
 
 
@@ -86,15 +86,28 @@
 
 
 
-<meta name="description" content="change from today">
-<meta property="og:type" content="website">
-<meta property="og:title" content="屈定's Blog">
-<meta property="og:url" content="http://mrdear.cn/archives/page/3/index.html">
+<meta name="description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.
+
+对于+号会被编码为空格对于&amp;amp;也会被编码成空格
+
+举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB小知识-HTTP请求对+和&的处理">
+<meta property="og:url" content="http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&的处理/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="change from today">
+<meta property="og:description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.
+
+对于+号会被编码为空格对于&amp;amp;也会被编码成空格
+
+举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta property="og:updated_time" content="2017-05-22T15:59:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="屈定's Blog">
-<meta name="twitter:description" content="change from today">
+<meta name="twitter:title" content="WEB小知识-HTTP请求对+和&的处理">
+<meta name="twitter:description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.
+
+对于+号会被编码为空格对于&amp;amp;也会被编码成空格
+
+举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
 
 
 
@@ -122,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/archives/page/3/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&的处理/"/>
 
 
 
 
 
-  <title> 归档 | 屈定's Blog </title>
+  <title> WEB小知识-HTTP请求对+和&的处理 | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -163,7 +176,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -299,255 +312,215 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 26 篇日志。 继续努力。
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&的处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Niu li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="屈定's Blog">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                WEB小知识-HTTP请求对+和&的处理
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-22T22:18:00+08:00">
+                2017-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/05/22/web/WEB小知识-HTTP请求对+和&的处理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p>在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.</p>
+<blockquote>
+<p>对于<code>+</code>号会被编码为空格<br>对于<code>&amp;</code>也会被编码成空格</p>
+</blockquote>
+<p>举个例子,需要向服务端提交如下代码:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> a,b;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编码后的内容如下,可以发现<code>a+b</code>被转换成了<code>a b</code>导致服务端接收到后编译失败.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#include%20%3Ciostream%3E%0A%0Ausing%20namespace%20std;</div><div class="line">%0A%0Aint%20main()%0A%7B%0A%20%20%20%20int%20a,b;</div><div class="line">%0A%20%20%20%20cin%20%3E%3E%20a%20%3E%3E%20b;</div><div class="line">%0A%20%20%20%20cout%20%3C%3C%20a b%20%3C%3C%20endl;</div><div class="line">%0A%20%20%20%20return%200;%0A%7D</div></pre></td></tr></table></figure></p>
+<h3 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h3><p>使用函数<code>encodeURIComponent()</code>,该函数会把特殊字符都给转义,转义结果如下面所示,可见<code>a+b</code>转换成了<code>a%2Bb</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%<span class="number">23</span>include%<span class="number">20</span>%<span class="number">3</span>Ciostream%<span class="number">3</span>E%<span class="number">0</span>A%<span class="number">0</span>Ausing%<span class="number">20</span>namespace%<span class="number">20</span>std%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">0</span>Aint%<span class="number">20</span>main()%<span class="number">0</span>A%<span class="number">7</span>B%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span><span class="keyword">int</span>%<span class="number">20</span>a%<span class="number">2</span>Cb%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cin%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>a%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>b%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cout%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>a%<span class="number">2</span>Bb%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>endl%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>return%<span class="number">200</span>%<span class="number">3</span>B%<span class="number">0</span>A%<span class="number">7</span>D</div></pre></td></tr></table></figure></p>
+<p>服务端需要使用<code>URLDecoder</code>对其进行反转义,该问题到此解决.</p>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/image/wechatpay.png" alt="Niu li WeChat Pay"/>
+          <p>微信打赏</p>
         </div>
       
       
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/image/alipay.png" alt="Niu li Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
+    </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
 
-      <h2 class="post-title">
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/bug/" rel="tag"># bug</a>
+          
+        </div>
+      
+
+      
         
-            <a class="post-title-link" href="/2017/03/10/docker/Docker学习记录(一)-基本概念/" itemprop="url">
-              
-                <span itemprop="name">Docker学习记录(一)-基本概念</span>
-              
-            </a>
-        
-      </h2>
+      
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-10T17:21:00+08:00"
-              content="2017-03-10" >
-          03-10
-        </time>
-      </div>
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/20/java/Java8学习记录(二)-Stream原理/" rel="next" title="Java8学习记录(二)-Stream原理">
+                <i class="fa fa-chevron-left"></i> Java8学习记录(二)-Stream原理
+              </a>
+            
+          </div>
 
-    </header>
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/10/毕业设计/毕业设计周记(一)/" itemprop="url">
-              
-                <span itemprop="name">毕业设计周记(一)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-10T09:50:00+08:00"
-              content="2017-03-10" >
-          03-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/09/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-09T00:00:00+08:00"
-              content="2017-03-09" >
-          03-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/28/随谈/工作经验(持续更新)/" itemprop="url">
-              
-                <span itemprop="name">工作经验</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-28T09:50:00+08:00"
-              content="2017-02-28" >
-          02-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/01/随谈/如何学习一门新技术/" itemprop="url">
-              
-                <span itemprop="name">如何学习一门新技术</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-01T10:37:00+08:00"
-              content="2017-02-01" >
-          02-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/10/随谈/面经/" itemprop="url">
-              
-                <span itemprop="name">面经</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-10T09:50:00+08:00"
-              content="2017-01-10" >
-          01-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
-
-
+    </div>
+  </div>
 
           
           </div>
@@ -555,6 +528,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
 
         </div>
         
@@ -574,8 +553,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
@@ -669,6 +657,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-问题"><span class="nav-text">1.问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解决方案"><span class="nav-text">2.解决方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -790,11 +794,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
 
 
   

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="毕业设计," />
+  <meta name="keywords" content="java8," />
 
 
 
@@ -86,19 +86,33 @@
 
 
 
-<meta name="description" content="写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.
-修改数据库模型后代码不少地方重新写了下,耽误">
+<meta name="description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
+
+作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
+
+操作如何记录?操作的记录用的是双向链表,那么这个链表是怎么建立的呢?类: AbstractPipeline是整个调用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="毕业设计周记(八)">
-<meta property="og:url" content="http://mrdear.cn/2017/04/29/毕业设计/毕业设计周记(八)/index.html">
+<meta property="og:title" content="Java8学习记录(二)-Stream原理">
+<meta property="og:url" content="http://mrdear.cn/2017/05/20/java/Java8学习记录(二)-Stream原理/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.
-修改数据库模型后代码不少地方重新写了下,耽误">
-<meta property="og:updated_time" content="2017-04-29T11:08:50.000Z">
+<meta property="og:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
+
+作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
+
+操作如何记录?操作的记录用的是双向链表,那么这个链表是怎么建立的呢?类: AbstractPipeline是整个调用">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1495593370.png?imageMogr2/thumbnail/!70p">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1495594524.png?imageMogr2/thumbnail/!70p">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1495594311.png?imageMogr2/thumbnail/!70p">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1495594563.png?imageMogr2/thumbnail/!70p">
+<meta property="og:updated_time" content="2017-05-24T03:05:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="毕业设计周记(八)">
-<meta name="twitter:description" content="写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.
-修改数据库模型后代码不少地方重新写了下,耽误">
+<meta name="twitter:title" content="Java8学习记录(二)-Stream原理">
+<meta name="twitter:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
+
+作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
+
+操作如何记录?操作的记录用的是双向链表,那么这个链表是怎么建立的呢?类: AbstractPipeline是整个调用">
+<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1495593370.png?imageMogr2/thumbnail/!70p">
 
 
 
@@ -126,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/2017/04/29/毕业设计/毕业设计周记(八)/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/05/20/java/Java8学习记录(二)-Stream原理/"/>
 
 
 
 
 
-  <title> 毕业设计周记(八) | 屈定's Blog </title>
+  <title> Java8学习记录(二)-Stream原理 | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -313,7 +327,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/04/29/毕业设计/毕业设计周记(八)/">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/05/20/java/Java8学习记录(二)-Stream原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Niu li">
@@ -334,7 +348,7 @@
             
             
               
-                毕业设计周记(八)
+                Java8学习记录(二)-Stream原理
               
             
           </h2>
@@ -349,8 +363,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-29T18:00:00+08:00">
-                2017-04-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-20T19:06:51+08:00">
+                2017-05-20
               </time>
             
 
@@ -372,8 +386,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随谈/" itemprop="url" rel="index">
-                    <span itemprop="name">随谈</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -390,7 +404,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/04/29/毕业设计/毕业设计周记(八)/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/05/20/java/Java8学习记录(二)-Stream原理/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -422,14 +436,18 @@
       
 
       
-        <p>写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.</p>
-<p>修改数据库模型后代码不少地方重新写了下,耽误了点时间,五一期间仍然是写毕业论文.</p>
-<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
-<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
-<p>测试账号: 1015315668@qq.com<br>          111111</p>
-<p>等待完成:</p>
-<p>1.毕业论文</p>
+        <p>推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.</p>
+<blockquote>
+<p>作者: 李豪<br>地址: <a href="https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md" target="_blank" rel="external">https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md</a></p>
+</blockquote>
+<h3 id="操作如何记录"><a href="#操作如何记录" class="headerlink" title="操作如何记录?"></a>操作如何记录?</h3><p>操作的记录用的是双向链表,那么这个链表是怎么建立的呢?<br>类: <code>AbstractPipeline</code>是整个调用链建立的核心类,其含有成员变量<code>sourceStage(调用起始点)</code>,<code>previousStage(上一个调用)</code>,<code>nextStage(下一个调用)</code>,再看其构造函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">AbstractPipeline(AbstractPipeline&lt;?, E_IN, ?&gt; previousStage, <span class="keyword">int</span> opFlags) &#123;</div><div class="line">     <span class="keyword">if</span> (previousStage.linkedOrConsumed)</div><div class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(MSG_STREAM_LINKED);</div><div class="line">    <span class="comment">//previousStage为上一次调用,那么他的下一次调用则是当前的this</span></div><div class="line">     previousStage.linkedOrConsumed = <span class="keyword">true</span>;</div><div class="line">     previousStage.nextStage = <span class="keyword">this</span>;</div><div class="line">     <span class="comment">//当前this的上一次调用为previousStage</span></div><div class="line">     <span class="keyword">this</span>.previousStage = previousStage;</div><div class="line">     <span class="keyword">this</span>.sourceOrOpFlags = opFlags &amp; StreamOpFlag.OP_MASK;</div><div class="line">     <span class="keyword">this</span>.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);</div><div class="line">     <span class="comment">//调用起始点都是同一个</span></div><div class="line">     <span class="keyword">this</span>.sourceStage = previousStage.sourceStage;</div><div class="line">     <span class="keyword">if</span> (opIsStateful())</div><div class="line">         sourceStage.sourceAnyStateful = <span class="keyword">true</span>;</div><div class="line">     <span class="keyword">this</span>.depth = previousStage.depth + <span class="number">1</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>每一次操作都会建立一个新的Stream,传入上一个Stream,调用上方构造函数初始化,进而形成双向链表.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">StatelessOp(AbstractPipeline&lt;?, E_IN, ?&gt; upstream,</div><div class="line">                 StreamShape inputShape,</div><div class="line">                 <span class="keyword">int</span> opFlags) &#123;</div><div class="line">         <span class="keyword">super</span>(upstream, opFlags);</div><div class="line">         <span class="keyword">assert</span> upstream.getOutputShape() == inputShape;</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="操作如何叠加"><a href="#操作如何叠加" class="headerlink" title="操作如何叠加"></a>操作如何叠加</h3><p>如原文所说,以filter方法为例,调用该方法会产生一个StatelessOp对象,也就是AbstractPipeline的子类,其方法<code>opWrapSink</code>很关键,产生一个<code>Sink</code>对象,在自身<code>accept(t)</code>方法处理自身逻辑,得到的结果传递给下游的stream<code>downstream.accept(u);</code>,也就是博主所说的<strong>处理/转发模式</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Stream&lt;P_OUT&gt; <span class="title">filter</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> P_OUT&gt; predicate)</span> </span>&#123;</div><div class="line">      Objects.requireNonNull(predicate);</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> StatelessOp&lt;P_OUT, P_OUT&gt;(<span class="keyword">this</span>, StreamShape.REFERENCE,</div><div class="line">                                   StreamOpFlag.NOT_SIZED) &#123;</div><div class="line">          <span class="meta">@Override</span></div><div class="line">          <span class="function">Sink&lt;P_OUT&gt; <span class="title">opWrapSink</span><span class="params">(<span class="keyword">int</span> flags, Sink&lt;P_OUT&gt; sink)</span> </span>&#123;</div><div class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Sink.ChainedReference&lt;P_OUT, P_OUT&gt;(sink) &#123;</div><div class="line">                  <span class="meta">@Override</span></div><div class="line">                  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">begin</span><span class="params">(<span class="keyword">long</span> size)</span> </span>&#123;</div><div class="line">                      downstream.begin(-<span class="number">1</span>);</div><div class="line">                  &#125;</div><div class="line">                  <span class="meta">@Override</span></div><div class="line">                  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(P_OUT u)</span> </span>&#123;</div><div class="line">                      <span class="keyword">if</span> (predicate.test(u))</div><div class="line">                          downstream.accept(u);</div><div class="line">                  &#125;</div><div class="line">              &#125;;</div><div class="line">          &#125;</div><div class="line">      &#125;;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="叠加之后的操作如何执行"><a href="#叠加之后的操作如何执行" class="headerlink" title="叠加之后的操作如何执行"></a>叠加之后的操作如何执行</h3><p>首先操作都在Sink中,操作的叠加已经没问题了,那问题就是怎么把这些操作连起来,形成一个单项的调用链.如下图所示,我们所期望的调用关系是从filter.sink开始的单链表.但是当操作到<code>sorted()</code>的时候我们只能得到<code>sort.sink</code>,无法得知上游信息,所以这个单链表的建立还需要其他方案.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495593370.png?imageMogr2/thumbnail/!70p" alt=""><br>该调用单链表的建立是使用<code>wrapSink</code>方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> &lt;P_IN&gt; <span class="function">Sink&lt;P_IN&gt; <span class="title">wrapSink</span><span class="params">(Sink&lt;E_OUT&gt; sink)</span> </span>&#123;</div><div class="line">     Objects.requireNonNull(sink);</div><div class="line">     <span class="comment">//该循环体,从终端stage往前迭代,到最后形成的sink对象就是filter.sink</span></div><div class="line">     <span class="keyword">for</span> ( <span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>) AbstractPipeline p=AbstractPipeline.<span class="keyword">this</span>; p.depth &gt; <span class="number">0</span>; p=p.previousStage) &#123;</div><div class="line">         sink = p.opWrapSink(p.previousStage.combinedFlags, sink);</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">return</span> (Sink&lt;P_IN&gt;) sink;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>该方法从终端操作往前迭代,最终形成的sink就是如单链表结构,此时的sink对象就是filter.sink,并且其还指向map.sink.</p>
+<p>现在拿到了调用链式,接下来就是想办法在一次循环遍历中执行全部操作.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">final</span> &lt;P_IN&gt; <span class="function"><span class="keyword">void</span> <span class="title">copyInto</span><span class="params">(Sink&lt;P_IN&gt; wrappedSink, Spliterator&lt;P_IN&gt; spliterator)</span> </span>&#123;</div><div class="line">    Objects.requireNonNull(wrappedSink);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) &#123;</div><div class="line">        <span class="comment">//调用begin方法准备容器</span></div><div class="line">        wrappedSink.begin(spliterator.getExactSizeIfKnown());</div><div class="line">        <span class="comment">//对sink迭代</span></div><div class="line">        spliterator.forEachRemaining(wrappedSink);</div><div class="line">        <span class="comment">//终端操作</span></div><div class="line">        wrappedSink.end();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        copyIntoWithCancel(wrappedSink, spliterator);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时的wrappedSink对象是一个完整的调用链,那么对于<code>spliterator.forEachRemaining(wrappedSink);</code>的执行就是对每一个元素在调用链上走一遍的流程.这三行代码可以用下图表示<br>begin<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495594524.png?imageMogr2/thumbnail/!70p" alt=""><br>accept<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495594311.png?imageMogr2/thumbnail/!70p" alt=""><br>end<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495594563.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h3 id="执行后的结果在哪里"><a href="#执行后的结果在哪里" class="headerlink" title="执行后的结果在哪里"></a>执行后的结果在哪里</h3><p>即终端操作所提供的容器中.</p>
 
       
     </div>
@@ -474,7 +492,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/毕业设计/" rel="tag"># 毕业设计</a>
+            <a href="/tags/java8/" rel="tag"># java8</a>
           
         </div>
       
@@ -487,8 +505,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/24/毕业设计/毕业设计周记(七)/" rel="next" title="毕业设计周记(七)">
-                <i class="fa fa-chevron-left"></i> 毕业设计周记(七)
+              <a href="/2017/05/18/java/Java8学习记录(一)-函数式接口/" rel="next" title="Java8学习记录(一)-函数式接口">
+                <i class="fa fa-chevron-left"></i> Java8学习记录(一)-函数式接口
               </a>
             
           </div>
@@ -497,8 +515,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/30/运维/对一个WEB请求的理解/" rel="prev" title="对一个WEB请求的理解">
-                对一个WEB请求的理解 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/22/web/WEB小知识-HTTP请求对+和&的处理/" rel="prev" title="WEB小知识-HTTP请求对+和&的处理">
+                WEB小知识-HTTP请求对+和&的处理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -548,8 +566,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
@@ -643,6 +670,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作如何记录"><span class="nav-text">操作如何记录?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作如何叠加"><span class="nav-text">操作如何叠加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#叠加之后的操作如何执行"><span class="nav-text">叠加之后的操作如何执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行后的结果在哪里"><span class="nav-text">执行后的结果在哪里</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

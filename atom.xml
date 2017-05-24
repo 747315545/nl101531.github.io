@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-05-20T10:47:52.000Z</updated>
+  <updated>2017-05-22T15:59:25.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,73 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WEB小知识-HTTP请求对+和&amp;的处理</title>
+    <link href="http://mrdear.cn/2017/05/22/web/WEB%E5%B0%8F%E7%9F%A5%E8%AF%86-HTTP%E8%AF%B7%E6%B1%82%E5%AF%B9+%E5%92%8C&amp;%E7%9A%84%E5%A4%84%E7%90%86/"/>
+    <id>http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&amp;的处理/</id>
+    <published>2017-05-22T14:18:00.000Z</published>
+    <updated>2017-05-22T15:59:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p>在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.</p>
+<blockquote>
+<p>对于<code>+</code>号会被编码为空格<br>对于<code>&amp;</code>也会被编码成空格</p>
+</blockquote>
+<p>举个例子,需要向服务端提交如下代码:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> a,b;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编码后的内容如下,可以发现<code>a+b</code>被转换成了<code>a b</code>导致服务端接收到后编译失败.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#include%20%3Ciostream%3E%0A%0Ausing%20namespace%20std;</div><div class="line">%0A%0Aint%20main()%0A%7B%0A%20%20%20%20int%20a,b;</div><div class="line">%0A%20%20%20%20cin%20%3E%3E%20a%20%3E%3E%20b;</div><div class="line">%0A%20%20%20%20cout%20%3C%3C%20a b%20%3C%3C%20endl;</div><div class="line">%0A%20%20%20%20return%200;%0A%7D</div></pre></td></tr></table></figure></p>
+<h3 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h3><p>使用函数<code>encodeURIComponent()</code>,该函数会把特殊字符都给转义,转义结果如下面所示,可见<code>a+b</code>转换成了<code>a%2Bb</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%<span class="number">23</span>include%<span class="number">20</span>%<span class="number">3</span>Ciostream%<span class="number">3</span>E%<span class="number">0</span>A%<span class="number">0</span>Ausing%<span class="number">20</span>namespace%<span class="number">20</span>std%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">0</span>Aint%<span class="number">20</span>main()%<span class="number">0</span>A%<span class="number">7</span>B%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span><span class="keyword">int</span>%<span class="number">20</span>a%<span class="number">2</span>Cb%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cin%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>a%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>b%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cout%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>a%<span class="number">2</span>Bb%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>endl%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>return%<span class="number">200</span>%<span class="number">3</span>B%<span class="number">0</span>A%<span class="number">7</span>D</div></pre></td></tr></table></figure></p>
+<p>服务端需要使用<code>URLDecoder</code>对其进行反转义,该问题到此解决.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-问题&quot;&gt;&lt;a href=&quot;#1-问题&quot; class=&quot;headerlink&quot; title=&quot;1.问题&quot;&gt;&lt;/a&gt;1.问题&lt;/h3&gt;&lt;p&gt;在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.&lt;/p&gt;
+&lt;blockquote&gt;
+    
+    </summary>
+    
+      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
+    
+    
+      <category term="bug" scheme="http://mrdear.cn/tags/bug/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java8学习记录(二)-Stream原理</title>
+    <link href="http://mrdear.cn/2017/05/20/java/Java8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Stream%E5%8E%9F%E7%90%86/"/>
+    <id>http://mrdear.cn/2017/05/20/java/Java8学习记录(二)-Stream原理/</id>
+    <published>2017-05-20T11:06:51.000Z</published>
+    <updated>2017-05-24T03:05:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.</p>
+<blockquote>
+<p>作者: 李豪<br>地址: <a href="https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md" target="_blank" rel="external">https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md</a></p>
+</blockquote>
+<h3 id="操作如何记录"><a href="#操作如何记录" class="headerlink" title="操作如何记录?"></a>操作如何记录?</h3><p>操作的记录用的是双向链表,那么这个链表是怎么建立的呢?<br>类: <code>AbstractPipeline</code>是整个调用链建立的核心类,其含有成员变量<code>sourceStage(调用起始点)</code>,<code>previousStage(上一个调用)</code>,<code>nextStage(下一个调用)</code>,再看其构造函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">AbstractPipeline(AbstractPipeline&lt;?, E_IN, ?&gt; previousStage, <span class="keyword">int</span> opFlags) &#123;</div><div class="line">     <span class="keyword">if</span> (previousStage.linkedOrConsumed)</div><div class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(MSG_STREAM_LINKED);</div><div class="line">    <span class="comment">//previousStage为上一次调用,那么他的下一次调用则是当前的this</span></div><div class="line">     previousStage.linkedOrConsumed = <span class="keyword">true</span>;</div><div class="line">     previousStage.nextStage = <span class="keyword">this</span>;</div><div class="line">     <span class="comment">//当前this的上一次调用为previousStage</span></div><div class="line">     <span class="keyword">this</span>.previousStage = previousStage;</div><div class="line">     <span class="keyword">this</span>.sourceOrOpFlags = opFlags &amp; StreamOpFlag.OP_MASK;</div><div class="line">     <span class="keyword">this</span>.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);</div><div class="line">     <span class="comment">//调用起始点都是同一个</span></div><div class="line">     <span class="keyword">this</span>.sourceStage = previousStage.sourceStage;</div><div class="line">     <span class="keyword">if</span> (opIsStateful())</div><div class="line">         sourceStage.sourceAnyStateful = <span class="keyword">true</span>;</div><div class="line">     <span class="keyword">this</span>.depth = previousStage.depth + <span class="number">1</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>每一次操作都会建立一个新的Stream,传入上一个Stream,调用上方构造函数初始化,进而形成双向链表.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">StatelessOp(AbstractPipeline&lt;?, E_IN, ?&gt; upstream,</div><div class="line">                 StreamShape inputShape,</div><div class="line">                 <span class="keyword">int</span> opFlags) &#123;</div><div class="line">         <span class="keyword">super</span>(upstream, opFlags);</div><div class="line">         <span class="keyword">assert</span> upstream.getOutputShape() == inputShape;</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="操作如何叠加"><a href="#操作如何叠加" class="headerlink" title="操作如何叠加"></a>操作如何叠加</h3><p>如原文所说,以filter方法为例,调用该方法会产生一个StatelessOp对象,也就是AbstractPipeline的子类,其方法<code>opWrapSink</code>很关键,产生一个<code>Sink</code>对象,在自身<code>accept(t)</code>方法处理自身逻辑,得到的结果传递给下游的stream<code>downstream.accept(u);</code>,也就是博主所说的<strong>处理/转发模式</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Stream&lt;P_OUT&gt; <span class="title">filter</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> P_OUT&gt; predicate)</span> </span>&#123;</div><div class="line">      Objects.requireNonNull(predicate);</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> StatelessOp&lt;P_OUT, P_OUT&gt;(<span class="keyword">this</span>, StreamShape.REFERENCE,</div><div class="line">                                   StreamOpFlag.NOT_SIZED) &#123;</div><div class="line">          <span class="meta">@Override</span></div><div class="line">          <span class="function">Sink&lt;P_OUT&gt; <span class="title">opWrapSink</span><span class="params">(<span class="keyword">int</span> flags, Sink&lt;P_OUT&gt; sink)</span> </span>&#123;</div><div class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Sink.ChainedReference&lt;P_OUT, P_OUT&gt;(sink) &#123;</div><div class="line">                  <span class="meta">@Override</span></div><div class="line">                  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">begin</span><span class="params">(<span class="keyword">long</span> size)</span> </span>&#123;</div><div class="line">                      downstream.begin(-<span class="number">1</span>);</div><div class="line">                  &#125;</div><div class="line">                  <span class="meta">@Override</span></div><div class="line">                  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(P_OUT u)</span> </span>&#123;</div><div class="line">                      <span class="keyword">if</span> (predicate.test(u))</div><div class="line">                          downstream.accept(u);</div><div class="line">                  &#125;</div><div class="line">              &#125;;</div><div class="line">          &#125;</div><div class="line">      &#125;;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="叠加之后的操作如何执行"><a href="#叠加之后的操作如何执行" class="headerlink" title="叠加之后的操作如何执行"></a>叠加之后的操作如何执行</h3><p>首先操作都在Sink中,操作的叠加已经没问题了,那问题就是怎么把这些操作连起来,形成一个单项的调用链.如下图所示,我们所期望的调用关系是从filter.sink开始的单链表.但是当操作到<code>sorted()</code>的时候我们只能得到<code>sort.sink</code>,无法得知上游信息,所以这个单链表的建立还需要其他方案.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495593370.png?imageMogr2/thumbnail/!70p" alt=""><br>该调用单链表的建立是使用<code>wrapSink</code>方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> &lt;P_IN&gt; <span class="function">Sink&lt;P_IN&gt; <span class="title">wrapSink</span><span class="params">(Sink&lt;E_OUT&gt; sink)</span> </span>&#123;</div><div class="line">     Objects.requireNonNull(sink);</div><div class="line">     <span class="comment">//该循环体,从终端stage往前迭代,到最后形成的sink对象就是filter.sink</span></div><div class="line">     <span class="keyword">for</span> ( <span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>) AbstractPipeline p=AbstractPipeline.<span class="keyword">this</span>; p.depth &gt; <span class="number">0</span>; p=p.previousStage) &#123;</div><div class="line">         sink = p.opWrapSink(p.previousStage.combinedFlags, sink);</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">return</span> (Sink&lt;P_IN&gt;) sink;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>该方法从终端操作往前迭代,最终形成的sink就是如单链表结构,此时的sink对象就是filter.sink,并且其还指向map.sink.</p>
+<p>现在拿到了调用链式,接下来就是想办法在一次循环遍历中执行全部操作.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">final</span> &lt;P_IN&gt; <span class="function"><span class="keyword">void</span> <span class="title">copyInto</span><span class="params">(Sink&lt;P_IN&gt; wrappedSink, Spliterator&lt;P_IN&gt; spliterator)</span> </span>&#123;</div><div class="line">    Objects.requireNonNull(wrappedSink);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) &#123;</div><div class="line">        <span class="comment">//调用begin方法准备容器</span></div><div class="line">        wrappedSink.begin(spliterator.getExactSizeIfKnown());</div><div class="line">        <span class="comment">//对sink迭代</span></div><div class="line">        spliterator.forEachRemaining(wrappedSink);</div><div class="line">        <span class="comment">//终端操作</span></div><div class="line">        wrappedSink.end();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        copyIntoWithCancel(wrappedSink, spliterator);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时的wrappedSink对象是一个完整的调用链,那么对于<code>spliterator.forEachRemaining(wrappedSink);</code>的执行就是对每一个元素在调用链上走一遍的流程.这三行代码可以用下图表示<br>begin<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495594524.png?imageMogr2/thumbnail/!70p" alt=""><br>accept<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495594311.png?imageMogr2/thumbnail/!70p" alt=""><br>end<br><img src="http://oobu4m7ko.bkt.clouddn.com/1495594563.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h3 id="执行后的结果在哪里"><a href="#执行后的结果在哪里" class="headerlink" title="执行后的结果在哪里"></a>执行后的结果在哪里</h3><p>即终端操作所提供的容器中.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者: 李豪&lt;br&gt;地址: &lt;a href=&quot;https://github.com/CarpenterLee/JavaLambdaInternals/
+    
+    </summary>
+    
+      <category term="java" scheme="http://mrdear.cn/categories/java/"/>
+    
+    
+      <category term="java8" scheme="http://mrdear.cn/tags/java8/"/>
+    
+  </entry>
   
   <entry>
     <title>Java8学习记录(一)-函数式接口</title>
@@ -976,104 +1043,6 @@
     
     
       <category term="docker" scheme="http://mrdear.cn/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker学习记录(一)-基本概念</title>
-    <link href="http://mrdear.cn/2017/03/10/docker/Docker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"/>
-    <id>http://mrdear.cn/2017/03/10/docker/Docker学习记录(一)-基本概念/</id>
-    <published>2017-03-10T09:21:00.000Z</published>
-    <updated>2017-04-02T02:12:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Docker学习记录-一-基本概念"><a href="#Docker学习记录-一-基本概念" class="headerlink" title="Docker学习记录(一)-基本概念"></a>Docker学习记录(一)-基本概念</h1><p>标签（空格分隔）： docker</p>
-<hr>
-<p>因为做的项目用到了docker,所以开始学习下这方面的知识.</p>
-<hr>
-<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p>docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.<br>docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.<br>docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,所以容器就是依赖镜像创建,同样一个类可以有多个实例,那么一个镜像也可以对应多个容器.<br>docker仓库:仓库是镜像市场,里面有别人建立好的Model类,也就是镜像,可以直接拿来使用.</p>
-<p>这样说应该很好理解了吧.</p>
-<p>因此创建一个helloworld的流程就和清晰了.<br>启动docker虚拟机-&gt;创建docker镜像(或者从仓库拉取)-&gt;创建docker容器(运行helloworld)-&gt;结束</p>
-<h2 id="2-docker虚拟机"><a href="#2-docker虚拟机" class="headerlink" title="2.docker虚拟机"></a>2.docker虚拟机</h2><p>首先docker安装后自带的虚拟机配置下载镜像又要GFW的原因速度很慢,一般使用<a href="https://cr.console.aliyun.com" target="_blank" rel="external">阿里云加速器</a>,登陆后找到加速器按照要求先创建一个新的docker主机,然后启动该主机.<br>这里要注意,阿里云给的命令是创建一个名字为default的主机,安装后自带了一个default,所以先运行<code>docker-machine rm default</code>删除默认主机.</p>
-<p>2.1新建主机<br><img src="http://ac-HSNl7zbI.clouddn.com/sAxM3IuAIRznxVzOKQUSSmnVuh4KGub9bNLDN9P3.jpg" alt=""></p>
-<p>2.2为当前shell配置环境<br><img src="http://ac-HSNl7zbI.clouddn.com/AK0TxhfaoaaJgUR6XLDAxWoiml1uNr5aEPyhOHkn.jpg" alt=""></p>
-<p>2.3验证<br><img src="http://ac-HSNl7zbI.clouddn.com/BgvivpB6bjf61IBPyswjjHCb5XfcYjvrpOS9sDNo.jpg" alt=""></p>
-<p>到此docker虚拟机创建完毕,这里需要掌握一些基本增删改查基本命令.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">docker-machine kill 停止某个Docker主机</div><div class="line">docker-machine ls 列出所有管理的Docker主机</div><div class="line">docker-machine regenerate-certs 为某个主机重新成功TLS认证信息</div><div class="line">docker-machine restart 重启Docker主机</div><div class="line">docker-machine rm 删除Docker主机</div><div class="line">docker-machine scp 在Docker主机之间复制文件</div><div class="line">docker-machine ssh SSH到主机上执行命令</div><div class="line">docker-machine start 启动一个主机</div><div class="line">docker-machine status 查看一个主机状态</div><div class="line">docker-machine stop 停止一个主机</div><div class="line">docker-machine upgrade 更新主机Docker版本为最新</div><div class="line">docker-machine url 获取主机的URL</div></pre></td></tr></table></figure></p>
-<h2 id="3-docker镜像"><a href="#3-docker镜像" class="headerlink" title="3.docker镜像"></a>3.docker镜像</h2><p>使用<code>docker images</code>可以列出机器上所有的docker镜像.<br><img src="http://ac-HSNl7zbI.clouddn.com/axr3cW667D3Awsul4QA0qnVlrx2OYsRz0QJel6yG.jpg" alt=""></p>
-<p>其中:<br>REPOSTITORY：表示镜像的仓库源<br>TAG：镜像的标签<br>IMAGE ID：镜像ID<br>CREATED：镜像创建时间<br>SIZE：镜像大小</p>
-<p>使用<code>docker search 镜像名</code>查找某一镜像,例如查找hello world,可以看到带有OFFICIAL的为官方提供的镜像.<br><img src="http://ac-HSNl7zbI.clouddn.com/LGnffJHC3CQIrxAMdBqUr6YXQf4s4CRiMLkhzwzY.jpg" alt=""></p>
-<p>使用<code>docker pull 镜像名</code>获取一个镜像,这里获取hello world,另外镜像后可以跟版本号,例如<code>docker pull redis:3.2</code>,就指定拉去redis3.2版本<br><img src="http://ac-HSNl7zbI.clouddn.com/pGDCyoQUkK3vnLXFRasOUzpDyLFbprXFTghVbzLf.jpg" alt=""></p>
-<p>使用<code>docker run 镜像名</code>从该镜像启动一个实例.</p>
-<p>常见命令,另外对于docker镜像的创建和运行比较重要,后续文章单独学习分析.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">docker inspect 查看镜像详情</div><div class="line">docker rmi 删除镜像,带上-f参数则强制删除</div><div class="line">docker save 导出镜像</div><div class="line">docker load 导入镜像</div><div class="line">docker push 上传镜像到仓库</div><div class="line">docker tag 给镜像设置标签</div></pre></td></tr></table></figure></p>
-<h2 id="4-docker容器"><a href="#4-docker容器" class="headerlink" title="4.docker容器"></a>4.docker容器</h2><p>容器是应用的实例,使用<code>docker create</code>创建一个容器,使用<code>docker start</code>启动一个容器,另一个简单方式就是<code>docker run</code>,等价于先创建再启动.</p>
-<p>那么使用<code>docker run</code>的时候后台做了哪些操作?</p>
-<ol>
-<li>查找是否存在指定镜像,不存在则从公有仓库下载</li>
-<li>利用镜像创建并启动一个容器</li>
-<li>分配一个文件系统,在只读的镜像层外面挂载一层可读写层</li>
-<li>从宿主主机配置的网桥接口中桥接一个虚拟接到容器中去</li>
-<li>从地址池配置一个ip地址给容器</li>
-<li>执行用户指定应用程序</li>
-<li>执行完毕后容器被终止</li>
-</ol>
-<p>使用<code>docker ps -a</code>查看最近启动的容器<br><img src="http://ac-HSNl7zbI.clouddn.com/aYGJha5vP2SwSQUEHtlNmRBU67vXS8co5KTCMO75.jpg" alt=""></p>
-<p>使用<code>docker rm</code>删除容器,清理完毕后再删除hello world镜像.</p>
-<p>下面使用redis镜像实战整个流程,并学习容器常用命令.</p>
-<h2 id="5-创建redis镜像"><a href="#5-创建redis镜像" class="headerlink" title="5.创建redis镜像"></a>5.创建redis镜像</h2><p>有了helloworld经历,这里流程就很清晰了,搜索镜像-&gt;拉去镜像-&gt;创建实例-&gt;连接交互<br><img src="http://ac-HSNl7zbI.clouddn.com/6184zD9Mp4SvaS1srJVGcXN4H2HqDj9QXa23l43H.jpg" alt=""></p>
-<p>可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.<br><strong>docker run参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line">--name=&quot;nginx-lb&quot;: 为容器指定一个名称；</div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line">-h &quot;mars&quot;: 指定容器的hostname；</div><div class="line">-e username=&quot;ritchie&quot;: 设置环境变量；</div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line">--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；</div><div class="line">-m :设置容器使用内存最大值；</div><div class="line">--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；</div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line">--expose=[]: 开放一个端口或一组端口；</div><div class="line">-p 指定容器端口映射,该参数可以使得容器端口和主机端口相互映射</div></pre></td></tr></table></figure></p>
-<p>首先使用-d -p参数,可以看到redis跑在了后台.<br><img src="http://ac-HSNl7zbI.clouddn.com/spT76EzPOxiqmpHHvUfft1bCHwQPkeqVIjJAGtCt.jpg" alt=""></p>
-<p><strong>外部连接:</strong><br>使用<code>docker port 容器id</code>查看映射出来的端口,该端口为<strong>docker主机</strong>的哈,所以要通过docker主机ip:端口才可以访问.<br>比如我的docker主机ip为:192.168.99.100(使用<code>docker-machine env查看</code>),docker分配映射端口为32768,那么访问就是192.168.99.100:32768,如果想用主机地址访问的话,就需要-p参数加上主机端口映射了</p>
-<p><strong>进入容器</strong><br>使用<code>docker exec</code>命令可以进入容器内部,参数和run的参数作用相同.</p>
-<p><img src="http://ac-HSNl7zbI.clouddn.com/fUQQvk3ApsvI4UbNYxO6C7tHu7d31M6v04aEhWmX.jpg" alt=""></p>
-<p>其他命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">docker stop 停止一个容器</div><div class="line">docker rm 删除一个容器</div><div class="line">docker import 导入一个容器</div><div class="line">docker export 导出一个容器</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Docker学习记录-一-基本概念&quot;&gt;&lt;a href=&quot;#Docker学习记录-一-基本概念&quot; class=&quot;headerlink&quot; title=&quot;Docker学习记录(一)-基本概念&quot;&gt;&lt;/a&gt;Docker学习记录(一)-基本概念&lt;/h1&gt;&lt;p&gt;标签（空格分隔）
-    
-    </summary>
-    
-      <category term="docker" scheme="http://mrdear.cn/categories/docker/"/>
-    
-    
-      <category term="docker" scheme="http://mrdear.cn/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(一)</title>
-    <link href="http://mrdear.cn/2017/03/10/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%80)/"/>
-    <id>http://mrdear.cn/2017/03/10/毕业设计/毕业设计周记(一)/</id>
-    <published>2017-03-10T01:50:00.000Z</published>
-    <updated>2017-03-11T02:09:22.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本周算是正式开始做毕业设计,之前虽然一直在做,但是处于刚学习阶段,各方面做的都不是很好,因此自己也把第一版删除了,目前重构第二版.现在不止把这个当成毕业设计,而是想把他当成一个平台.用于自己学习到的技能在上面施展,因此很多没必要使用的东西都用上了.</p>
-<p>关于判题内核,这个是一个难点.目前采取开源的方案,C++判题,使用JNI调用方式,(第一版是开源的windows判题内核,问题多多)WEB端和Judge端使用gRPC通信.目前卡在的难点<strong>判题内核是在linux下运行,但是自己用的是MAC,所以想采用Docker方案,这样的话还顺便更进一步解决了Judge的安全性问题</strong>,因此在学习Docker的知识.</p>
-<p>因此目前进度:</p>
-<ol>
-<li>WEB端基本完成</li>
-<li>Judge端完成</li>
-</ol>
-<p>等待完成:</p>
-<ol>
-<li>Judge移植到Docker中</li>
-<li>打通WEB端和Judge端的通信,也就是实现判题.</li>
-</ol>
-<p>源码地址:</p>
-<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本周算是正式开始做毕业设计,之前虽然一直在做,但是处于刚学习阶段,各方面做的都不是很好,因此自己也把第一版删除了,目前重构第二版.现在不止把这个当成毕业设计,而是想把他当成一个平台.用于自己学习到的技能在上面施展,因此很多没必要使用的东西都用上了.&lt;/p&gt;
-&lt;p&gt;关于判题内
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
