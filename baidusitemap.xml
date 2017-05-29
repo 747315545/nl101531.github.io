@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</loc>
+    <lastmod>2017-05-29T09:23:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>动漫推荐</title>
+        <pubTime>2017-04-15T00:21:00.000Z</pubTime>
+        
+        <tag>动漫</tag>
+         
+         
+           
+             
+              <breadCrumb title="动漫" url="http://mrdear.cn/categories/%E5%8A%A8%E6%BC%AB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://mrdear.cn/2017/05/20/java/Java8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Stream%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2017-05-24T03:05:24.000Z</lastmod>
     <data>
@@ -57,26 +77,6 @@
            
              
               <breadCrumb title="java" url="http://mrdear.cn/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</loc>
-    <lastmod>2017-05-15T01:25:13.000Z</lastmod>
-    <data>
-        <display>
-        <title>动漫推荐</title>
-        <pubTime>2017-04-15T00:21:00.000Z</pubTime>
-        
-        <tag>动漫</tag>
-         
-         
-           
-             
-              <breadCrumb title="动漫" url="http://mrdear.cn/categories/%E5%8A%A8%E6%BC%AB/"/>
           
         </display>
     </data>
