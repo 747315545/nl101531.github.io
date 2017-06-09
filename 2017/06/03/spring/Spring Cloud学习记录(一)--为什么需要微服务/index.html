@@ -87,24 +87,18 @@
 
 
 <meta name="description" content="最近看了周立大大关于Spring Cloud的分享itmuch.com,自己做了一些总结,加深自己的理解.
-什么是微服务?什么是单体架构?说微服务之前先了解单体结构.定义一个归档包（例如war格式）包含了应用所有功能的应用程序，我们通常称之为单体应用。架构单体应用的方法论，我们称之为单体应用架构。如下图所示,多个业务组件全部放到一个war包中.
-缺陷1.复杂性高:项目是处于不断迭代中的,随着需求的">
+ 理解有误,占坑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Cloud学习记录(一)--为什么需要Spring Cloud?">
 <meta property="og:url" content="http://mrdear.cn/2017/06/03/spring/Spring Cloud学习记录(一)--为什么需要微服务/index.html">
 <meta property="og:site_name" content="屈定's Blog">
 <meta property="og:description" content="最近看了周立大大关于Spring Cloud的分享itmuch.com,自己做了一些总结,加深自己的理解.
-什么是微服务?什么是单体架构?说微服务之前先了解单体结构.定义一个归档包（例如war格式）包含了应用所有功能的应用程序，我们通常称之为单体应用。架构单体应用的方法论，我们称之为单体应用架构。如下图所示,多个业务组件全部放到一个war包中.
-缺陷1.复杂性高:项目是处于不断迭代中的,随着需求的">
-<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1496459037.png?imageMogr2/thumbnail/!60p">
-<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1496459019.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-06-03T22:30:50.000Z">
+ 理解有误,占坑">
+<meta property="og:updated_time" content="2017-06-09T14:18:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Cloud学习记录(一)--为什么需要Spring Cloud?">
 <meta name="twitter:description" content="最近看了周立大大关于Spring Cloud的分享itmuch.com,自己做了一些总结,加深自己的理解.
-什么是微服务?什么是单体架构?说微服务之前先了解单体结构.定义一个归档包（例如war格式）包含了应用所有功能的应用程序，我们通常称之为单体应用。架构单体应用的方法论，我们称之为单体应用架构。如下图所示,多个业务组件全部放到一个war包中.
-缺陷1.复杂性高:项目是处于不断迭代中的,随着需求的">
-<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1496459037.png?imageMogr2/thumbnail/!60p">
+ 理解有误,占坑">
 
 
 
@@ -429,12 +423,7 @@
 
       
         <p>最近看了周立大大关于Spring Cloud的分享<code>itmuch.com</code>,自己做了一些总结,加深自己的理解.</p>
-<h3 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务?"></a>什么是微服务?</h3><h4 id="什么是单体架构"><a href="#什么是单体架构" class="headerlink" title="什么是单体架构?"></a>什么是单体架构?</h4><p>说微服务之前先了解单体结构.<br><strong>定义</strong><br>一个归档包（例如war格式）包含了应用所有功能的应用程序，我们通常称之为单体应用。架构单体应用的方法论，我们称之为单体应用架构。如下图所示,多个业务组件全部放到一个war包中.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1496459037.png?imageMogr2/thumbnail/!60p" alt=""></p>
-<p><strong>缺陷</strong><br>1.复杂性高:项目是处于不断迭代中的,随着需求的推进,单体项目只会越来越大,越来越复杂,最终导致该单体项目不可维护<br>2.技术债务:互联网公司流动性高,开发人员又喜欢挖坑打todo却不去解决,就导致人员切换过程中留下的todo越来越多,埋下了很多坑,也最终导致该单体项目不可维护.<br>3.部署问题:项目的复杂增加导致项目本身启动耗时增加,对于小需求的紧急改动而把该单体项目再重新部署到多台机器上其中的时间成本可想而知.<br>4.扩展能力:单体项目对项目本身的技术栈都已固定,项目复杂切换成本高,比如把Spring MVC切换为Jersey几乎要成为不可能事件了.比如现在很多Structs2的老项目不得已还需要有一群人在维护或者重构.<br>5.阻碍技术创新:复杂的老项目很容易打击人的积极性,那么就会导致公司技术栈得不到更新,开发人员想学习新的技术,但又不得不投入大量精力去解决老项目的bugs.</p>
-<h4 id="微服务的模式"><a href="#微服务的模式" class="headerlink" title="微服务的模式"></a>微服务的模式</h4><p>微服务的出现必然要解决单体应用所带来的痛点.把上面单体应用微服务化后就如下图所示,感受下区别.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1496459019.png?imageMogr2/thumbnail/!70p" alt=""><br>每一个模块单独为一个独立的HTTP Server服务,不同模块之间通过类似REST等轻量级通信方式交互.</p>
-<h4 id="微服务的缺点"><a href="#微服务的缺点" class="headerlink" title="微服务的缺点"></a>微服务的缺点</h4><p>微服务下以业务为分割线来拆分服务,也会带来很多问题.<br>1.运维要求比较高:微服务下一个项目会被拆分为众多服务,那么运维所需要维护的服务就变得更多,对其要求自然就变得高了.<br>2.分布式本身的复杂性:微服务本身就是分布式结构,那么其本身也是复杂性的.对于一个分布式系统，系统容错、网络延迟、分布式事务等都给我们带来了很大的挑战。<br>3.接口成本调整高:微服务下修改了某一个接口,那么使用该服务的全部服务都需要做相应的调整.<br>4.重复劳动:每一个服务中可能会出现很多重复性代码,比如实体类,DAO通用查询等.</p>
-<h3 id="Spring-Cloud解决的问题"><a href="#Spring-Cloud解决的问题" class="headerlink" title="Spring Cloud解决的问题"></a>Spring Cloud解决的问题</h3><p>Spring Cloud是一系列框架的有序集合。它利用Spring Boot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。Spring并没有重复制造轮子，它只是将目前各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过Spring Boot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。<br>关于更多详细内容可参考博文: <a href="http://tech.lede.com/2017/03/15/rd/server/SpringCloud0/" target="_blank" rel="external">Spring Cloud技术分析（序）</a></p>
-<p>那么接下来便是Spring Cloud的学习</p>
+<p> 理解有误,占坑</p>
 
       
     </div>
@@ -553,17 +542,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
@@ -657,22 +637,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是微服务"><span class="nav-text">什么是微服务?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是单体架构"><span class="nav-text">什么是单体架构?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微服务的模式"><span class="nav-text">微服务的模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微服务的缺点"><span class="nav-text">微服务的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud解决的问题"><span class="nav-text">Spring Cloud解决的问题</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
