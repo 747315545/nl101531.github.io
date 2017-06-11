@@ -9,40 +9,118 @@ date: 2017-05-20 19:06:51
 > 作者: 李豪
 > 地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
 
-### 操作如何记录?
-操作的记录用的是双向链表,那么这个链表是怎么建立的呢?
-类: `AbstractPipeline`是整个调用链建立的核心类,其含有成员变量`sourceStage(调用起始点)`,`previousStage(上一个调用)`,`nextStage(下一个调用)`,再看其构造函数
+### 1.一种直白的实现
+
+![](http://oobu4m7ko.bkt.clouddn.com/1497141037.png?imageMogr2/thumbnail/!70p)
+
+**缺点**:
+1. 迭代次数过多
+2. 频繁产生中间结果,性能无法接受
+
+**实际想要的效果**:
+```java    
+int longest = 0;
+for(String str : strings){
+    if(str.startsWith("A")){// 1. filter(), 保留以A开头的字符串
+        int len = str.length();// 2. mapToInt(), 转换成长度
+        longest = Math.max(len, longest);// 3. max(), 保留最长的长度
+    }
+}
+```
+
+### 2.Stream是怎么做到的?
+
+**Stream的操作分类**:
+
+中间操作:
+        - 有状态 sorted(),必须等上一步操作完拿到全部元素后才可操作
+        - 无状态 filter(),该操作的元素不受上一步操作的影响
+
+终端操作:
+        - 短路操作findFirst(),找到一个则返回
+        - 非短路操作forEach(),遍历全部元素
+
+Stream做到的是对于多次调用合并到一次迭代中处理完所有的调用方式.换句话说就是解决了上述的两个缺点.大概思路是记录下每一步的操作,然后终端操作时对其迭代依次执行每一步的操作,最后再一次循环中处理.
+
+**问题**:
+1. 操作是如何记录下来的?
+2. 操作是如何叠加的?
+3. 叠加完如何执行的?
+4. 执行完如何收集结果的?
+
+- - - - -
+Stream结构示意图:
+
+![](http://oobu4m7ko.bkt.clouddn.com/1497146463.png?imageMogr2/thumbnail/!70p)
+
+
+示例代码:
 ```java
-   AbstractPipeline(AbstractPipeline<?, E_IN, ?> previousStage, int opFlags) {
-        if (previousStage.linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-       //previousStage为上一次调用,那么他的下一次调用则是当前的this
-        previousStage.linkedOrConsumed = true;
-        previousStage.nextStage = this;
-        //当前this的上一次调用为previousStage
-        this.previousStage = previousStage;
-        this.sourceOrOpFlags = opFlags & StreamOpFlag.OP_MASK;
-        this.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);
-        //调用起始点都是同一个
-        this.sourceStage = previousStage.sourceStage;
-        if (opIsStateful())
-            sourceStage.sourceAnyStateful = true;
-        this.depth = previousStage.depth + 1;
+    List<String> data = new ArrayList<>();
+    data.add("张三");
+    data.add("李四");
+    data.add("王三");
+    data.add("马六");
+
+    data.stream()
+        .filter(x -> x.length() == 2)
+        .map(x -> x.replace("三","五"))
+        .sorted()
+        .filter(x -> x.contains("五"))
+        .forEach(System.out::println);
+```
+
+#### 1. 操作是如何记录下来的?
+1. Head记录Stream起始操作
+2. StatelessOp记录中间操作
+3. StatefulOp记录终端操作
+这三个操作实例化会指向其父类`AbstractPipeline`,也就是在`AbstractPipeline`中建立了双向链表
+
+对于Head
+```java
+    AbstractPipeline(Spliterator<?> source,
+                     int sourceFlags, boolean parallel) {
+        this.previousStage = null; //首操作上一步为null    
+        this.sourceSpliterator = source; //数据
+        this.sourceStage = this; //Head操作
+        this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
+        this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
+        this.depth = 0;
+        this.parallel = parallel;
     }
 ```
-每一次操作都会建立一个新的Stream,传入上一个Stream,调用上方构造函数初始化,进而形成双向链表.
-```java
-   StatelessOp(AbstractPipeline<?, E_IN, ?> upstream,
-                    StreamShape inputShape,
-                    int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
-        }
+对于其他Stage:
+```java    
+    AbstractPipeline(AbstractPipeline<?, E_IN, ?> previousStage, int opFlags) {
+        if (previousStage.linkedOrConsumed)
+            throw new IllegalStateException(MSG_STREAM_LINKED);
+        previousStage.linkedOrConsumed = true;
+        //双向链表的建立
+        previousStage.nextStage = this;
+        this.previousStage = previousStage;
+        this.sourceStage = previousStage.sourceStage;        
+        this.depth = previousStage.depth + 1;        
+        
+        this.sourceOrOpFlags = opFlags & StreamOpFlag.OP_MASK;
+        this.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);
+        if (opIsStateful())
+            sourceStage.sourceAnyStateful = true;
+    }
 ```
-### 操作如何叠加
-如原文所说,以filter方法为例,调用该方法会产生一个StatelessOp对象,也就是AbstractPipeline的子类,其方法`opWrapSink`很关键,产生一个`Sink`对象,在自身`accept(t)`方法处理自身逻辑,得到的结果传递给下游的stream`downstream.accept(u);`,也就是博主所说的**处理/转发模式**
+<img src="http://oobu4m7ko.bkt.clouddn.com/1497148591.png?imageMogr2/thumbnail/!70p" height=500 align=right >
+调用过程如此用双向链表串联起来,每一步都得知其上一步与下一步的操作.
+
+
+#### 2.操作是如何叠加的?
+`Sink<T>`接口:
+1. void begin(long size),循环开始前调用,通知每个Stage做好准备
+2. void end(),循环结束时调用,依次调用每个Stage的end方法,处理结果
+3. boolean cancellationRequested(),判断是否可以提前结束循环
+4. void accept(T value),每一步的处理
+
+例Filter:
 ```java
-  @Override
+    @Override
     public final Stream<P_OUT> filter(Predicate<? super P_OUT> predicate) {
         Objects.requireNonNull(predicate);
         return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
@@ -54,8 +132,11 @@ date: 2017-05-20 19:06:51
                     public void begin(long size) {
                         downstream.begin(-1);
                     }
+
                     @Override
                     public void accept(P_OUT u) {
+                        //条件成立则传递给下一个操作,也因为如此所以有状态的操作必须放到
+                        //end方法里面
                         if (predicate.test(u))
                             downstream.accept(u);
                     }
@@ -64,35 +145,39 @@ date: 2017-05-20 19:06:51
         };
     }
 ```
-
-### 叠加之后的操作如何执行
-首先操作都在Sink中,操作的叠加已经没问题了,那问题就是怎么把这些操作连起来,形成一个单项的调用链.如下图所示,我们所期望的调用关系是从filter.sink开始的单链表.但是当操作到`sorted()`的时候我们只能得到`sort.sink`,无法得知上游信息,所以这个单链表的建立还需要其他方案.
-![](http://oobu4m7ko.bkt.clouddn.com/1495593370.png?imageMogr2/thumbnail/!70p)
-该调用单链表的建立是使用`wrapSink`方法.
+![](http://oobu4m7ko.bkt.clouddn.com/1497157056.png?imageMogr2/thumbnail/!70p)
+#### 叠加后如何执行?
+执行操作是由终端操作来触发的,例如foreach操作
 ```java
-   final <P_IN> Sink<P_IN> wrapSink(Sink<E_OUT> sink) {
+    @Override
+    public void forEach(Consumer<? super P_OUT> action) {
+        //evaluate就是开关,一旦调用就立即执行整个Stream    
+        evaluate(ForEachOps.makeRef(action, false));
+    }
+```
+执行前会对操作从末尾到起始反向包裹起来,得到调用链
+```java
+    //这个Sink是终端操作所对应的Sink
+    final <P_IN> Sink<P_IN> wrapSink(Sink<E_OUT> sink) {
         Objects.requireNonNull(sink);
-        //该循环体,从终端stage往前迭代,到最后形成的sink对象就是filter.sink
-        for ( @SuppressWarnings("rawtypes") AbstractPipeline p=AbstractPipeline.this; p.depth > 0; p=p.previousStage) {
+
+        for ( AbstractPipeline p=AbstractPipeline.this; p.depth > 0; p=p.previousStage) {
             sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
         }
         return (Sink<P_IN>) sink;
     }
 ```
-该方法从终端操作往前迭代,最终形成的sink就是如单链表结构,此时的sink对象就是filter.sink,并且其还指向map.sink.
+![](http://oobu4m7ko.bkt.clouddn.com/1497156134.png?imageMogr2/thumbnail/!70p)
 
-现在拿到了调用链式,接下来就是想办法在一次循环遍历中执行全部操作.
 ```java
     @Override
     final <P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
         Objects.requireNonNull(wrappedSink);
 
         if (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) {
-            //调用begin方法准备容器
+            //依次执行调用链
             wrappedSink.begin(spliterator.getExactSizeIfKnown());
-            //对sink迭代
             spliterator.forEachRemaining(wrappedSink);
-            //终端操作
             wrappedSink.end();
         }
         else {
@@ -100,17 +185,41 @@ date: 2017-05-20 19:06:51
         }
     }
 ```
-此时的wrappedSink对象是一个完整的调用链,那么对于` spliterator.forEachRemaining(wrappedSink);`的执行就是对每一个元素在调用链上走一遍的流程.这三行代码可以用下图表示
-begin
-![](http://oobu4m7ko.bkt.clouddn.com/1495594524.png?imageMogr2/thumbnail/!70p)
-accept
-![](http://oobu4m7ko.bkt.clouddn.com/1495594311.png?imageMogr2/thumbnail/!70p)
-end
-![](http://oobu4m7ko.bkt.clouddn.com/1495594563.png?imageMogr2/thumbnail/!70p)
+#### 有状态的中间操何时执行?
+例如sorted()操作,其依赖上一次操作的结果集,按照调用链来说结果集必须在accept()调用完才会产生.那也就说明sorted操作需要在end中,然后再重新开启调用链.
 
-### 执行后的结果在哪里
-即终端操作所提供的容器中.
+**sorted的end方法**:
+```java
+       @Override
+        public void end() {
+            list.sort(comparator);
+            downstream.begin(list.size());
+            if (!cancellationWasRequested) {
+                list.forEach(downstream::accept);
+            }
+            else {
+                for (T t : list) {
+                    if (downstream.cancellationRequested()) break;
+                    downstream.accept(t);
+                }
+            }
+            downstream.end();
+            list = null;
+        }
+```
+那么就相当于sorted给原有操作断路了一次,然后又重新接上,再次遍历.
+![](http://oobu4m7ko.bkt.clouddn.com/1497158292.png?imageMogr2/thumbnail/!70p)
 
+#### 如何收集到结果?
+foreach是不需要收集到结果的,但是对于collect这样的操作是需要拿到最终end产生的结果.end产生的结果在最后一个Sink中,这样的操作最终都会提供一个取出数据的get方法.
+```java
+       @Override
+        public <P_IN> R evaluateSequential(PipelineHelper<T> helper,
+                                           Spliterator<P_IN> spliterator) {
+            return helper.wrapAndCopyInto(makeSink(), spliterator).get();
+        }
+```
+如此拿到数据返回
 
 
 
