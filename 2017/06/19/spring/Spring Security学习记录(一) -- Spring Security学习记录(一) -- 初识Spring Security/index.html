@@ -1,0 +1,1010 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vI-8_Ee7chpyEu09yCt-bC91dWWmTx08Bb_Mv1gltl0" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="ZJAkxniqr5" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="屈定's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Spring Security是什么?Spring Security是一套认证授权框架,支持认证模式如HTTP BASIC 认证头 (基于 IETF RFC-based 标准),HTTP Digest 认证头 ( IETF RFC-based 标准),Form-based authentication (用于简单的用户界面),OpenID 认证等,Spring Security使得当前系统可以快速">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Security学习记录(一) -- 初识Spring Security">
+<meta property="og:url" content="http://mrdear.cn/2017/06/19/spring/Spring Security学习记录(一) -- Spring Security学习记录(一) -- 初识Spring Security/index.html">
+<meta property="og:site_name" content="屈定's Blog">
+<meta property="og:description" content="Spring Security是什么?Spring Security是一套认证授权框架,支持认证模式如HTTP BASIC 认证头 (基于 IETF RFC-based 标准),HTTP Digest 认证头 ( IETF RFC-based 标准),Form-based authentication (用于简单的用户界面),OpenID 认证等,Spring Security使得当前系统可以快速">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1497854910.png?imageMogr2/thumbnail/!70p">
+<meta property="og:updated_time" content="2017-06-22T12:54:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Security学习记录(一) -- 初识Spring Security">
+<meta name="twitter:description" content="Spring Security是什么?Spring Security是一套认证授权框架,支持认证模式如HTTP BASIC 认证头 (基于 IETF RFC-based 标准),HTTP Digest 认证头 ( IETF RFC-based 标准),Form-based authentication (用于简单的用户界面),OpenID 认证等,Spring Security使得当前系统可以快速">
+<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1497854910.png?imageMogr2/thumbnail/!70p">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6338709381080679000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mrdear.cn/2017/06/19/spring/Spring Security学习记录(一) -- Spring Security学习记录(一) -- 初识Spring Security/"/>
+
+
+
+
+
+  <title> Spring Security学习记录(一) -- 初识Spring Security | 屈定's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?05272b7f33b576c5363b4fa34583f3c3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">屈定's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">change from today</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/06/19/spring/Spring Security学习记录(一) -- Spring Security学习记录(一) -- 初识Spring Security/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Niu li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="屈定's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring Security学习记录(一) -- 初识Spring Security
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T14:08:25+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spring/" itemprop="url" rel="index">
+                    <span itemprop="name">spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/06/19/spring/Spring Security学习记录(一) -- Spring Security学习记录(一) -- 初识Spring Security/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Spring-Security是什么"><a href="#Spring-Security是什么" class="headerlink" title="Spring Security是什么?"></a>Spring Security是什么?</h3><p>Spring Security是一套认证授权框架,支持认证模式如<code>HTTP BASIC 认证头 (基于 IETF RFC-based 标准)</code>,<code>HTTP Digest 认证头 ( IETF RFC-based 标准)</code>,<code>Form-based authentication (用于简单的用户界面)</code>,<code>OpenID 认证</code>等,Spring Security使得当前系统可以快速集成这些验证机制亦或是实现自己的一套验证机制.</p>
+<h3 id="使用Spring-Security"><a href="#使用Spring-Security" class="headerlink" title="使用Spring Security"></a>使用Spring Security</h3><p>Spring Security3之后提供了Java Config的配置方式,但是我觉得xml方式比较容易理解其整体结构,所以本文都是基于xml配置的,在github上该项目会提供Java Config方式作为对比.</p>
+<h4 id="pom依赖"><a href="#pom依赖" class="headerlink" title="pom依赖"></a>pom依赖</h4><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;parent&gt;</div><div class="line">     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">     &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">     &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;</div><div class="line"> &lt;/parent&gt;</div><div class="line"></div><div class="line"> &lt;dependencies&gt;</div><div class="line">     &lt;dependency&gt;</div><div class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">         &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</div><div class="line">     &lt;/dependency&gt;</div><div class="line">     &lt;dependency&gt;</div><div class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">         &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</div><div class="line">     &lt;/dependency&gt;</div><div class="line"> &lt;/dependencies&gt;</div></pre></td></tr></table></figure>
+<p>由于使用了Spring Boot,所以需要使用<code>@EnableWebSecurity</code>注解启用Spring Security,并指明其配置文件为classpath下的<code>spring-security.xml</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@EnableWebSecurity</span></div><div class="line"><span class="meta">@ImportResource</span>(locations = <span class="string">"classpath:spring-security.xml"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityConfig</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="xml配置"><a href="#xml配置" class="headerlink" title="xml配置"></a>xml配置</h4><p>在<code>spring-security.xml</code>中引入官方提供的命名空间,然后简单配置下,该配置大概意思是对所有请求的url拦截,必须有User权限的用户才能访问.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">       <span class="attr">xmlns:security</span>=<span class="string">"http://www.springframework.org/schema/security"</span></div><div class="line">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></div><div class="line">		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</div><div class="line">		http://www.springframework.org/schema/security</div><div class="line">		http://www.springframework.org/schema/security/spring-security.xsd"&gt;</div><div class="line">	</div><div class="line">	<span class="tag">&lt;<span class="name">security:http</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">access</span>=<span class="string">"hasRole('ROLE_USER')"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:form-login</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:http-basic</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:logout</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h4 id="访问测试"><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h4><p>该页面为Spring Security自动生成的登录页面,当我们访问任何连接都会被重定向到该登录页面,输入<code>user:123456</code>登录后才能有权限访问.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1497854910.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>上述是一个简单的Demo,分析则是从这个Demo深入浅出.<br><strong>1.Spring Security是如何拦截请求的?</strong><br>传统的xml配置都会在web.xml里面配置如下过滤器.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>springSecurityFilterChain<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>springSecurityFilterChain<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>可以看出入口点就是该类,该类会从Spring容器中读取名称为<code>springSecurityFilterChain</code>的一个Filter实例,从而获取到对应代理的Filter.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> Filter <span class="title">initDelegate</span><span class="params">(WebApplicationContext wac)</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">	Filter delegate = wac.getBean(getTargetBeanName(), Filter.class);</div><div class="line">	<span class="keyword">if</span> (isTargetFilterLifecycle()) &#123;</div><div class="line">		delegate.init(getFilterConfig());</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> delegate;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后在doFilter方法中调用该委托的filter,也就实现的拦截请求.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">invokeDelegate</span><span class="params">(</span></span></div><div class="line">		Filter delegate, ServletRequest request, ServletResponse response, FilterChain filterChain)</div><div class="line">		<span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line"></div><div class="line">	delegate.doFilter(request, response, filterChain);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>2. Spring Security拦截请求后是如何处理的?</strong><br>打断点可以发现<code>DelegatingFilterProxy</code>实际上代理的是<code>FilterChainProxy</code>这个类,该类中有<code>private List&lt;SecurityFilterChain&gt; filterChains;</code>全局变量,那么<code>SecurityFilterChain</code>为何物?<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SecurityFilterChain</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(HttpServletRequest request)</span></span>;</div><div class="line"></div><div class="line">	<span class="function">List&lt;Filter&gt; <span class="title">getFilters</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从源码可以判断SecurityFilterChain是一套规则所对应的Filter链集合.再看源码<code>getFilters</code>,该方法会根据规则(也就是配置中的<code>security:http</code>标签)获取一个SecurityFilterChain中的一套对应规则的filter链.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> List&lt;Filter&gt; <span class="title">getFilters</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</div><div class="line">	<span class="keyword">for</span> (SecurityFilterChain chain : filterChains) &#123;</div><div class="line">		<span class="keyword">if</span> (chain.matches(request)) &#123;</div><div class="line">			<span class="keyword">return</span> chain.getFilters();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后在<code>doFilterInternal</code>方法中创建一个<code>VirtualFilterChain</code>类,调用其<code>doFilter</code>方法.<code>VirtualFilterChain</code>这个类很有意思,该类继承了<code>FilterChain</code>类,那么其就拥有了转交请求到指定filter的能力,另外其还拥有一套filter链<code>List&lt;Filter&gt; additionalFilters;</code>,那么这个类就控制了整个Spring Security的执行流程,那么它是怎么实现的呢?<br>开始我以为是一个循环,然而看了源码才发现自己太low了.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">      currentPosition++;</div><div class="line">Filter nextFilter = additionalFilters.get(currentPosition - <span class="number">1</span>);</div><div class="line">nextFilter.doFilter(request, response, <span class="keyword">this</span>);</div></pre></td></tr></table></figure></p>
+<p><code>currentPosition</code>与<code>additionalFilters</code>都是全局变量,其在调用filter链的时候每次都把自己本身在<code>doFilter</code>传值过去,每一个Filter链节点执行完毕后再返回<code>VirtualFilterChain</code>的<code>doFilter</code>方法,开启下一个节点执行.其结构如下面代码所示:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IA</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSomeThing</span><span class="params">(IAChain chain)</span></span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IAClass</span> <span class="keyword">implements</span> <span class="title">IA</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeThing</span><span class="params">(IAChain chain)</span> </span>&#123;</div><div class="line">      System.out.println(<span class="string">"i am IAClass"</span>);</div><div class="line">      chain.doSomeThing();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="class"><span class="keyword">interface</span> <span class="title">IAChain</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSomeThing</span><span class="params">()</span></span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IAChainClass</span> <span class="keyword">implements</span> <span class="title">IAChain</span></span>&#123;</div><div class="line"></div><div class="line">    List&lt;IA&gt; IAChains = <span class="keyword">new</span> ArrayList&lt;IA&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">IAChainClass</span><span class="params">()</span> </span>&#123;</div><div class="line">      IAChains.add(<span class="keyword">new</span> IAClass());</div><div class="line">      IAChains.add(<span class="keyword">new</span> IAClass());</div><div class="line">      IAChains.add(<span class="keyword">new</span> IAClass());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> position = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeThing</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">if</span> (position == IAChains.size()) &#123;</div><div class="line">        System.out.println(<span class="string">"end"</span>);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      &#125;</div><div class="line">      IA ia = IAChains.get(position++);</div><div class="line">      ia.doSomeThing(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>当调用<code>iaChainClass.doSomeThing()</code>输出<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">i am IAClass</div><div class="line">i am IAClass</div><div class="line">i am IAClass</div><div class="line">end</div></pre></td></tr></table></figure></p>
+<hr>
+<p>调用链的实现还可以使用继承来实现,每次执行前先执行super()方法.</p>
+<p>ok,下一章分析具体的Filter链中的节点,探究下Spring Security是如何进行用户认证与权限控制的.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/image/wechatpay.png" alt="Niu li WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/image/alipay.png" alt="Niu li Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/04/spring/Spring Cloud学习记录(二)--服务治理/" rel="next" title="Spring Cloud学习记录(二)--服务治理">
+                <i class="fa fa-chevron-left"></i> Spring Cloud学习记录(二)--服务治理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
+               alt="Niu li" />
+          <p class="site-author-name" itemprop="name">Niu li</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nl101531" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/niu.dear/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012706811" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://nerdtsai.me" title="Nerd'Blog" target="_blank">Nerd'Blog</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Security是什么"><span class="nav-text">Spring Security是什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Spring-Security"><span class="nav-text">使用Spring Security</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pom依赖"><span class="nav-text">pom依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xml配置"><span class="nav-text">xml配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问测试"><span class="nav-text">访问测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-text">分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niu li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "f928d3f9d6e242eab0d4ba8bf8099ee6",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+
+</body>
+</html>
