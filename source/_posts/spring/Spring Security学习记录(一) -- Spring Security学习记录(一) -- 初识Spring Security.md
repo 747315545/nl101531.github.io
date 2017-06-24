@@ -1,9 +1,10 @@
 ---
-title: Spring Security学习记录(一) -- 基本认证
+title: Spring Security学习记录(一) -- 初识Spring Security
 tags:
-  - Spring  Security    
-categories: spring
-date:2017-06-19 14:08:25 
+  - Spring   
+categories: Spring
+date: 2017-06-19 14:08:25 
+
 ---
 
 ###  Spring Security是什么?
