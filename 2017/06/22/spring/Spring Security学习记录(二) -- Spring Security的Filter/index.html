@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="http,web," />
+  <meta name="keywords" content="Spring," />
 
 
 
@@ -86,23 +86,25 @@
 
 
 
-<meta name="description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
-URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
+<meta name="description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
+
+下面是之前配置的内容,本文也是对这些内容的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;has">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对一个WEB请求的理解">
-<meta property="og:url" content="http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/index.html">
+<meta property="og:title" content="Spring Security学习记录(二) -- Spring Security的Filter">
+<meta property="og:url" content="http://mrdear.cn/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
-URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
-<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p">
-<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p">
-<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-05-06T01:13:08.000Z">
+<meta property="og:description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
+
+下面是之前配置的内容,本文也是对这些内容的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;has">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498318805.png?imageMogr2/thumbnail/!70p">
+<meta property="og:updated_time" content="2017-06-24T15:40:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对一个WEB请求的理解">
-<meta name="twitter:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
-URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
-<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p">
+<meta name="twitter:title" content="Spring Security学习记录(二) -- Spring Security的Filter">
+<meta name="twitter:description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
+
+下面是之前配置的内容,本文也是对这些内容的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;has">
+<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p">
 
 
 
@@ -130,13 +132,13 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/"/>
 
 
 
 
 
-  <title> 对一个WEB请求的理解 | 屈定's Blog </title>
+  <title> Spring Security学习记录(二) -- Spring Security的Filter | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -317,7 +319,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Niu li">
@@ -338,7 +340,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
             
             
               
-                对一个WEB请求的理解
+                Spring Security学习记录(二) -- Spring Security的Filter
               
             
           </h2>
@@ -353,8 +355,8 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-30T00:00:00+08:00">
-                2017-04-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T22:03:37+08:00">
+                2017-06-22
               </time>
             
 
@@ -376,8 +378,8 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web/" itemprop="url" rel="index">
-                    <span itemprop="name">web</span>
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
                   </a>
                 </span>
 
@@ -394,7 +396,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/04/30/运维/对一个WEB请求的理解/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -426,43 +428,37 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
       
 
       
-        <p>随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.</p>
-<h3 id="URL解析"><a href="#URL解析" class="headerlink" title="URL解析"></a>URL解析</h3><p>首先把URL分割为几个部分,以地址<code>http://mrdear.cn/2017/04/15/动漫推荐/</code>为例<br>协议: http<br>网址: mrdear.cn<br>资源路径: 2017/04/15/动漫推荐/</p>
-<p>浏览器拿到地址后会对其中非ASCII码的Unicode字符解析,比如空格会变成%20,汉字也会变成其16进制对应的编码值,如下例子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">上面链接等价于</div><div class="line">http:<span class="comment">//mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</span></div></pre></td></tr></table></figure></p>
-<p>中间还有其他很复杂的流程,比如参数,协议,请求头,请求体等建立.</p>
-<h3 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h3><p>对于网址mrdear.cn,浏览器并不知道他所处的服务器位置,因此需要解析出其服务器ip,这个过程就是DNS域名解析.</p>
-<ul>
-<li>浏览器首先检查自身缓存dns解析,以chrome为例,输入<code>chrome://net-internals/#dns</code>即可看到缓存列表.该缓存通常几分钟到几小时不等,存在的话就直接返回,否则下一步</li>
-<li>和浏览器同样策略,OS对每一次解析结果也会做缓存,浏览器中不存在则在OS的缓存中查找.这个过成功也包括在本地hosts中查找.找到则返回,找不到则向本机的dns服务器发送查找请求.</li>
-<li><p>DNS服务器和本机在一个子网内,则APR解析到具体设备的mac地址,然后向其查找.如果不在一个子网,则直接ARP解析当前主机网关地址,网关一般是上一个路由节点,也就是把查询转交给上一层服务器,那么上一层服务器找不到还会转交给它的上一层,如此形成一个递归查询过程,直到查找到根服务器.找不到则返回失败.找到则返回ip地址和其TTL时间.<br>linux和unix下的dns配置在<code>/etc/resolv.conf</code>中,可以使用<code>nslookup或者dig查</code>看解析过程.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p" alt=""></p>
-</li>
-<li><p>解析成功后,浏览器创建与服务器的socket连接,构造请求信息,进行TCP三次握手,开始向服务器传输消息,并等服务器回复信息,这也是TPC可靠的一个原因.</p>
-</li>
-</ul>
-<h3 id="服务器响应"><a href="#服务器响应" class="headerlink" title="服务器响应"></a>服务器响应</h3><p>服务器以nginx+tomcat为例,经过以上步骤后请求到达了nginx,nginx对URL进行分析,验证其所在机器上有所需要的服务,并且用户是有权限调用的,决定该URL由哪一个tomcat服务处理,捕获处理结果,返回给请求者,最后四次挥手结束请求.到此完成浏览器,服务端的通信.</p>
-<h3 id="浏览器渲染"><a href="#浏览器渲染" class="headerlink" title="浏览器渲染"></a>浏览器渲染</h3><p>浏览器拿到了服务器的返回信息后会对内容进行解析,展现成用户所需要的内容,如html,pdf等.</p>
+        <p>上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.</p>
 <hr>
-<p>那么整个过程总结来看就是 用户输入URL -&gt; 浏览器解析地址 -&gt; DNS查找域名对应ip -&gt; 服务器响应 -&gt;浏览器拿到响应渲染.</p>
-<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="1-CDN网络"><a href="#1-CDN网络" class="headerlink" title="1.CDN网络"></a>1.CDN网络</h4><p>CDN又叫内容分布网络,一般用于静态资源如html,css,js的存储,简单的理解为一张大网,网上每一个节点都有着很多资源.那么每一个用户想要访问的时候就会去找离他最近的节点上面获取需要的内容.从而加快了网站整体访问速度.<br>举个例子:用户访问taobao的某css文件,首先浏览器会发送请求 -&gt; DNS解析域名,这里一般会有一个DNS负载均衡服务器,其得到最适合用户的CDN节点ip -&gt; 用户拿到CDN节点ip得到资源.</p>
-<h4 id="2-DNS劫持"><a href="#2-DNS劫持" class="headerlink" title="2.DNS劫持"></a>2.DNS劫持</h4><p>了解了DNS的解析是一个递归过程,找到域名 &lt;-&gt; ip就返回,如果有人手动修改了该条映射信息,那么就会返回到错误的ip地址,这种行为也叫DNS劫持,对于客户端来说,没有很好地方式能认为服务器返回的信息是可靠的,也就是不可靠的HTTP通信,所以也就导致了这一层的攻击漏洞,而这种事一般是天朝的电信运营商能干得出来,所以选择一个靠谱的DNS是非常重要,推荐<code>114.114.114.114</code></p>
-<h4 id="3-HTTPS"><a href="#3-HTTPS" class="headerlink" title="3.HTTPS"></a>3.HTTPS</h4><p>应对HTTP的不可靠通信,所以诞生了HTTPS,即HTTP over SSL,使用SSL/TLS对HTTP的内容进行加密解密.整个流程如下图:</p>
-<p><center><img src="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p" alt=""></center></p>
-<ul>
-<li>在SSL握手阶段，客户端浏览器会认证服务器的身份，这是通过“证书”来实现的，证书由证书权威（CA）为某个域名签发，可以理解为网站的身份证件，客户端需要对这个证件进行认证，需要确定该证书是否属于目标网站并确认证书本身是否有效。最后在握手阶段，通信的双方还会协商出一个用于加密和解密的会话密钥。</li>
-<li>SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。<br>HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.</li>
-</ul>
-<h4 id="4-乱码问题"><a href="#4-乱码问题" class="headerlink" title="4.乱码问题"></a>4.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
-<p>这里要保证不乱码,下一步tomcat建立了ServletRequest和ServletResponse,那么这里也有编码,一般是post表单或者request body乱码,那么就需要指定ServletRequest和ServletResponse的编码格式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(encoding);<span class="comment">//设置请求信息编码</span></div><div class="line">response.setCharacterEncoding(encoding);<span class="comment">//设置返回信息编码</span></div></pre></td></tr></table></figure></p>
-<p>Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.<br>浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如<code>Content-Type: text/html;charset=UTF-8</code>,指定以UTF-8渲染该text/html返回.</p>
-<h4 id="5-几种域名解析"><a href="#5-几种域名解析" class="headerlink" title="5.几种域名解析"></a>5.几种域名解析</h4><p>域名解析记录主要分为：A 记录、MX记录、CNAME 记录、NS记录和 TXT记录</p>
-<ul>
-<li>A记录：A 代表的是Address，用来指定域名对应的IP地址。域名可以多对一但是不能一对多。</li>
-<li>MX记录：Mail Exchange,就是讲某个域名下的邮件服务器指向自己的Mail Server。</li>
-<li>CNAME记录：别名解析。将一个域名设置一个或者多个别名。</li>
-<li>NS记录：为某个域名指定DNS解析服务器。</li>
-<li>TXT记录：为某个主机名或者域名设置文字说明。<br>本站是托管于github的,主域名<code>mrdear.cn</code>是使用CNAME解析到<code>nl101531.github.io</code>的,二级域名<code>oj.mrdear.cn</code>和<code>md.mrdear.cn</code>都是使用A记录解析到对应主机的ip地址,到达主机后再使用Nginx进行不同的服务器转发.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p" alt=""></li>
-</ul>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>个人总结,如有错误请指出,以免误人子弟.</p>
+<p>下面是之前配置的内容,本文也是对这些内容的执行分析.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">access</span>=<span class="string">"hasRole('ROLE_USER')"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:form-login</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:http-basic</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:logout</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="1-Filter链的由来"><a href="#1-Filter链的由来" class="headerlink" title="1.Filter链的由来"></a>1.Filter链的由来</h3><p>由上文可知每一个<code>security:http</code>标签实际上对应的是一个<code>SecurityFilterChain</code>的类,也就是一条Filter链,可以通过其http属性指明其作用的URL,否则作用域全部的URL,如下配置,该security:http会产生一个对/login下的所有请求Filter链.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> <span class="attr">pattern</span>=<span class="string">"/login/**"</span>&gt;</span></div><div class="line">    ******</div><div class="line"><span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>打个断点可以很清楚的看到该Filter链<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h3 id="2-SecurityContextPersistenceFilter"><a href="#2-SecurityContextPersistenceFilter" class="headerlink" title="2.SecurityContextPersistenceFilter"></a>2.SecurityContextPersistenceFilter</h3><p>该类在所有的Filter之前,是从<code>SecurityContextRepository</code>中取出用户认证信息,默认实现类为<code>HttpSessionSecurityContextRepository</code>,其会从Session中取出已认证用户的信息,提高效率,避免每一次请求都要查询用户认证信息.<br>取出之后会放入<code>SecurityContextHolder</code>中,以便其他filter使用,该类使用ThreadLocal存储用户认证信息,保证了线程之间的信息隔离,最后再finally中清除该信息.<br>可以配置http的<code>security-context-repository-ref</code>属性来自己控制获取到已认证用户信息的方式,比如使用redis存储session等.</p>
+<h3 id="3-WebAsyncManagerIntegrationFilter"><a href="#3-WebAsyncManagerIntegrationFilter" class="headerlink" title="3.WebAsyncManagerIntegrationFilter"></a>3.WebAsyncManagerIntegrationFilter</h3><p>提供了对securityContext和WebAsyncManager的集成,其会把SecurityContext设置到异步线程中,使其也能获取到用户上下文认证信息.</p>
+<h3 id="4-HeaderWriterFilter"><a href="#4-HeaderWriterFilter" class="headerlink" title="4.HeaderWriterFilter"></a>4.HeaderWriterFilter</h3><p>其会往该请求的Header中添加相应的信息,在http标签内部使用<code>security:headers</code>来控制.</p>
+<h3 id="5-CsrfFilter"><a href="#5-CsrfFilter" class="headerlink" title="5.CsrfFilter"></a>5.CsrfFilter</h3><p>Csrf,跨站请求伪造,了解不是很深,只知道B网站使用A网站的可信Cookie发起请求,从而完成认证,伪造出正当请求.<br>验证方式是通过客户端传来的token与服务端存储的token进行对比,来判断是否为伪造请求,有兴趣的可以查看源代码研究下.</p>
+<h3 id="6-LogoutFilter"><a href="#6-LogoutFilter" class="headerlink" title="6.LogoutFilter"></a>6.LogoutFilter</h3><p>匹配URL,默认为<code>/logout</code>,匹配成功后则用户退出,清除认证信息.</p>
+<h3 id="7-UsernamePasswordAuthenticationFilter"><a href="#7-UsernamePasswordAuthenticationFilter" class="headerlink" title="7.UsernamePasswordAuthenticationFilter"></a>7.UsernamePasswordAuthenticationFilter</h3><p>登录认证过滤器,默认是对<code>/login</code>的POST请求进行认证,首先该方法会先调用<code>attemptAuthentication</code>尝试认证获取一个<code>Authentication</code>的认证对象,然后通过<code>sessionStrategy.onAuthentication</code>执行持久化,也就是保存认证信息,转向下一个Filter,最后调用<code>successfulAuthentication</code>执行认证后事件.</p>
+<p><strong>attemptAuthentication</strong><br>该方法是认证的主要方法,认证是委托配置的<code>authentication-manager</code>-&gt;<code>authentication-provider</code>进行.<br>比如对于该Demo配置的为如下,则默认使用的manager为<code>ProviderManager</code>,使用的provider为<code>DaoAuthenticationProvider</code>,userDetailService为<code>InMemoryUserDetailsManager</code>也就是从内存中获取用户认证信息,也就是下面xml配置的user与admin信息.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>认证基本流程为<code>UserDeatilService</code>根据用户名获取到认证用户的信息,然后通过<code>UserDetailsChecker.check</code>对用户进行状态校验,最后通过<code>additionalAuthenticationChecks</code>方法对用户进行密码校验成功后完成认证.返回一个认证对象.</p>
+<p>都是面向接口编程,所以用户可以很轻松的扩展自己的验证方式.</p>
+<h3 id="8-DefaultLoginPageGeneratingFilter"><a href="#8-DefaultLoginPageGeneratingFilter" class="headerlink" title="8.DefaultLoginPageGeneratingFilter"></a>8.DefaultLoginPageGeneratingFilter</h3><p>当请求为登录请求时,生成简单的登录页面返回</p>
+<h3 id="9-BasicAuthenticationFilter"><a href="#9-BasicAuthenticationFilter" class="headerlink" title="9.BasicAuthenticationFilter"></a>9.BasicAuthenticationFilter</h3><p>Http Basci认证的支持,该认证会把用户名密码使用base64编码后放入header中传输,如下所示,认证成功后会把用户信息放入<code>SecurityContextHolder</code>中.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</div></pre></td></tr></table></figure></p>
+<h3 id="10-RequestCacheAwareFilter"><a href="#10-RequestCacheAwareFilter" class="headerlink" title="10.RequestCacheAwareFilter"></a>10.RequestCacheAwareFilter</h3><p>恢复被打断的请求,具体未研究</p>
+<h3 id="11-SecurityContextHolderAwareRequestFilter"><a href="#11-SecurityContextHolderAwareRequestFilter" class="headerlink" title="11.SecurityContextHolderAwareRequestFilter"></a>11.SecurityContextHolderAwareRequestFilter</h3><p>针对Servlet api不同版本做的一些包装</p>
+<h3 id="12-AnonymousAuthenticationFilter"><a href="#12-AnonymousAuthenticationFilter" class="headerlink" title="12.AnonymousAuthenticationFilter"></a>12.AnonymousAuthenticationFilter</h3><p>当<code>SecurityContextHolder</code>中认证信息为空,则会创建一个匿名用户存入到<code>SecurityContextHolder</code>中</p>
+<h3 id="13-SessionManagementFilter"><a href="#13-SessionManagementFilter" class="headerlink" title="13.SessionManagementFilter"></a>13.SessionManagementFilter</h3><p>与登录认证拦截时作用一样,持久化用户登录信息,可以保存到session中,也可以保存到cookie或者redis中.</p>
+<h3 id="14-ExceptionTranslationFilter"><a href="#14-ExceptionTranslationFilter" class="headerlink" title="14.ExceptionTranslationFilter"></a>14.ExceptionTranslationFilter</h3><p>异常拦截,其处在Filter链后部分,只能拦截其后面的节点并且着重处理<code>AuthenticationException</code>与<code>AccessDeniedException</code>两个异常.</p>
+<h3 id="15-FilterSecurityInterceptor"><a href="#15-FilterSecurityInterceptor" class="headerlink" title="15.FilterSecurityInterceptor"></a>15.FilterSecurityInterceptor</h3><p>主要是授权验证,方法为<code>beforeInvocation</code>,在其中调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Collection&lt;ConfigAttribute&gt; attributes = <span class="keyword">this</span>.obtainSecurityMetadataSource()</div><div class="line">				.getAttributes(object);</div></pre></td></tr></table></figure></p>
+<p>获取到所配置资源访问的授权信息,对于上述配置,获取到的则为<code>hasRole(&#39;ROLE_USER&#39;)</code>,然后根据<code>SecurityContextHolder</code>中存储的用户信息来决定其是否有权限,没权限则返回403</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>整个认证授权流程如下图所示,图是网上盗的<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498318805.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<p>因为是学习方面,使用的不是很多,如有错误请指出,以防误人子弟.<br>简单来说,作为用户需要关心的地方是</p>
+<ol>
+<li>登录验证<code>UsernamePasswordAuthenticationFilter</code></li>
+<li>访问验证<code>BasicAuthenticationFilter</code></li>
+<li>权限验证<code>FilterSecurityInterceptor</code><br>下一篇则讲述利用这三个验证实现JWT验证.</li>
+</ol>
+<p>关于这些过滤器更详细的内容可参考博客: <a href="http://www.iteye.com/blogs/subjects/spring_security" target="_blank" rel="external">http://www.iteye.com/blogs/subjects/spring_security</a></p>
 
       
     </div>
@@ -507,9 +503,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
       
         <div class="post-tags">
           
-            <a href="/tags/http/" rel="tag"># http</a>
-          
-            <a href="/tags/web/" rel="tag"># web</a>
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
           
         </div>
       
@@ -522,8 +516,8 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/29/毕业设计/毕业设计周记(八)/" rel="next" title="毕业设计周记(八)">
-                <i class="fa fa-chevron-left"></i> 毕业设计周记(八)
+              <a href="/2017/06/19/spring/Spring Security学习记录(一) -- Spring Security学习记录(一) -- 初识Spring Security/" rel="next" title="Spring Security学习记录(一) -- 初识Spring Security">
+                <i class="fa fa-chevron-left"></i> Spring Security学习记录(一) -- 初识Spring Security
               </a>
             
           </div>
@@ -531,10 +525,6 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/02/工具/Java中的序列化相关知识/" rel="prev" title="Java中序列化相关知识">
-                Java中序列化相关知识 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -711,7 +701,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#URL解析"><span class="nav-text">URL解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS域名解析"><span class="nav-text">DNS域名解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器响应"><span class="nav-text">服务器响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器渲染"><span class="nav-text">浏览器渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录"><span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CDN网络"><span class="nav-text">1.CDN网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS劫持"><span class="nav-text">2.DNS劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-HTTPS"><span class="nav-text">3.HTTPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-乱码问题"><span class="nav-text">4.乱码问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-几种域名解析"><span class="nav-text">5.几种域名解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Filter链的由来"><span class="nav-text">1.Filter链的由来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SecurityContextPersistenceFilter"><span class="nav-text">2.SecurityContextPersistenceFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-WebAsyncManagerIntegrationFilter"><span class="nav-text">3.WebAsyncManagerIntegrationFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HeaderWriterFilter"><span class="nav-text">4.HeaderWriterFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-CsrfFilter"><span class="nav-text">5.CsrfFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-LogoutFilter"><span class="nav-text">6.LogoutFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-UsernamePasswordAuthenticationFilter"><span class="nav-text">7.UsernamePasswordAuthenticationFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-DefaultLoginPageGeneratingFilter"><span class="nav-text">8.DefaultLoginPageGeneratingFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-BasicAuthenticationFilter"><span class="nav-text">9.BasicAuthenticationFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-RequestCacheAwareFilter"><span class="nav-text">10.RequestCacheAwareFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-SecurityContextHolderAwareRequestFilter"><span class="nav-text">11.SecurityContextHolderAwareRequestFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-AnonymousAuthenticationFilter"><span class="nav-text">12.AnonymousAuthenticationFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-SessionManagementFilter"><span class="nav-text">13.SessionManagementFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-ExceptionTranslationFilter"><span class="nav-text">14.ExceptionTranslationFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-FilterSecurityInterceptor"><span class="nav-text">15.FilterSecurityInterceptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
