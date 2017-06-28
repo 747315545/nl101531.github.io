@@ -35,7 +35,10 @@ for(String str : strings){
 中间操作:
         - 有状态 sorted(),必须等上一步操作完拿到全部元素后才可操作
         - 无状态 filter(),该操作的元素不受上一步操作的影响
-
+```java
+  list.stream().filter(x -> x.startWith("张").map(x -> x.length())
+  list.stream().filter(x -> x.startWith("张").sorted().map(x -> x.length())
+```
 终端操作:
         - 短路操作findFirst(),找到一个则返回
         - 非短路操作forEach(),遍历全部元素
@@ -107,10 +110,10 @@ Stream结构示意图:
             sourceStage.sourceAnyStateful = true;
     }
 ```
-<img src="http://oobu4m7ko.bkt.clouddn.com/1497148591.png?imageMogr2/thumbnail/!70p" height=500 align=right >
+<img src="http://oobu4m7ko.bkt.clouddn.com/1497148591.png?imageMogr2/thumbnail/!60p" height=500 align=right >
 调用过程如此用双向链表串联起来,每一步都得知其上一步与下一步的操作.
 
-
+- - - - -
 #### 2.操作是如何叠加的?
 `Sink<T>`接口:
 1. void begin(long size),循环开始前调用,通知每个Stage做好准备
@@ -185,7 +188,7 @@ Stream结构示意图:
         }
     }
 ```
-#### 有状态的中间操何时执行?
+#### 有状态的中间操作何时执行?
 例如sorted()操作,其依赖上一次操作的结果集,按照调用链来说结果集必须在accept()调用完才会产生.那也就说明sorted操作需要在end中,然后再重新开启调用链.
 
 **sorted的end方法**:

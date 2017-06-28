@@ -7,7 +7,7 @@ date: 2017-06-22 22:03:37
 ---
 上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
 - - - - -
-下面是之前配置的内容,本文也是对这些内容的执行分析.
+下面是之前配置的内容,本文也是对这些内容 的执行分析.
 ```xml
 <security:http >
         <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
