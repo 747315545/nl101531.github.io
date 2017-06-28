@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-06-24T15:40:13.000Z</updated>
+  <updated>2017-06-26T11:11:10.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -16,15 +16,64 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Spring Security学习记录(三) -- JSON Web Token实践</title>
+    <link href="http://mrdear.cn/2017/06/26/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)%20--%20JSON%20Web%20Token%E5%AE%9E%E8%B7%B5/"/>
+    <id>http://mrdear.cn/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践/</id>
+    <published>2017-06-26T08:36:33.000Z</published>
+    <updated>2017-06-26T11:11:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.</p>
+<hr>
+<p>JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:<br><a href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/" target="_blank" rel="external">JSON Web Token - 在Web应用间安全地传递信息</a><br>因为原作者写的很详细,这里就只说下个人认为比较重要的问题.</p>
+<h3 id="JWT是什么样子的结构"><a href="#JWT是什么样子的结构" class="headerlink" title="JWT是什么样子的结构?"></a>JWT是什么样子的结构?</h3><p>JSON Web Token说到底也是一串token,其形式分三段,看下图,<strong>红色</strong>的为Header,指定token类型与签名类型,<strong>紫色</strong>的为请求体,存储用户id等关键信息,最后<strong>蓝色</strong>的为签名,保证整个信息的完整性,可靠性.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498469217.png?imageMogr2/thumbnail/!70p" alt=""><br>其中playload中可以</p>
+<ul>
+<li>iss: 该JWT的签发者</li>
+<li>sub: 该JWT所面向的用户</li>
+<li>aud: 接收该JWT的一方</li>
+<li>exp(expires): 什么时候过期，这里是一个Unix时间戳</li>
+<li>iat(issued at): 在什么时候签发的</li>
+<li>nbf: 定义在什么时间之前，该jwt都是不可用的.</li>
+<li>jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。</li>
+</ul>
+<h3 id="JWT是一个怎样的流程"><a href="#JWT是一个怎样的流程" class="headerlink" title="JWT是一个怎样的流程?"></a>JWT是一个怎样的流程?</h3><ol>
+<li>客户端使用账户密码请求登录接口</li>
+<li>登录成功后返回JWT</li>
+<li>客户端再次请求其他接口时带上JWT</li>
+<li>服务端接收到JWT后验证签名的有效性.</li>
+</ol>
+<h3 id="JWT解决了什么问题"><a href="#JWT解决了什么问题" class="headerlink" title="JWT解决了什么问题?"></a>JWT解决了什么问题?</h3><p><strong>token被劫持</strong><br>一开始理解很容易陷入一个误区,比如有人会问对于JWT来说,jwt被劫持了的话,那么对方就可以伪造请求,这东西怎么能保证安全呢?<br>这里问题是没理解好JWT,JWT解决的是认证与授权的问题,上述劫持或者类似的中间人攻击是JWT不可避免的,也是其他认证与授权方式不可避免的,想避免可以使用HTTPS,或者签发jwt的时候记录下Client的ip地址,这些就和JWT没关系了.</p>
+<p><strong>与Session的区别</strong><br>session实际上是基于cookie来传输的,最重要的session信息是存储在服务器的,所以服务器每次可以通过cookie中的sessionId获取到当前会话的用户,对于单台服务器这样做没问题,但是对于多台就涉及到共享session的问题了,而且认证用户的增多,session会占用大量的服务器内存.<br>那么jwt是存储在客户端的,服务器不需要存储jwt,jwt里面有用户id,服务器拿到jwt验证后可以获得用户信息.也就实现了session的功能,但是相比session,jwt是无状态的,其不与任何机器绑定,只要签名秘钥足够的安全就能保证jwt的可靠性.</p>
+<h3 id="JWT下服务端认为什么样子的请求是可信的"><a href="#JWT下服务端认为什么样子的请求是可信的" class="headerlink" title="JWT下服务端认为什么样子的请求是可信的?"></a>JWT下服务端认为什么样子的请求是可信的?</h3><p>对于服务端来说,无法确定下一个请求是哪一个用户,哪一个终端发出,所以其需要一些信息定位到该用户或者该机器,对于JWT来说其Playload里面存储着UserId,那么服务端接收到Token后对其进行签名验证,验证成功,则认为其是<strong>可信的</strong>,然后通过UserId从DB或者Cache中查询出来用户信息.</p>
+<h3 id="为什么JWT能保证信息传输的安全可靠"><a href="#为什么JWT能保证信息传输的安全可靠" class="headerlink" title="为什么JWT能保证信息传输的安全可靠?"></a>为什么JWT能保证信息传输的安全可靠?</h3><p>比如现在有token<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eyJhbGciOiJIUzI1NiJ9.</div><div class="line">eyJleHAiOjE0OTg0ODIxNTQsInN1YiI6InF1ZGluZyIsInVzZXJJZCI6IjEwMzc5NDAxIiwicm9sZSI6ImFkbWluIn0.</div><div class="line">-YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Header</div><div class="line">&#123;</div><div class="line">  "alg": "HS256"</div><div class="line">&#125;</div><div class="line">Playload</div><div class="line">&#123;</div><div class="line">  "exp": 1498482154,</div><div class="line">  "sub": "quding",</div><div class="line">  "userId": "10379401",</div><div class="line">  "role": "admin"</div><div class="line">&#125;</div><div class="line">Sign</div><div class="line">YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure>
+<p>假设我的playload被其他人劫持了,其他人把userId修改为他自己的,比如123456,但是其没有签名的秘钥,所以他就没法生成签名.<br>服务端收到该Token后,会用先Base64解码出来相应的信息,然后重新生成sign,使用该sign与客户端传来的Sign进行对比,一样则证明没被修改,也就是可信的请求,否则拒绝该请求.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解
+    
+    </summary>
+    
+      <category term="Spring" scheme="http://mrdear.cn/categories/Spring/"/>
+    
+    
+      <category term="Spring" scheme="http://mrdear.cn/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spring Security学习记录(二) -- Spring Security的Filter</title>
     <link href="http://mrdear.cn/2017/06/22/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)%20--%20Spring%20Security%E7%9A%84Filter/"/>
     <id>http://mrdear.cn/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/</id>
     <published>2017-06-22T14:03:37.000Z</published>
-    <updated>2017-06-24T15:40:13.000Z</updated>
+    <updated>2017-06-25T08:55:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.</p>
 <hr>
-<p>下面是之前配置的内容,本文也是对这些内容的执行分析.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">access</span>=<span class="string">"hasRole('ROLE_USER')"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:form-login</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:http-basic</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:logout</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>下面是之前配置的内容,本文也是对这些内容 的执行分析.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">access</span>=<span class="string">"hasRole('ROLE_USER')"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:form-login</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:http-basic</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:logout</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <h3 id="1-Filter链的由来"><a href="#1-Filter链的由来" class="headerlink" title="1.Filter链的由来"></a>1.Filter链的由来</h3><p>由上文可知每一个<code>security:http</code>标签实际上对应的是一个<code>SecurityFilterChain</code>的类,也就是一条Filter链,可以通过其http属性指明其作用的URL,否则作用域全部的URL,如下配置,该security:http会产生一个对/login下的所有请求Filter链.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> <span class="attr">pattern</span>=<span class="string">"/login/**"</span>&gt;</span></div><div class="line">    ******</div><div class="line"><span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>打个断点可以很清楚的看到该Filter链<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <h3 id="2-SecurityContextPersistenceFilter"><a href="#2-SecurityContextPersistenceFilter" class="headerlink" title="2.SecurityContextPersistenceFilter"></a>2.SecurityContextPersistenceFilter</h3><p>该类在所有的Filter之前,是从<code>SecurityContextRepository</code>中取出用户认证信息,默认实现类为<code>HttpSessionSecurityContextRepository</code>,其会从Session中取出已认证用户的信息,提高效率,避免每一次请求都要查询用户认证信息.<br>取出之后会放入<code>SecurityContextHolder</code>中,以便其他filter使用,该类使用ThreadLocal存储用户认证信息,保证了线程之间的信息隔离,最后再finally中清除该信息.<br>可以配置http的<code>security-context-repository-ref</code>属性来自己控制获取到已认证用户信息的方式,比如使用redis存储session等.</p>
@@ -59,7 +108,7 @@
     
       &lt;p&gt;上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;下面是之前配置的内容,本文也是对这些内容的执行分析.&lt;br&gt;&lt;figure class=&quot;highlight 
+&lt;p&gt;下面是之前配置的内容,本文也是对这些内容 的执行分析.&lt;br&gt;&lt;figure class=&quot;highlight
     
     </summary>
     
@@ -205,7 +254,7 @@
     <link href="http://mrdear.cn/2017/05/20/java/Java8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Stream%E5%8E%9F%E7%90%86/"/>
     <id>http://mrdear.cn/2017/05/20/java/Java8学习记录(二)-Stream原理/</id>
     <published>2017-05-20T11:06:51.000Z</published>
-    <updated>2017-06-11T05:41:33.000Z</updated>
+    <updated>2017-06-28T01:49:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.</p>
 <blockquote>
@@ -222,7 +271,8 @@
 <p>中间操作:</p>
 <pre><code>- 有状态 sorted(),必须等上一步操作完拿到全部元素后才可操作
 - 无状态 filter(),该操作的元素不受上一步操作的影响
-</code></pre><p>终端操作:</p>
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">list.stream().filter(x -&gt; x.startWith(<span class="string">"张"</span>).map(x -&gt; x.length())</div><div class="line">list.stream().filter(x -&gt; x.startWith(<span class="string">"张"</span>).sorted().map(x -&gt; x.length())</div></pre></td></tr></table></figure>
+<p>终端操作:</p>
 <pre><code>- 短路操作findFirst(),找到一个则返回
 - 非短路操作forEach(),遍历全部元素
 </code></pre><p>Stream做到的是对于多次调用合并到一次迭代中处理完所有的调用方式.换句话说就是解决了上述的两个缺点.大概思路是记录下每一步的操作,然后终端操作时对其迭代依次执行每一步的操作,最后再一次循环中处理.</p>
@@ -244,7 +294,8 @@
 </ol>
 <p>对于Head<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">AbstractPipeline(Spliterator&lt;?&gt; source,</div><div class="line">                 <span class="keyword">int</span> sourceFlags, <span class="keyword">boolean</span> parallel) &#123;</div><div class="line">    <span class="keyword">this</span>.previousStage = <span class="keyword">null</span>; <span class="comment">//首操作上一步为null    </span></div><div class="line">    <span class="keyword">this</span>.sourceSpliterator = source; <span class="comment">//数据</span></div><div class="line">    <span class="keyword">this</span>.sourceStage = <span class="keyword">this</span>; <span class="comment">//Head操作</span></div><div class="line">    <span class="keyword">this</span>.sourceOrOpFlags = sourceFlags &amp; StreamOpFlag.STREAM_MASK;</div><div class="line">    <span class="keyword">this</span>.combinedFlags = (~(sourceOrOpFlags &lt;&lt; <span class="number">1</span>)) &amp; StreamOpFlag.INITIAL_OPS_VALUE;</div><div class="line">    <span class="keyword">this</span>.depth = <span class="number">0</span>;</div><div class="line">    <span class="keyword">this</span>.parallel = parallel;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>对于其他Stage:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">AbstractPipeline(AbstractPipeline&lt;?, E_IN, ?&gt; previousStage, <span class="keyword">int</span> opFlags) &#123;</div><div class="line">    <span class="keyword">if</span> (previousStage.linkedOrConsumed)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(MSG_STREAM_LINKED);</div><div class="line">    previousStage.linkedOrConsumed = <span class="keyword">true</span>;</div><div class="line">    <span class="comment">//双向链表的建立</span></div><div class="line">    previousStage.nextStage = <span class="keyword">this</span>;</div><div class="line">    <span class="keyword">this</span>.previousStage = previousStage;</div><div class="line">    <span class="keyword">this</span>.sourceStage = previousStage.sourceStage;        </div><div class="line">    <span class="keyword">this</span>.depth = previousStage.depth + <span class="number">1</span>;        </div><div class="line">    </div><div class="line">    <span class="keyword">this</span>.sourceOrOpFlags = opFlags &amp; StreamOpFlag.OP_MASK;</div><div class="line">    <span class="keyword">this</span>.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);</div><div class="line">    <span class="keyword">if</span> (opIsStateful())</div><div class="line">        sourceStage.sourceAnyStateful = <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="http://oobu4m7ko.bkt.clouddn.com/1497148591.png?imageMogr2/thumbnail/!70p" height="500" align="right"><br>调用过程如此用双向链表串联起来,每一步都得知其上一步与下一步的操作.</p>
+<p><img src="http://oobu4m7ko.bkt.clouddn.com/1497148591.png?imageMogr2/thumbnail/!60p" height="500" align="right"><br>调用过程如此用双向链表串联起来,每一步都得知其上一步与下一步的操作.</p>
+<hr>
 <h4 id="2-操作是如何叠加的"><a href="#2-操作是如何叠加的" class="headerlink" title="2.操作是如何叠加的?"></a>2.操作是如何叠加的?</h4><p><code>Sink&lt;T&gt;</code>接口:</p>
 <ol>
 <li>void begin(long size),循环开始前调用,通知每个Stage做好准备</li>
@@ -258,7 +309,7 @@
 <p>执行前会对操作从末尾到起始反向包裹起来,得到调用链<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这个Sink是终端操作所对应的Sink</span></div><div class="line"><span class="keyword">final</span> &lt;P_IN&gt; <span class="function">Sink&lt;P_IN&gt; <span class="title">wrapSink</span><span class="params">(Sink&lt;E_OUT&gt; sink)</span> </span>&#123;</div><div class="line">    Objects.requireNonNull(sink);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> ( AbstractPipeline p=AbstractPipeline.<span class="keyword">this</span>; p.depth &gt; <span class="number">0</span>; p=p.previousStage) &#123;</div><div class="line">        sink = p.opWrapSink(p.previousStage.combinedFlags, sink);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (Sink&lt;P_IN&gt;) sink;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><img src="http://oobu4m7ko.bkt.clouddn.com/1497156134.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">final</span> &lt;P_IN&gt; <span class="function"><span class="keyword">void</span> <span class="title">copyInto</span><span class="params">(Sink&lt;P_IN&gt; wrappedSink, Spliterator&lt;P_IN&gt; spliterator)</span> </span>&#123;</div><div class="line">    Objects.requireNonNull(wrappedSink);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) &#123;</div><div class="line">        <span class="comment">//依次执行调用链</span></div><div class="line">        wrappedSink.begin(spliterator.getExactSizeIfKnown());</div><div class="line">        spliterator.forEachRemaining(wrappedSink);</div><div class="line">        wrappedSink.end();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        copyIntoWithCancel(wrappedSink, spliterator);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="有状态的中间操何时执行"><a href="#有状态的中间操何时执行" class="headerlink" title="有状态的中间操何时执行?"></a>有状态的中间操何时执行?</h4><p>例如sorted()操作,其依赖上一次操作的结果集,按照调用链来说结果集必须在accept()调用完才会产生.那也就说明sorted操作需要在end中,然后再重新开启调用链.</p>
+<h4 id="有状态的中间操作何时执行"><a href="#有状态的中间操作何时执行" class="headerlink" title="有状态的中间操作何时执行?"></a>有状态的中间操作何时执行?</h4><p>例如sorted()操作,其依赖上一次操作的结果集,按照调用链来说结果集必须在accept()调用完才会产生.那也就说明sorted操作需要在end中,然后再重新开启调用链.</p>
 <p><strong>sorted的end方法</strong>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">end</span><span class="params">()</span> </span>&#123;</div><div class="line">     list.sort(comparator);</div><div class="line">     downstream.begin(list.size());</div><div class="line">     <span class="keyword">if</span> (!cancellationWasRequested) &#123;</div><div class="line">         list.forEach(downstream::accept);</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">else</span> &#123;</div><div class="line">         <span class="keyword">for</span> (T t : list) &#123;</div><div class="line">             <span class="keyword">if</span> (downstream.cancellationRequested()) <span class="keyword">break</span>;</div><div class="line">             downstream.accept(t);</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line">     downstream.end();</div><div class="line">     list = <span class="keyword">null</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>那么就相当于sorted给原有操作断路了一次,然后又重新接上,再次遍历.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1497158292.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <h4 id="如何收集到结果"><a href="#如何收集到结果" class="headerlink" title="如何收集到结果?"></a>如何收集到结果?</h4><p>foreach是不需要收集到结果的,但是对于collect这样的操作是需要拿到最终end产生的结果.end产生的结果在最后一个Sink中,这样的操作最终都会提供一个取出数据的get方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="keyword">public</span> &lt;P_IN&gt; <span class="function">R <span class="title">evaluateSequential</span><span class="params">(PipelineHelper&lt;T&gt; helper,</span></span></div><div class="line">                                    Spliterator&lt;P_IN&gt; spliterator) &#123;</div><div class="line">     <span class="keyword">return</span> helper.wrapAndCopyInto(makeSink(), spliterator).get();</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
@@ -1043,46 +1094,6 @@
     
     
       <category term="redis" scheme="http://mrdear.cn/tags/redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(三)</title>
-    <link href="http://mrdear.cn/2017/03/25/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%89)/"/>
-    <id>http://mrdear.cn/2017/03/25/毕业设计/毕业设计周记(三)/</id>
-    <published>2017-03-25T13:50:00.000Z</published>
-    <updated>2017-03-26T13:41:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>3.26更新</strong><br>周末把竞赛支持也写好了,但是总觉得和自己想要的不太一样了,前端太乏力,因此下周开始重构前端,采用VUE写成一个单页逻辑应用.希望不会耽误太多时间.</p>
-<hr>
-<p>花了一下午的时间把服务器重装了,所有实例包括mysql,redis,nginx都跑在docker中,项目也是跑在docker中,目前来看效果很不错,对服务器的利用率比之前高太多了.</p>
-<p>部署的OJ漏洞挺多的,体验上也没怎么优化,尤其是注册流程,问题多多,接下来要优化代码,优化这个流程.</p>
-<p>竞赛方面的支持,因为上周公司出了几个大活动,一直比较忙,而没去做,本周也继续做竞赛方面支持.</p>
-<p>因此目前进度:</p>
-<ol>
-<li>服务器部署全部docker化</li>
-<li>线上可以直接判题</li>
-</ol>
-<p>测试地址:  <a href="http://oj.mrdear.cn/" target="_blank" rel="external">http://oj.mrdear.cn/</a>    服务器比价渣,速度比较慢</p>
-<p>测试账号:   1015315668@qq.com    密码: 111111</p>
-<p>等待完成:</p>
-<p>1.竞赛的支持<br>2.注册流程优化</p>
-<p>源码地址:</p>
-<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;3.26更新&lt;/strong&gt;&lt;br&gt;周末把竞赛支持也写好了,但是总觉得和自己想要的不太一样了,前端太乏力,因此下周开始重构前端,采用VUE写成一个单页逻辑应用.希望不会耽误太多时间.&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;花了一下午的时间把服务器重装了,所有实例包括my
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   

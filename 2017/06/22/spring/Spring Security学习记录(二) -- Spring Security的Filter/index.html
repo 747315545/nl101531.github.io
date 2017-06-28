@@ -88,22 +88,22 @@
 
 <meta name="description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
 
-下面是之前配置的内容,本文也是对这些内容的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;has">
+下面是之前配置的内容,本文也是对这些内容 的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;ha">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Security学习记录(二) -- Spring Security的Filter">
 <meta property="og:url" content="http://mrdear.cn/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/index.html">
 <meta property="og:site_name" content="屈定's Blog">
 <meta property="og:description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
 
-下面是之前配置的内容,本文也是对这些内容的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;has">
+下面是之前配置的内容,本文也是对这些内容 的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;ha">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498318805.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-06-24T15:40:13.000Z">
+<meta property="og:updated_time" content="2017-06-25T08:55:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Security学习记录(二) -- Spring Security的Filter">
 <meta name="twitter:description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
 
-下面是之前配置的内容,本文也是对这些内容的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;has">
+下面是之前配置的内容,本文也是对这些内容 的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;ha">
 <meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p">
 
 
@@ -430,7 +430,7 @@
       
         <p>上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.</p>
 <hr>
-<p>下面是之前配置的内容,本文也是对这些内容的执行分析.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">access</span>=<span class="string">"hasRole('ROLE_USER')"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:form-login</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:http-basic</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:logout</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>下面是之前配置的内容,本文也是对这些内容 的执行分析.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">access</span>=<span class="string">"hasRole('ROLE_USER')"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:form-login</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:http-basic</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:logout</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">security:authentication-manager</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">security:user-service</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">security:user</span> <span class="attr">name</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">authorities</span>=<span class="string">"ROLE_USER, ROLE_ADMIN"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">security:user-service</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">security:authentication-provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">security:authentication-manager</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <h3 id="1-Filter链的由来"><a href="#1-Filter链的由来" class="headerlink" title="1.Filter链的由来"></a>1.Filter链的由来</h3><p>由上文可知每一个<code>security:http</code>标签实际上对应的是一个<code>SecurityFilterChain</code>的类,也就是一条Filter链,可以通过其http属性指明其作用的URL,否则作用域全部的URL,如下配置,该security:http会产生一个对/login下的所有请求Filter链.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security:http</span> <span class="attr">pattern</span>=<span class="string">"/login/**"</span>&gt;</span></div><div class="line">    ******</div><div class="line"><span class="tag">&lt;/<span class="name">security:http</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>打个断点可以很清楚的看到该Filter链<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <h3 id="2-SecurityContextPersistenceFilter"><a href="#2-SecurityContextPersistenceFilter" class="headerlink" title="2.SecurityContextPersistenceFilter"></a>2.SecurityContextPersistenceFilter</h3><p>该类在所有的Filter之前,是从<code>SecurityContextRepository</code>中取出用户认证信息,默认实现类为<code>HttpSessionSecurityContextRepository</code>,其会从Session中取出已认证用户的信息,提高效率,避免每一次请求都要查询用户认证信息.<br>取出之后会放入<code>SecurityContextHolder</code>中,以便其他filter使用,该类使用ThreadLocal存储用户认证信息,保证了线程之间的信息隔离,最后再finally中清除该信息.<br>可以配置http的<code>security-context-repository-ref</code>属性来自己控制获取到已认证用户信息的方式,比如使用redis存储session等.</p>
@@ -526,6 +526,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践/" rel="prev" title="Spring Security学习记录(三) -- JSON Web Token实践">
+                Spring Security学习记录(三) -- JSON Web Token实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -598,7 +602,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
