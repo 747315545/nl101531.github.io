@@ -1,5 +1,5 @@
 ---
-title: Spring Security学习记录(三) -- JSON Web Token实践
+title: Spring Security学习记录(三) -- JSON Web Token实践(上)
 tags:
   - Spring    
 categories: Spring
