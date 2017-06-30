@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-06-26T11:11:10.000Z</updated>
+  <updated>2017-06-30T04:29:10.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Spring Security学习记录(三) -- JSON Web Token实践</title>
-    <link href="http://mrdear.cn/2017/06/26/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)%20--%20JSON%20Web%20Token%E5%AE%9E%E8%B7%B5/"/>
-    <id>http://mrdear.cn/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践/</id>
+    <title>Spring Security学习记录(三) -- JSON Web Token实践(上)</title>
+    <link href="http://mrdear.cn/2017/06/26/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)%20--%20JSON%20Web%20Token%E5%AE%9E%E8%B7%B5(%E4%B8%8A)/"/>
+    <id>http://mrdear.cn/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践(上)/</id>
     <published>2017-06-26T08:36:33.000Z</published>
-    <updated>2017-06-26T11:11:10.000Z</updated>
+    <updated>2017-06-30T04:29:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.</p>
 <hr>
