@@ -101,7 +101,7 @@ Http Basci认证的支持,该认证会把用户名密码使用base64编码后放
 Collection<ConfigAttribute> attributes = this.obtainSecurityMetadataSource()
 				.getAttributes(object);
 ```
-获取到所配置资源访问的授权信息,对于上述配置,获取到的则为`hasRole('ROLE_USER')`,然后根据`SecurityContextHolder`中存储的用户信息来决定其是否有权限,没权限则返回403
+获取到所配置资源访问的授权信息,对于上述配置,获取到的则为`hasRole('ROLE_USER')`,然后根据`SecurityContextHolder`中存储的用户信息来决定其是否有权限,没权限则返回403,具体想了解可以关注`HttpConfigurationBuilder.createFilterSecurityInterceptor()`方法,分析其创建流程加载了哪些数据,或者分析`SecurityExpressionOperations`的子类,其是权限鉴定的实现方法.
 
 ### 总结
 整个认证授权流程如下图所示,图是网上盗的
