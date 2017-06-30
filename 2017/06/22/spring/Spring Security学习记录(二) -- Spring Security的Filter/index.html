@@ -98,7 +98,7 @@
 下面是之前配置的内容,本文也是对这些内容 的执行分析.123456789101112131415&amp;lt;security:http &amp;gt;        &amp;lt;security:intercept-url pattern=&quot;/**&quot; access=&quot;ha">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498283386.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498318805.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-06-25T08:55:50.000Z">
+<meta property="og:updated_time" content="2017-06-30T01:43:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Security学习记录(二) -- Spring Security的Filter">
 <meta name="twitter:description" content="上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.
@@ -450,7 +450,7 @@
 <h3 id="13-SessionManagementFilter"><a href="#13-SessionManagementFilter" class="headerlink" title="13.SessionManagementFilter"></a>13.SessionManagementFilter</h3><p>与登录认证拦截时作用一样,持久化用户登录信息,可以保存到session中,也可以保存到cookie或者redis中.</p>
 <h3 id="14-ExceptionTranslationFilter"><a href="#14-ExceptionTranslationFilter" class="headerlink" title="14.ExceptionTranslationFilter"></a>14.ExceptionTranslationFilter</h3><p>异常拦截,其处在Filter链后部分,只能拦截其后面的节点并且着重处理<code>AuthenticationException</code>与<code>AccessDeniedException</code>两个异常.</p>
 <h3 id="15-FilterSecurityInterceptor"><a href="#15-FilterSecurityInterceptor" class="headerlink" title="15.FilterSecurityInterceptor"></a>15.FilterSecurityInterceptor</h3><p>主要是授权验证,方法为<code>beforeInvocation</code>,在其中调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Collection&lt;ConfigAttribute&gt; attributes = <span class="keyword">this</span>.obtainSecurityMetadataSource()</div><div class="line">				.getAttributes(object);</div></pre></td></tr></table></figure></p>
-<p>获取到所配置资源访问的授权信息,对于上述配置,获取到的则为<code>hasRole(&#39;ROLE_USER&#39;)</code>,然后根据<code>SecurityContextHolder</code>中存储的用户信息来决定其是否有权限,没权限则返回403</p>
+<p>获取到所配置资源访问的授权信息,对于上述配置,获取到的则为<code>hasRole(&#39;ROLE_USER&#39;)</code>,然后根据<code>SecurityContextHolder</code>中存储的用户信息来决定其是否有权限,没权限则返回403,具体想了解可以关注<code>HttpConfigurationBuilder.createFilterSecurityInterceptor()</code>方法,分析其创建流程加载了哪些数据,或者分析<code>SecurityExpressionOperations</code>的子类,其是权限鉴定的实现方法.</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>整个认证授权流程如下图所示,图是网上盗的<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498318805.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <p>因为是学习方面,使用的不是很多,如有错误请指出,以防误人子弟.<br>简单来说,作为用户需要关心的地方是</p>
 <ol>
