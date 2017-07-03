@@ -89,7 +89,7 @@ Stream结构示意图:
 #### 1. 操作是如何记录下来的?
 1. Head记录Stream起始操作
 2. StatelessOp记录中间操作
-3. StatefulOp记录终端操作
+3. StatefulOp记录有状态的中间操作
 这三个操作实例化会指向其父类`AbstractPipeline`,也就是在`AbstractPipeline`中建立了双向链表
 
 对于Head
@@ -123,7 +123,7 @@ Stream结构示意图:
             sourceStage.sourceAnyStateful = true;
     }
 ```
-<img src="http://oobu4m7ko.bkt.clouddn.com/1497148591.png?imageMogr2/thumbnail/!60p" height=500 align=right >
+<img src="http://oobu4m7ko.bkt.clouddn.com/1499071580.png?imageMogr2/thumbnail/!60p" height=500 align=right >
 调用过程如此用双向链表串联起来,每一步都得知其上一步与下一步的操作.
  data.stream()
  .filter(x -> x.length() == 2)
@@ -196,7 +196,8 @@ Stream结构示意图:
             list.add(t);
         }
 ```
-![](http://oobu4m7ko.bkt.clouddn.com/1497157056.png?imageMogr2/thumbnail/!70p)
+![](http://oobu4m7ko.bkt.clouddn.com/1499071806.png?imageMogr2/thumbnail/!70p)
+
 #### 叠加后如何执行?
 执行操作是由终端操作来触发的,例如foreach操作
 ```java
@@ -221,7 +222,7 @@ Sink opWrapSink(int flags, Sink<P_OUT> sink) ;
         return (Sink<P_IN>) sink;
     }
 ```
-![](http://oobu4m7ko.bkt.clouddn.com/1497156134.png?imageMogr2/thumbnail/!70p)
+![](http://oobu4m7ko.bkt.clouddn.com/1499071772.png?imageMogr2/thumbnail/!70p)
 
 ```java
     @Override
@@ -262,7 +263,7 @@ Sink opWrapSink(int flags, Sink<P_OUT> sink) ;
         }
 ```
 那么就相当于sorted给原有操作断路了一次,然后又重新接上,再次遍历.
-![](http://oobu4m7ko.bkt.clouddn.com/1497158292.png?imageMogr2/thumbnail/!70p)
+![](http://oobu4m7ko.bkt.clouddn.com/1499071708.png?imageMogr2/thumbnail/!70p)
 
 #### 如何收集到结果?
 foreach是不需要收集到结果的,但是对于collect这样的操作是需要拿到最终end产生的结果.end产生的结果在最后一个Sink中,这样的操作最终都会提供一个取出数据的get方法.
