@@ -99,7 +99,7 @@ JWT是什">
 JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题.
 JWT是什">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498469217.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-06-30T04:29:10.000Z">
+<meta property="og:updated_time" content="2017-06-30T10:20:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Security学习记录(三) -- JSON Web Token实践(上)">
 <meta name="twitter:description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.
@@ -455,6 +455,7 @@ JWT是什">
 <h3 id="为什么JWT能保证信息传输的安全可靠"><a href="#为什么JWT能保证信息传输的安全可靠" class="headerlink" title="为什么JWT能保证信息传输的安全可靠?"></a>为什么JWT能保证信息传输的安全可靠?</h3><p>比如现在有token<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eyJhbGciOiJIUzI1NiJ9.</div><div class="line">eyJleHAiOjE0OTg0ODIxNTQsInN1YiI6InF1ZGluZyIsInVzZXJJZCI6IjEwMzc5NDAxIiwicm9sZSI6ImFkbWluIn0.</div><div class="line">-YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Header</div><div class="line">&#123;</div><div class="line">  "alg": "HS256"</div><div class="line">&#125;</div><div class="line">Playload</div><div class="line">&#123;</div><div class="line">  "exp": 1498482154,</div><div class="line">  "sub": "quding",</div><div class="line">  "userId": "10379401",</div><div class="line">  "role": "admin"</div><div class="line">&#125;</div><div class="line">Sign</div><div class="line">YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure>
 <p>假设我的playload被其他人劫持了,其他人把userId修改为他自己的,比如123456,但是其没有签名的秘钥,所以他就没法生成签名.<br>服务端收到该Token后,会用先Base64解码出来相应的信息,然后重新生成sign,使用该sign与客户端传来的Sign进行对比,一样则证明没被修改,也就是可信的请求,否则拒绝该请求.</p>
+<p>下一篇开始实战.</p>
 
       
     </div>
@@ -521,6 +522,10 @@ JWT是什">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/30/spring/Spring Security学习记录(四) -- JSON Web Token实践(下)/" rel="prev" title="Spring Security学习记录(四) -- JSON Web Token实践(下)">
+                Spring Security学习记录(四) -- JSON Web Token实践(下) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -594,7 +599,7 @@ JWT是什">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
