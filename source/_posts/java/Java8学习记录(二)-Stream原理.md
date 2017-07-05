@@ -140,6 +140,29 @@ Stream结构示意图:
 3. boolean cancellationRequested(),判断是否可以提前结束循环
 4. void accept(T value),每一步的处理
 
+其子类之一ChainedReference:
+```java    
+    static abstract class ChainedReference<T, E_OUT> implements Sink<T> {
+        protected final Sink<? super E_OUT> downstream;
+
+        public ChainedReference(Sink<? super E_OUT> downstream) {
+            this.downstream = Objects.requireNonNull(downstream);
+        }
+        @Override
+        public void begin(long size) {
+            downstream.begin(size);
+        }
+        @Override
+        public void end() {
+            downstream.end();
+        }
+        @Override
+        public boolean cancellationRequested() {
+            return downstream.cancellationRequested();
+        }
+    }
+```
+
 例Filter:
 ```java
     @Override
