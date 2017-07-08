@@ -19,6 +19,8 @@ token既然被系统认为是可信的信息集合,那么就需要有相应的�
 #### 如何解决SSO?
 SSO需要借助cookie或者localStorge,把token放在顶级域名中,这样的话子系统都能使用到,也就完成的SSO机制.
 对于多域名,那要解决的问题就是如何跨域设置cookie了
+#### 如何解决CSRF?
+CSRF产生的原因是对方使用了你的Cookie也就是使用了你的认证信息,那么的话获取token这一步就不能依赖token,所以把cookie存在cookie中,然后请求时放入header中,解析时从header中获取token信息.
 - - - - -
 
 ### 实践
@@ -103,7 +105,7 @@ public class TokenUserAuthentication implements Authentication {
     this.userDTO = userDTO;
     this.authentication = authentication;
   }
-
+    //这里的权限是FilterSecurityInterceptor做权限验证使用
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return userDTO.getRoles().stream()
@@ -249,7 +251,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/detail").access("hasRole('ADMIN')")
         ...
 ```
-这样的话就实现了jwt验证,SSO问题也就是token传输的问题,使用cookie就可以了,对这里的代码没影响.
+这样的话就实现了jwt验证,SSO问题也就是token传输的问题,使用cookie就可以了,客户端去请求时从cookie中加载token,然后放入到header中,对这里的代码没影响.
 
 - - - - -
 > github地址: [https://github.com/nl101531/JavaWEB](https://github.com/nl101531/JavaWEB)
