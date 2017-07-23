@@ -5,10 +5,10 @@ type: "about"
 ---
 
 ### Name:
-屈定(公司花名)
+屈定
 
 ### Status:
-实习  AND Change
+工作  AND Change
 
 ### Info:
 之前在csdn写博客,后来迁移到简书,最后在github上定居,只想要一种自由的感觉,符合条件的还是hexo!
@@ -18,4 +18,4 @@ type: "about"
 ### Connact:
 
 微信
-![](http://ac-HSNl7zbI.clouddn.com/W3t8MRTDSX3UiqJtTTRzkqfgPj5aykSrST1Wvlvb.jpg)
+![](http://oobu4m7ko.bkt.clouddn.com/1500772545.png?imageMogr2/thumbnail/!50p)

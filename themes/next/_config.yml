@@ -291,13 +291,13 @@ baidu_analytics: 05272b7f33b576c5363b4fa34583f3c3
 #duoshuo_shortname: niuli
 
 # Disqus
-#disqus_shortname:
+disqus_shortname: mrdear
 
 # Hypercomments
 #hypercomments_id:
 
 # Gentie productKey
-gentie_productKey: f928d3f9d6e242eab0d4ba8bf8099ee6
+# gentie_productKey: f928d3f9d6e242eab0d4ba8bf8099ee6
 
 # Support for youyan comments system.
 # You can get your uid from http://www.uyan.cc
