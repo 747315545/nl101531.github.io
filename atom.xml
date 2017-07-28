@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-07-23T01:11:28.000Z</updated>
+  <updated>2017-07-28T06:06:05.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>病态的开发模式</title>
+    <link href="http://mrdear.cn/2017/07/28/%E9%9A%8F%E8%B0%88/%E7%97%85%E6%80%81%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%BC%80%E5%8F%91/"/>
+    <id>http://mrdear.cn/2017/07/28/随谈/病态的面向对象开发/</id>
+    <published>2017-07-28T04:51:50.000Z</published>
+    <updated>2017-07-28T06:06:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>转正后接手越来越多的需求,从表结构设计,到编码实现DO与Dao,Domian与Repository,DTO与Service,VO与API,看起来挺美好的,但是无论对于DO还是Domain还是DTO或着VO来说其只是数据的承载,在各个层次中传输的一种DTO形式.那么这是面向对象吗?</p>
+<p>我苦恼于这个问题,不清楚自己做的事情有什么意义,每次需求最重要的部分就是建立表了,然后”重复性”的写各个层次,顶多用点设计模式在service,strategy,factory等之上,这种开发使我产生了厌烦的情绪,我想这个应该不是所谓的面向对象.</p>
+<p>查询一些资料,发现疑惑的不止我一个,我得知<code>贫血模型</code>这一关键词,所谓的贫血模型指领域对象里只有get和set方法（POJO），所有的业务逻辑都不包含在内而是放在Business Logic层。也就是目前大多数Java项目使用的结构,这样的结构决定了实现之前必须要先设计表结构.那么这和面向对象就没什么关联了.</p>
+<p>与<code>贫血模型</code>相对应,充血模型也就是所谓的面向对象形式,我还没有去用过,不敢枉加主观看法,随着搜索我发现了DDD即领域驱动设计这一充血模型的实现,打算好好看看.</p>
+<p>无论怎么样,我认为Java WEB目前的开发形式是有点小问题的</p>
+<p>希望后续的学习能够解决我的疑问.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;转正后接手越来越多的需求,从表结构设计,到编码实现DO与Dao,Domian与Repository,DTO与Service,VO与API,看起来挺美好的,但是无论对于DO还是Domain还是DTO或着VO来说其只是数据的承载,在各个层次中传输的一种DTO形式.那么这是面向对
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="面向对象" scheme="http://mrdear.cn/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>关于老项目替换dubbo的一点经验</title>
@@ -1018,36 +1046,6 @@
     
       &lt;p&gt;本周一直在重构前端,目前登录注册+侧边栏都已经完成,在此过程熟悉了angular2的开发模式,不得不佩服这些前端大神们,搞出来ng2这种类似后端写法的框架,下周进度会更加快,希望下周重构完成.&lt;/p&gt;
 &lt;p&gt;前端项目地址: &lt;a href=&quot;https://github.c
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(四)</title>
-    <link href="http://mrdear.cn/2017/04/03/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%9B%9B)/"/>
-    <id>http://mrdear.cn/2017/04/03/毕业设计/毕业设计周记(四)/</id>
-    <published>2017-04-03T13:50:00.000Z</published>
-    <updated>2017-04-03T23:37:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了.</p>
-<p>测试地址:  <a href="http://oj.mrdear.cn/" target="_blank" rel="external">http://oj.mrdear.cn/</a>    服务器比价渣,速度比较慢</p>
-<p>测试账号:   1015315668@qq.com    密码: 111111</p>
-<p>等待完成:</p>
-<p>1.前端页面的重构</p>
-<p>源码地址:</p>
-<p><a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了.&lt;/p&gt;
-&lt;p&gt;测试地址:  
     
     </summary>
     
