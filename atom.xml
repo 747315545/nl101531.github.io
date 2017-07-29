@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-07-29T07:35:48.000Z</updated>
+  <updated>2017-07-29T14:44:01.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>maven仓库清理脚本</title>
+    <link href="http://mrdear.cn/2017/07/29/%E5%B7%A5%E5%85%B7/maven%E4%BB%93%E5%BA%93%E6%B8%85%E7%90%86%E8%84%9A%E6%9C%AC/"/>
+    <id>http://mrdear.cn/2017/07/29/工具/maven仓库清理脚本/</id>
+    <published>2017-07-29T14:40:15.000Z</published>
+    <updated>2017-07-29T14:44:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.<br>没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了.</p>
+<p>附上清理脚本,实际上就是递归遍历文件夹然后判断文件更新时间,对比后决定是否要删除.首次清理后仓库从1.5G变为650M,清爽了不少.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> shutil</div><div class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="comment"># maven仓库地址</span></div><div class="line">mvnHome = <span class="string">"/Users/niuli/.m2/repository"</span></div><div class="line"><span class="comment"># 删除该日期前的文件以及文件夹</span></div><div class="line">deleteDateBefore = datetime(<span class="number">2017</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">listPathAndClean</span><span class="params">(pathContext)</span>:</span></div><div class="line">    pathDir = os.listdir(pathContext)</div><div class="line">    <span class="keyword">for</span> filename <span class="keyword">in</span> pathDir:</div><div class="line">        filepath = os.path.join(pathContext, filename)</div><div class="line">        currentTimeFile = datetime.fromtimestamp(os.path.getmtime(filepath))</div><div class="line"></div><div class="line">        <span class="comment"># 对比时间</span></div><div class="line">        <span class="keyword">if</span> deleteDateBefore &gt; currentTimeFile:</div><div class="line">            print(<span class="string">"filePath:"</span>+filepath+<span class="string">"-----updatetime:"</span>+str(currentTimeFile))</div><div class="line">            print(<span class="string">'delete this'</span>)</div><div class="line">            <span class="keyword">if</span> (os.path.isdir(filepath)):</div><div class="line">                shutil.rmtree(filepath)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                os.remove(filepath)</div><div class="line">            <span class="keyword">continue</span></div><div class="line">            </div><div class="line">        <span class="comment"># 不到期的则深入遍历</span></div><div class="line">        <span class="keyword">if</span> os.path.isdir(filepath):</div><div class="line">            listPathAndClean(filepath)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    print(deleteDateBefore)</div><div class="line">    print(<span class="string">'start list should delete path'</span>)</div><div class="line">    listPathAndClean(mvnHome)</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.&lt;br&gt;没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了.&lt;/p&gt;
+&lt;p&gt;附上清理脚本,实际上就是递归遍历文件
+    
+    </summary>
+    
+      <category term="maven" scheme="http://mrdear.cn/categories/maven/"/>
+    
+    
+      <category term="maven" scheme="http://mrdear.cn/tags/maven/"/>
+    
+  </entry>
   
   <entry>
     <title>Maven子模块打包后拷贝目标文件到父模块</title>
@@ -945,118 +970,6 @@
     
     
       <category term="动漫" scheme="http://mrdear.cn/tags/%E5%8A%A8%E6%BC%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>angular2学习记录-给后端程序员的经验分享</title>
-    <link href="http://mrdear.cn/2017/04/08/web/angular2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E7%BB%99%E5%90%8E%E7%AB%AF%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
-    <id>http://mrdear.cn/2017/04/08/web/angular2学习记录-给后端程序员的经验分享/</id>
-    <published>2017-04-08T15:00:00.000Z</published>
-    <updated>2017-04-29T08:25:27.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了.</p>
-<p><strong>这里就要说下个人观点了,安利一波</strong>:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上面的项目,可能该项目一开始很简单,但是随着你不断的学习,不断的把新知识运用进去,这个项目就会伴随着你的成长而丰富起来,给你带来的则是更多的实战经验.</p>
-<h3 id="2-angular2简介"><a href="#2-angular2简介" class="headerlink" title="2.angular2简介"></a>2.angular2简介</h3><ol>
-<li>angular2是类似全家桶组合的框架,所需要的东西几乎都包办了,所以开发起来很迅速.</li>
-<li>使用TypeScript作为开发语言,对于Java和C#程序员可以快速上手,还有就是我比较喜欢强类型语言,每个变量各司其职,由其的类型来限定,开发人员也很明确知道变量的作用.</li>
-<li>google和Microsoft支持</li>
-<li>WebStorm对angular2的强大支持.</li>
-<li>一篇安利文章<a href="http://www.infoq.com/cn/articles/why-choose-angular2/" target="_blank" rel="external">http://www.infoq.com/cn/articles/why-choose-angular2/</a></li>
-</ol>
-<blockquote>
-<p>一些学习资料<br>ECMAScript 6入门  <a href="http://es6.ruanyifeng.com/" target="_blank" rel="external">http://es6.ruanyifeng.com/</a><br>TypeScript入门   <a href="http://www.imooc.com/learn/763" target="_blank" rel="external">http://www.imooc.com/learn/763</a><br>TypeScript中文网  <a href="https://www.tslang.cn/docs/tutorial.html" target="_blank" rel="external">https://www.tslang.cn/docs/tutorial.html</a><br>慕课网1小时快速上手视频  <a href="http://www.imooc.com/learn/789" target="_blank" rel="external">http://www.imooc.com/learn/789</a><br>官方文档  <a href="https://www.angular.cn/docs/ts/latest/cli-quickstart.html" target="_blank" rel="external">https://www.angular.cn/docs/ts/latest/cli-quickstart.html</a></p>
-</blockquote>
-<h3 id="3-遇到的问题"><a href="#3-遇到的问题" class="headerlink" title="3.遇到的问题"></a>3.遇到的问题</h3><h4 id="3-1滚动监听"><a href="#3-1滚动监听" class="headerlink" title="3.1滚动监听"></a>3.1滚动监听</h4><p>要实现页面滚动后导航栏会变色的效果,如下图(图来自我的csdn博客,没找到其他好图床)<br><img src="http://img.blog.csdn.net/20170408234307620?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwNjgxMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图来自我的csdn博客"></p>
-<p>之前使用Jq是<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">window</span>).scroll(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    indexApp.scrollBar = <span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.scrollTop||<span class="built_in">document</span>.documentElement.scrollTop);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>不打算依赖Jq,搜了点资料发现了下面两种写法.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//下面这种写法在TS下不会有效果.</span></div><div class="line">  isAddBackColor()&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.getIsIndex())&#123;</div><div class="line">       <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">       <span class="comment">//该处使用匿名函数,而不是箭头函数.</span></div><div class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">let</span> marginTop = <span class="built_in">document</span>.body.scrollTop|| <span class="built_in">document</span>.documentElement.scrollTop;</div><div class="line">        self.isBackColor = marginTop &gt; <span class="number">20</span> &amp;&amp; self.getIsIndex();</div><div class="line">      &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">   * 判断是否需要加背景色(有效果的)</div><div class="line">   * 使用isBackColor控制结果</div><div class="line">   */</div><div class="line">  isAddBackColor()&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.getIsIndex())&#123;</div><div class="line">      <span class="comment">//监听事件使用箭头函数,这样ng2才会管理该变量</span></div><div class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,() =&gt; &#123;</div><div class="line">        <span class="keyword">let</span> marginTop = <span class="built_in">document</span>.body.scrollTop|| <span class="built_in">document</span>.documentElement.scrollTop;</div><div class="line">        <span class="keyword">this</span>.isBackColor = marginTop &gt; <span class="number">20</span> &amp;&amp; <span class="keyword">this</span>.getIsIndex();</div><div class="line">      &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>原因不明,猜想是<code>var self = this;</code>赋值操作后相当于一个全新的变量,self并不受angular管理,导致刷新的变量是self中的isBackColor.</p>
-<h4 id="3-2http参数传递"><a href="#3-2http参数传递" class="headerlink" title="3.2http参数传递"></a>3.2http参数传递</h4><p>按照下面代码传参数应该是没有问题的,但是我遇到了url被编码问题,例如输入<code>1111@qq.com</code>会被转换为<code>1111%40qq.com</code>,导致服务端解析失败,找了很多原因才发现是<code>URLSearchParams</code>这个对象用错了,angular2提供了这个对象,es6里面也有一个该对象,换成ng2中对象即可,<code>import {URLSearchParams} from &quot;@angular/http&quot;;</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> urlParams = <span class="keyword">new</span> URLSearchParams();</div><div class="line">urlParams.set(<span class="string">'search'</span>,search);</div><div class="line">urlParams.set(<span class="string">'order'</span>,order);</div><div class="line">urlParams.set(<span class="string">'pageNum'</span>,pageNum.toString());</div><div class="line">urlParams.set(<span class="string">'pageSize'</span>,pageSize.toString());</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>.http.get(Config.url_problem_stage + stage,&#123;<span class="attr">params</span>:urlParams&#125;).toPromise()</div><div class="line">          .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</div><div class="line">          .catch(LogService.handleError)</div></pre></td></tr></table></figure></p>
-<h4 id="3-3跨域问题"><a href="#3-3跨域问题" class="headerlink" title="3.3跨域问题"></a>3.3跨域问题</h4><p>浏览器要求同源下才可请求,否则就产生跨域问题.</p>
-<table>
-<thead>
-<tr>
-<th>URL</th>
-<th>说明</th>
-<th>是否允许通信</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a><br><a href="http://www.a.com/b.js" target="_blank" rel="external">http://www.a.com/b.js</a></td>
-<td>同一域名下</td>
-<td>允许</td>
-</tr>
-<tr>
-<td><a href="http://www.a.com/lab/a.js" target="_blank" rel="external">http://www.a.com/lab/a.js</a> <br><a href="http://www.a.com/script/b.js" target="_blank" rel="external">http://www.a.com/script/b.js</a></td>
-<td>同一域名下不同文件夹</td>
-<td>允许</td>
-</tr>
-<tr>
-<td><a href="http://www.a.com:8000/a.js" target="_blank" rel="external">http://www.a.com:8000/a.js</a> <br><a href="http://www.a.com/b.js" target="_blank" rel="external">http://www.a.com/b.js</a></td>
-<td>同一域名，不同端口</td>
-<td>不允许</td>
-</tr>
-<tr>
-<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="https://www.a.com/b.js" target="_blank" rel="external">https://www.a.com/b.js</a></td>
-<td>同一域名，不同协议</td>
-<td>不允许</td>
-</tr>
-<tr>
-<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="http://70.32.92.74/b.js" target="_blank" rel="external">http://70.32.92.74/b.js</a></td>
-<td>域名和域名对应ip</td>
-<td>不允许</td>
-</tr>
-<tr>
-<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="http://script.a.com/b.js" target="_blank" rel="external">http://script.a.com/b.js</a></td>
-<td>主域相同，子域不同</td>
-<td>不允许</td>
-</tr>
-<tr>
-<td><a href="http://www.a.com/a.js" target="_blank" rel="external">http://www.a.com/a.js</a> <br><a href="http://a.com/b.js" target="_blank" rel="external">http://a.com/b.js</a></td>
-<td>同一域名，不同二级域名（同上）</td>
-<td>不允许（cookie这种情况下也不允许访问）</td>
-</tr>
-<tr>
-<td><a href="http://www.cnblogs.com/a.js" target="_blank" rel="external">http://www.cnblogs.com/a.js</a> <br><a href="http://www.a.com/b.js" target="_blank" rel="external">http://www.a.com/b.js</a></td>
-<td>不同域名</td>
-<td>不允许</td>
-</tr>
-</tbody>
-</table>
-<p>解决方案是用nginx反向代理到不同端口,模拟同一域名下不同文件夹情况.nginx监听本地888端口,这个也是项目入口,对于带api标识的请求转到后端服务器,对于其他请求则到前端服务器.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       8888;</div><div class="line">    server_name  localhost;</div><div class="line"></div><div class="line">    #charset koi8-r;</div><div class="line"></div><div class="line">    #access_log  logs/host.access.log  main;</div><div class="line"></div><div class="line">    location /api &#123;</div><div class="line">        proxy_pass   http://127.0.0.1:8080;</div><div class="line">    &#125;</div><div class="line">    location / &#123;</div><div class="line">        proxy_pass   http://127.0.0.1:4200;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="3-4路由问题"><a href="#3-4路由问题" class="headerlink" title="3.4路由问题"></a>3.4路由问题</h4><p>angular2的路由匹配规则是从根路由也就是<code>forRoot()</code>的这个开始.在该处匹配寻找规则.</p>
-<p><strong>根路由:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> appRoutes: Routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">''</span>,</div><div class="line">    <span class="attr">component</span>: IndexComponent,</div><div class="line">    <span class="attr">pathMatch</span>:<span class="string">'full'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'aust'</span>,</div><div class="line">    <span class="attr">loadChildren</span>:<span class="string">'./content/content.module#ContentAndAsideModule'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'index'</span>,</div><div class="line">    <span class="attr">component</span>: IndexComponent,</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>:<span class="string">'**'</span>,</div><div class="line">    <span class="attr">loadChildren</span>:<span class="string">'./content/content.module#ContentAndAsideModule'</span></div><div class="line">  &#125;,</div><div class="line">];</div></pre></td></tr></table></figure></p>
-<p><strong>子路由:</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> childRouter : Routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">''</span>,</div><div class="line">    <span class="attr">component</span>:ContentAndAsideComponent,</div><div class="line">    <span class="attr">children</span>:[</div><div class="line">      &#123;<span class="attr">path</span>:<span class="string">''</span>,<span class="attr">redirectTo</span>:<span class="string">'/index'</span>,<span class="attr">pathMatch</span>:<span class="string">'full'</span>&#125;,</div><div class="line">      &#123;<span class="attr">path</span>:<span class="string">'start'</span>,<span class="attr">component</span>:StartComponent&#125;,</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">  ];</div></pre></td></tr></table></figure></p>
-<p><strong>举例:</strong><br>访问<code>/</code>,则先在根路由寻找,找到其跳转到IndexComponent,完成任务<br>访问<code>/aust</code>.则先在根路由找,发现需要到子路由里面寻找,到子路由后,在children中发现被重定向到<code>/index</code>,那么回到根路由,找到IndexComponent完成任务.<br>访问<code>/aust/start</code>,则先在根路由找,发现需要到子路由,到子路由匹配到StartComponent,完成任务.</p>
-<p><strong>路由参数</strong><br>路由传参数主要有两种方式,一种是restful风格的,一种是?号参数风格的.两种参数都保存在<code>ActivatedRoute</code>对象中,因此下面代码中的<code>route</code>为此对象<br>— restful风格<br>配置:<code>{path:&#39;article/:id&#39;,component:ArticleComponent}</code><br>链接:<code>http://domain/article/1</code><br>路由:<code>[routerLink]=&quot;[&#39;article&#39;,article.id]&quot;</code>或者直接拼接url<br>js获取:<code>this.route.params</code>中的一系列方法,或者<code>this.route.snapshot.params[&#39;id&#39;]</code><br>— 问号参数风格<br>配置:<code>{path:&#39;article&#39;,component:ArticleComponent}</code><br>链接:<code>http://domain/article?id=1</code><br>路由:<code>routerLink=&quot;article&quot; [queryParams]=&quot;{id: article.id}&quot;</code><br>js获取:<code>this.route.queryParams</code>中的一系列方法,或者<code>this.route.snapshot.queryParams[&#39;id&#39;]</code>,另外可以使用订阅模式queryParamMap.subscribe(),路由参数更新时自动通知</p>
-<h4 id="3-5组件通信"><a href="#3-5组件通信" class="headerlink" title="3.5组件通信"></a>3.5组件通信</h4><p>父-&gt;子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.<br>子-&gt;父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.<br>任意组件:使用service通讯(要求service单例),service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取.</p>
-<h4 id="3-6单例"><a href="#3-6单例" class="headerlink" title="3.6单例?"></a>3.6单例?</h4><p>agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着每一个providers提供的是一个实例,旗下的组件都是享用这一个实例,那么怎么实现全局单例呢?很简单在根module中提供服务且其他组件不要自己providers该服务.</p>
-<h4 id="3-7组件生命周期"><a href="#3-7组件生命周期" class="headerlink" title="3.7组件生命周期"></a>3.7组件生命周期</h4><p>组件生命周期看下面这张图.图中没有<code>onChanges(changes: SimpleChanges)</code>方法的调用,该方法检测到组件的<strong>输入属性</strong>发生变化时调用,也就是存在<strong>@inpu</strong>t装饰的属性,该属性每次变化时会调该方法.</p>
-<p><img src="http://ac-HSNl7zbI.clouddn.com/kRRpNMw13FEBLykaLlty4NQsVYFpeEl2OCBifcB2.jpg" alt=""></p>
-<h4 id="3-8部署问题"><a href="#3-8部署问题" class="headerlink" title="3.8部署问题"></a>3.8部署问题</h4><p>单页应用部署到服务器上可能会出现访问<code>www.domain.xx</code>可以访问,并且点击什么的都能成功,但是直接访问其中一个路由<code>www.domain.xx/aust/start</code>却报404.<br>先分析下问题的原因,我们的单页应用只有一个入口,报404也就是没找到这个入口.看nginx的配置.nginx收到请求后会去root下寻找<code>aust/start</code>下的index.html那么自然找不到,所以直接访问就会404.<br>那么问题来了为什么访问<code>www.domain.xx</code>之后页面内跳转到路由没问题呢?这是因为访问主域名后angular的js都已经全部加载了,这个时候跳转是js来控制的,不经过nginx自然不会出现上面的问题.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    root /Users/niuli/workspace/web/austoj/dist;</div><div class="line">    index  index.html index.htm;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><strong>解决方法:</strong><br>解决方法就是让其对于路由都去加载index.html这个文件.使用try_files指令,该指令会把uri当成一个文件,去根目录下寻找,找不到的话则内部重定向到配置的<code>/index.html</code>.这样配置的好处,对于静态资源try_files会直接找到后就返回,对于路由则会定向到<code>/index.html</code>.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    try_files $uri /index.html;</div><div class="line">    root /Users/niuli/workspace/web/austoj/dist;</div><div class="line">    index  index.html index.htm;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="3-9文件上传"><a href="#3-9文件上传" class="headerlink" title="3.9文件上传"></a>3.9文件上传</h4><p>文件上传是通过ajax操作上传,使用FormData形式,主要有以下问题要解决.</p>
-<ol>
-<li>怎么获得input框所选中的文件(为input绑定change事件,然后获取$event,文件就是event.srcElement.files[0])</li>
-<li>怎么上传到服务器?(使用formData对象,调用其append方法添加文件,再使用angular2的http组件post上去)<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">uploadAvatar(file: any): <span class="built_in">Promise</span>&lt;any&gt;&#123;</div><div class="line">    <span class="keyword">let</span> formData:FormData = <span class="keyword">new</span> FormData();</div><div class="line">    formData.append(<span class="string">'avatar'</span>,file);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.http.post(Config.url_upload_img,formData).toPromise()</div><div class="line">      .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</div><div class="line">      .catch(LogService.handleError);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<p>angular2项目:<br><a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-前言&quot;&gt;&lt;a href=&quot;#1-前言&quot; class=&quot;headerlink&quot; title=&quot;1.前言&quot;&gt;&lt;/a&gt;1.前言&lt;/h3&gt;&lt;p&gt;前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后
-    
-    </summary>
-    
-      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
-    
-    
-      <category term="angular" scheme="http://mrdear.cn/tags/angular/"/>
     
   </entry>
   
