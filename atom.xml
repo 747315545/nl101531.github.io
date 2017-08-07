@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-07-29T14:44:01.000Z</updated>
+  <updated>2017-08-07T16:03:45.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何搭建属于自己的shadowsocks</title>
+    <link href="http://mrdear.cn/2017/08/07/%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84shadowsocks/"/>
+    <id>http://mrdear.cn/2017/08/07/工具/如何搭建属于自己的shadowsocks/</id>
+    <published>2017-08-07T15:19:01.000Z</published>
+    <updated>2017-08-07T16:03:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="shadowsocks是什么"><a href="#shadowsocks是什么" class="headerlink" title="shadowsocks是什么?"></a>shadowsocks是什么?</h3><p>能看到这篇文章的人大概对这个都有些了解,可以理解为一个代理隧道,通过其可以代理到指定的vps服务器,然后服务器去获取到你所访问的内容再返回给你.<br>如果你把服务器当做跳板机的话,那么shadowsocks就是你与跳板机之间的关联.</p>
+<h3 id="vps服务器的选择"><a href="#vps服务器的选择" class="headerlink" title="vps服务器的选择"></a>vps服务器的选择</h3><p>vps服务器有很多,这里推荐下搬瓦工KVM架构的机器,推荐理由便宜,可靠,支持支付宝.</p>
+<blockquote>
+<p>不介意可以使用我的邀请链接: <a href="https://bandwagonhost.com/aff.php?aff=17639" target="_blank" rel="external">https://bandwagonhost.com/aff.php?aff=17639</a></p>
+</blockquote>
+<p>注册后选择最便宜款的KVM架构,重要的事情说三遍,KVM架构,KVM架构,KVM架构.至于好处是可以使用锐速,能让你的shadowsocks更加快.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1502120173.png?imageMogr2/thumbnail/!70p" alt=""><br>接下来是选择付款方案,一般选择$19.9的年付,三四个小伙伴一起用,平摊这个费用的话,就相当划算了.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1502120257.png?imageMogr2/thumbnail/!70p" alt=""><br>买完后会进去类似的管理后台,选择一键安装即可.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1502120362.png?imageMogr2/thumbnail/!70p" alt=""><br>到这里,vps服务端的shadowsocks就部署完毕了.接下来是客户端连接.</p>
+<h3 id="shadowsocks客户端"><a href="#shadowsocks客户端" class="headerlink" title="shadowsocks客户端"></a>shadowsocks客户端</h3><p>在github上有各个平台的客户端<a href="https://github.com/shadowsocks" target="_blank" rel="external">https://github.com/shadowsocks</a>,windows一般用<code>shadowsocks-windows</code>,mac用<code>ShadowsocksX-NG</code>,linux则用<code>shadowsocks-qt5</code>,下载对应客户端,配置好vps生成的shadowsocks端口和密码,启用即可,其主要作为一个本地服务器,其他应用软件通过其余vps服务器通信.</p>
+<p><strong>如何访问?</strong><br>浏览器安装插件<a href="https://switchyomega.com/" target="_blank" rel="external">switchyomega</a>,该插件会代理浏览器的请求链接,根据规则列表决定该链接是否要使用shadowsocks代理.<br>首先新建一个代理模式,该模式下所有请求都会走shadowsocks.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1502120910.png?imageMogr2/thumbnail/!70p" alt=""><br>其次建立一个自动情景切换模式,该模式会根据配置的规则自动选择对应的情景模式来处理.该模式主要分为三部分,第一部分是用户自定义,比如图片中我指定匹配<code>*.github.com</code>的连接走的是ss情景模式.<br>第二部分是规则列表,我配置的为<code>https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</code>,该文件中是被墙的一些地址,这些地址都走ss情景模式,其余的都是直接连接.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1502121104.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<p>接下来就可以访问google了.</p>
+<h3 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h3><p>锐速安装教程: <a href="https://github.com/91yun/serverspeeder" target="_blank" rel="external">https://github.com/91yun/serverspeeder</a><br>Google BBR : <a href="https://teddysun.com/489.html" target="_blank" rel="external">https://teddysun.com/489.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;shadowsocks是什么&quot;&gt;&lt;a href=&quot;#shadowsocks是什么&quot; class=&quot;headerlink&quot; title=&quot;shadowsocks是什么?&quot;&gt;&lt;/a&gt;shadowsocks是什么?&lt;/h3&gt;&lt;p&gt;能看到这篇文章的人大概对这个都有些了解,
+    
+    </summary>
+    
+      <category term="vps" scheme="http://mrdear.cn/categories/vps/"/>
+    
+    
+      <category term="shadowsocks" scheme="http://mrdear.cn/tags/shadowsocks/"/>
+    
+  </entry>
   
   <entry>
     <title>maven仓库清理脚本</title>
@@ -912,64 +944,6 @@
     
     
       <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>动漫推荐</title>
-    <link href="http://mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
-    <id>http://mrdear.cn/2017/04/15/动漫/动漫推荐/</id>
-    <published>2017-04-15T00:21:00.000Z</published>
-    <updated>2017-05-29T09:23:49.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="动漫推荐"><a href="#动漫推荐" class="headerlink" title="动漫推荐"></a>动漫推荐</h1><p>标签（空格分隔）： 动漫</p>
-<hr>
-<p>从小就是个动漫爱好者,年轻时追番,现在老了追不动了,只追动漫电影和一些经典动漫剧场版.我也不知道自己是什么风格的动漫迷,只是觉得好看,有共鸣就认为是好作品.人们总是把自己喜爱的东西推荐给别人,我也不例外,下面推荐我认为很不错的片子.(排名不分先后)</p>
-<h3 id="异邦人-无皇刃谭"><a href="#异邦人-无皇刃谭" class="headerlink" title="异邦人 无皇刃谭"></a>异邦人 无皇刃谭</h3><p>2017年初来在上海实习时看的,故事很温情,对于刚到一个陌生城市打拼的青年来说很容易引起共鸣,也因此我感触颇深,异邦人都是孤独的存在,内心是挣扎的,想要找到自己的归属,然而哪里才是归属?背景音乐很赞,听起来内心有点温暖,但是又会觉得很伤感,充满了无奈</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=508793&auto=0&height=66"></iframe>
-
-<h3 id="秒速五厘米"><a href="#秒速五厘米" class="headerlink" title="秒速五厘米"></a>秒速五厘米</h3><p>大概高一的时候第一次看了这个作品,唯美的画面,伤感的故事,再加上年少懵懂的恋爱经历,从此新海诚一生粉.回想以前是不是很多事情都可以 <code>One more time,One more chance</code></p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=540968&auto=0&height=66"></iframe>
-
-<h3 id="你看起来很好吃"><a href="#你看起来很好吃" class="headerlink" title="你看起来很好吃"></a>你看起来很好吃</h3><p>相当有趣的一部动漫,看起来完全没有负重感,从母爱,父爱,独立,自强等方面诠释了一个龙的成长.电影版是温情的结局,萌萌的画面,治愈的故事,给心情带来不一样的体验.<br>记住:哭闹的孩子 不管在哪里都会被霸王龙叼走</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=795251922&auto=0&height=66"></iframe>
-
-<h3 id="萤火之森"><a href="#萤火之森" class="headerlink" title="萤火之森"></a>萤火之森</h3><p>无法触碰的爱情,只是梦中的憧憬,这样的动漫是提醒你,在你年轻的时候曾经心里也住着一个无法触碰的他/她.</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=541381&auto=0&height=66"></iframe>
-
-<h3 id="fate-stay-night"><a href="#fate-stay-night" class="headerlink" title="fate stay night"></a>fate stay night</h3><p>作为番剧来说最喜欢的一个系列,fate stay night也是最早出来的一部,配乐,战斗,剧情都那么引人入胜,虽然fate zero也非常不错,但是让我来选择的话还是该部更让我难忘.</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=448119&auto=0&height=66"></iframe>
-
-<h3 id="怪物之子"><a href="#怪物之子" class="headerlink" title="怪物之子"></a>怪物之子</h3><p>细田守家族系列电影,复杂成长的环境会造成我们内心的空洞,然而填补这些空洞的方式就是父母的爱,即使在你眼中认为一无是处,半吊子的父亲,在最关键的时候也会奋不顾身的化身为剑去填补你内心的黑暗,细细回想小时候学习父亲的一举一动或许是每个人都无法忘记的时刻.</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=26352841&auto=0&height=66"></iframe>
-
-<h3 id="斩·赤红之瞳"><a href="#斩·赤红之瞳" class="headerlink" title="斩·赤红之瞳"></a>斩·赤红之瞳</h3><p>有点虐的番剧,几乎每个角色都是主角的设定,所以每个人角色的个性都很鲜明,也导致了每一个人物死去所带来的感染力.尤其看到结局,最初的一群角色就剩一个赤瞳了,其帮助革命军成立了新国家,然而其还要背负革命军为了革命所做的恶.该番剧有点杀红了眼,所以看的话就要做好心理准备.</p>
-<h3 id="亚人"><a href="#亚人" class="headerlink" title="亚人"></a>亚人</h3><p>这两周把亚人的电影版和TV版都看了一遍,首先电影版绝对是圈钱的作品,还是直接看TV版本吧,剧情一样.整个看下来感觉亚人一部很理性的动漫,无论是主角的处事风格,还是亚人和搜查官的联合,都是利益组建了一个关系网,截止到第二季来说目前还是这样的理性,不知道后期有没有变化.能把不死这一老套的技能演绎出这么多惊心动魄的故事场景的估计也只有亚人了吧.另外这动漫也透漏出政府只是比较大的土匪头子而已.</p>
-<h3 id="犬夜叉剧场版"><a href="#犬夜叉剧场版" class="headerlink" title="犬夜叉剧场版"></a>犬夜叉剧场版</h3><p>犬夜叉是儿时的回忆,尤其是其四个剧场版,小时候最喜欢看<code>天下霸道之剑</code>这一部,犬夜叉相比火影之类动漫的优点是其有一条爱情线,犬夜叉与阿离(我喜欢台版的这个翻译),犬夜叉与桔梗这之间复杂但却互相信任的关系.最喜欢的人物莫过于桔梗,其只是想过上普通的生活,然而命运却让其至死也无法得到想要的生活,悲情人物总能引起观看者的同情.</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=463673252&auto=0&height=66"></iframe>
-
-
-
-
-
-
-
-
-
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;动漫推荐&quot;&gt;&lt;a href=&quot;#动漫推荐&quot; class=&quot;headerlink&quot; title=&quot;动漫推荐&quot;&gt;&lt;/a&gt;动漫推荐&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： 动漫&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;从小就是个动漫爱好者,年轻时追番,现在老了追不动了,只追动漫电影和一些经典
-    
-    </summary>
-    
-      <category term="动漫" scheme="http://mrdear.cn/categories/%E5%8A%A8%E6%BC%AB/"/>
-    
-    
-      <category term="动漫" scheme="http://mrdear.cn/tags/%E5%8A%A8%E6%BC%AB/"/>
     
   </entry>
   

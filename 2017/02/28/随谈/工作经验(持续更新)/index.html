@@ -96,7 +96,7 @@
 <meta property="og:description" content="记录自己工作中的一点小经验,有不足的地方请指正.
 1.调第三方的的服务的时候切记不能直接调用,为了扩展性要使用自己定义封装.例子:我要使用支付宝的sdk调用支付宝的支付,那么为了让支付宝的SDK不侵染业务代码,那么就应该在上层再封装一层,保证自己业务的代码中不出现其他的方的代码.
 2.服务封装要尽可能确保只为一个层服务,尽量减少跨层级调用,比如controller层就应该避免调用dao层,而是调用">
-<meta property="og:updated_time" content="2017-07-28T04:50:48.000Z">
+<meta property="og:updated_time" content="2017-07-30T02:42:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工作经验">
 <meta name="twitter:description" content="记录自己工作中的一点小经验,有不足的地方请指正.
@@ -436,6 +436,7 @@
 <p>8.对于和第三方服务商服务交互的报文信息尽可能的全部打出来,避免以后因为某业务撕逼.这很重要!</p>
 <p>9.数据库经常有一些extend字段,对于这些字段对应DO提供String映射,在DTO中提供HashMap映射,因为该字段可能存出多种类型数据.</p>
 <p>10.表结构的设计要分为变与不变来考虑,不变的地方先固定下来,变化的部分围绕着不变的来建立关系.</p>
+<p>11.Service对应的方法一定要有一定的业务与之对应,比如我要删除一条记录,那么就有deleteById这样的方法.</p>
 
       
     </div>
@@ -575,7 +576,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -584,7 +585,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -593,7 +594,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
