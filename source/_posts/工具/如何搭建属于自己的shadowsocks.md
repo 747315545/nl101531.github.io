@@ -1,5 +1,5 @@
 ---
-title: 如何搭建属于自己的shadowsocks?
+title: 如何搭建属于自己的shadowsocks
 tags:
   - shadowsocks    
 categories: vps

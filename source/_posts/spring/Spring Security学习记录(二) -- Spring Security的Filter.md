@@ -116,4 +116,7 @@ Collection<ConfigAttribute> attributes = this.obtainSecurityMetadataSource()
 
 关于这些过滤器更详细的内容可参考博客: [http://www.iteye.com/blogs/subjects/spring_security](http://www.iteye.com/blogs/subjects/spring_security)
 
+> github地址:  [https://github.com/nl101531/JavaWEB](https://github.com/nl101531/JavaWEB)
+
+
 
