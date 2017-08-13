@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-08-07T16:03:45.000Z</updated>
+  <updated>2017-08-13T15:25:55.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OpenVZ的VPS加速指南</title>
+    <link href="http://mrdear.cn/2017/08/13/%E5%B7%A5%E5%85%B7/OpenVZ%E7%9A%84VPS%E5%8A%A0%E9%80%9F%E6%8C%87%E5%8D%97/"/>
+    <id>http://mrdear.cn/2017/08/13/工具/OpenVZ的VPS加速指南/</id>
+    <published>2017-08-13T14:39:05.000Z</published>
+    <updated>2017-08-13T15:25:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="实现理论"><a href="#实现理论" class="headerlink" title="实现理论"></a>实现理论</h3><p>OpenVZ架构的VPS加速选择比较少,不然KVM方便,除去双边加速比如FinalSpeed等软件后可用选择并不多,其中比较好的方案是Google BBR加速,为了在OpenVZ架构上使用必须借助UML这一子linux系统.</p>
+<p>所谓的UML全称为User Mode Linux,允许用户在Linux中以一个进程的方式再运行一个lInux,那么就很容易实现我们所需要的加速架构,原理是在UML中启动Shadowsocks,然后访问该Shadowsocks实现加速.</p>
+<h3 id="安装指南"><a href="#安装指南" class="headerlink" title="安装指南"></a>安装指南</h3><p>拿来主义原则,给出原博主链接<a href="https://www.91yun.co/archives/5345" target="_blank" rel="external">OpenVZ的UML+BBR加速一键包</a>,按照文章描述步骤配置即可,在这里做一些额外的补充.</p>
+<p><strong>宿主机请求转发</strong><br>一键脚本配置完毕后其是运行在UML主机里面的程序,其内网相对宿主机ip为<code>10.0.0.2</code>,但我们只能访问到宿主机,需要如下命令转发,其中端口<code>8888</code>改成你的ss配置的端口即可.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 8888 -j DNAT --to-destination 10.0.0.2</div><div class="line">iptables -t nat -A PREROUTING -i venet0 -p udp --dport 8888 -j DNAT --to-destination 10.0.0.2</div></pre></td></tr></table></figure>
+<p>接下来像以往一样访问即可.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;实现理论&quot;&gt;&lt;a href=&quot;#实现理论&quot; class=&quot;headerlink&quot; title=&quot;实现理论&quot;&gt;&lt;/a&gt;实现理论&lt;/h3&gt;&lt;p&gt;OpenVZ架构的VPS加速选择比较少,不然KVM方便,除去双边加速比如FinalSpeed等软件后可用选择并不多,其中比较
+    
+    </summary>
+    
+      <category term="vps" scheme="http://mrdear.cn/categories/vps/"/>
+    
+    
+      <category term="shadowsocks" scheme="http://mrdear.cn/tags/shadowsocks/"/>
+    
+  </entry>
   
   <entry>
     <title>如何搭建属于自己的shadowsocks</title>
@@ -264,7 +292,7 @@
     <link href="http://mrdear.cn/2017/06/26/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)%20--%20JSON%20Web%20Token%E5%AE%9E%E8%B7%B5(%E4%B8%8A)/"/>
     <id>http://mrdear.cn/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践(上)/</id>
     <published>2017-06-26T08:36:33.000Z</published>
-    <updated>2017-06-30T10:20:04.000Z</updated>
+    <updated>2017-08-08T14:55:34.000Z</updated>
     
     <content type="html"><![CDATA[<p>JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.</p>
 <hr>
@@ -292,6 +320,9 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Header</div><div class="line">&#123;</div><div class="line">  "alg": "HS256"</div><div class="line">&#125;</div><div class="line">Playload</div><div class="line">&#123;</div><div class="line">  "exp": 1498482154,</div><div class="line">  "sub": "quding",</div><div class="line">  "userId": "10379401",</div><div class="line">  "role": "admin"</div><div class="line">&#125;</div><div class="line">Sign</div><div class="line">YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure>
 <p>假设我的playload被其他人劫持了,其他人把userId修改为他自己的,比如123456,但是其没有签名的秘钥,所以他就没法生成签名.<br>服务端收到该Token后,会用先Base64解码出来相应的信息,然后重新生成sign,使用该sign与客户端传来的Sign进行对比,一样则证明没被修改,也就是可信的请求,否则拒绝该请求.</p>
 <p>下一篇开始实战.</p>
+<blockquote>
+<p>github地址:  <a href="https://github.com/nl101531/JavaWEB" target="_blank" rel="external">https://github.com/nl101531/JavaWEB</a></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
@@ -314,7 +345,7 @@
     <link href="http://mrdear.cn/2017/06/22/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)%20--%20Spring%20Security%E7%9A%84Filter/"/>
     <id>http://mrdear.cn/2017/06/22/spring/Spring Security学习记录(二) -- Spring Security的Filter/</id>
     <published>2017-06-22T14:03:37.000Z</published>
-    <updated>2017-06-30T01:43:33.000Z</updated>
+    <updated>2017-08-08T14:55:28.000Z</updated>
     
     <content type="html"><![CDATA[<p>上一篇学习了Spring Security是如何拦截请求,并把请求转向到Filter链的,该篇就主要学习下这些Filter链的节点的作用.</p>
 <hr>
@@ -347,6 +378,9 @@
 <li>权限验证<code>FilterSecurityInterceptor</code><br>下一篇则讲述利用这三个验证实现JWT验证.</li>
 </ol>
 <p>关于这些过滤器更详细的内容可参考博客: <a href="http://www.iteye.com/blogs/subjects/spring_security" target="_blank" rel="external">http://www.iteye.com/blogs/subjects/spring_security</a></p>
+<blockquote>
+<p>github地址:  <a href="https://github.com/nl101531/JavaWEB" target="_blank" rel="external">https://github.com/nl101531/JavaWEB</a></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
@@ -369,7 +403,7 @@
     <link href="http://mrdear.cn/2017/06/19/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)%20--%20Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)%20--%20%E5%88%9D%E8%AF%86Spring%20Security/"/>
     <id>http://mrdear.cn/2017/06/19/spring/Spring Security学习记录(一) -- Spring Security学习记录(一) -- 初识Spring Security/</id>
     <published>2017-06-19T06:08:25.000Z</published>
-    <updated>2017-06-22T13:55:48.000Z</updated>
+    <updated>2017-08-08T14:55:19.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="Spring-Security是什么"><a href="#Spring-Security是什么" class="headerlink" title="Spring Security是什么?"></a>Spring Security是什么?</h3><p>Spring Security是一套认证授权框架,支持认证模式如<code>HTTP BASIC 认证头 (基于 IETF RFC-based 标准)</code>,<code>HTTP Digest 认证头 ( IETF RFC-based 标准)</code>,<code>Form-based authentication (用于简单的用户界面)</code>,<code>OpenID 认证</code>等,Spring Security使得当前系统可以快速集成这些验证机制亦或是实现自己的一套验证机制.</p>
 <h3 id="使用Spring-Security"><a href="#使用Spring-Security" class="headerlink" title="使用Spring Security"></a>使用Spring Security</h3><p>Spring Security3之后提供了Java Config的配置方式,但是我觉得xml方式比较容易理解其整体结构,所以本文都是基于xml配置的,在github上该项目会提供Java Config方式作为对比.</p>
@@ -387,6 +421,9 @@
 <p>当调用<code>iaChainClass.doSomeThing()</code>输出<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">i am IAClass</div><div class="line">i am IAClass</div><div class="line">i am IAClass</div><div class="line">end</div></pre></td></tr></table></figure></p>
 <hr>
 <p>调用链的实现还可以使用继承来实现,每次执行前先执行super()方法.</p>
+<blockquote>
+<p>github地址:  <a href="https://github.com/nl101531/JavaWEB" target="_blank" rel="external">https://github.com/nl101531/JavaWEB</a></p>
+</blockquote>
 <p>ok,下一章分析具体的Filter链中的节点,探究下Spring Security是如何进行用户认证与权限控制的.</p>
 ]]></content>
     
@@ -912,38 +949,6 @@
     
     
       <category term="经验" scheme="http://mrdear.cn/tags/%E7%BB%8F%E9%AA%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(六)</title>
-    <link href="http://mrdear.cn/2017/04/16/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%85%AD)/"/>
-    <id>http://mrdear.cn/2017/04/16/毕业设计/毕业设计周记(六)/</id>
-    <published>2017-04-16T06:30:00.000Z</published>
-    <updated>2017-04-16T06:35:47.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>前端项目重构完毕,目前已部署到个人服务器上了.</p>
-<p>接下来写毕业论文,然后对OJ的功能进行测试,并且对其中的小bug进行修复.</p>
-<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
-<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
-<p>测试账号: 1015315668@qq.com<br>          111111</p>
-<p>等待完成:</p>
-<p>1.毕业论文</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前端项目重构完毕,目前已部署到个人服务器上了.&lt;/p&gt;
-&lt;p&gt;接下来写毕业论文,然后对OJ的功能进行测试,并且对其中的小bug进行修复.&lt;/p&gt;
-&lt;p&gt;前端项目地址: &lt;a href=&quot;https://github.com/nl101531/AUSTOJ-WEB&quot; targ
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
