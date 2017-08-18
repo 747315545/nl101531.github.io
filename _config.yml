@@ -23,7 +23,6 @@ public_dir: public
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
-code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
 
@@ -72,6 +71,13 @@ search:
   format: html
   limit: 10000
 
+
+algolia:
+  applicationID: A0L4FVEAGD
+  apiKey: f8bd7fb0a34ec8f3040c50f18fa39d06
+  adminApiKey: b7659c3279d562634e5cedce2bc70e16
+  indexName: quding
+  chunkSize: 5000
 
 # 自动生成sitemap
 sitemap:
