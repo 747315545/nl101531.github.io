@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-08-26T03:21:33.000Z</updated>
+  <updated>2017-08-26T03:26:13.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -16,15 +16,16 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>cnpm导致IDEA对于Angular项目提示失效.md</title>
+    <title>cnpm导致IDEA对于Angular项目提示失效</title>
     <link href="http://mrdear.cn/2017/08/26/web/Cnpm%E5%AF%BC%E8%87%B4IDEA%E5%AF%B9%E4%BA%8EAngular%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BA%E5%A4%B1%E6%95%88/"/>
     <id>http://mrdear.cn/2017/08/26/web/Cnpm导致IDEA对于Angular项目提示失效/</id>
     <published>2017-08-26T03:17:15.000Z</published>
-    <updated>2017-08-26T03:21:33.000Z</updated>
+    <updated>2017-08-26T03:26:13.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近写Angular项目的时候,IDEA的提示时而有时而没有,找了好久的原因才发现是cnpm的锅.<br>对于<code>cnpm install</code>,安装的angular依赖时链接方式引入,如下图<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717543.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <p>对于<code>npm install</code>,安装后的依赖时实在的文件,如下图<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717577.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <p>解决方案老老实实的用npm命令,觉得慢的话可以使用http代理,mac下的shadowsocks支持直接导出http代理,复制命令后粘贴到终端,即可实现终端翻墙.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717675.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<p>如果你不会翻墙,可以参考我之前写的教程  <a href="http://mrdear.cn/2017/08/07/%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84shadowsocks/">如何搭建属于自己的shadowsocks</a></p>
 ]]></content>
     
     <summary type="html">
@@ -39,6 +40,64 @@
       <category term="web" scheme="http://mrdear.cn/tags/web/"/>
     
       <category term="idea" scheme="http://mrdear.cn/tags/idea/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>动漫推荐</title>
+    <link href="http://mrdear.cn/2017/08/25/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    <id>http://mrdear.cn/2017/08/25/动漫/动漫推荐/</id>
+    <published>2017-08-25T03:26:23.000Z</published>
+    <updated>2017-08-26T03:26:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="动漫推荐"><a href="#动漫推荐" class="headerlink" title="动漫推荐"></a>动漫推荐</h1><p>标签（空格分隔）： 动漫</p>
+<hr>
+<p>从小就是个动漫爱好者,年轻时追番,现在老了追不动了,只追动漫电影和一些经典动漫剧场版.我也不知道自己是什么风格的动漫迷,只是觉得好看,有共鸣就认为是好作品.人们总是把自己喜爱的东西推荐给别人,我也不例外,下面推荐我认为很不错的片子.(排名不分先后)</p>
+<h3 id="异邦人-无皇刃谭"><a href="#异邦人-无皇刃谭" class="headerlink" title="异邦人 无皇刃谭"></a>异邦人 无皇刃谭</h3><p>2017年初来在上海实习时看的,故事很温情,对于刚到一个陌生城市打拼的青年来说很容易引起共鸣,也因此我感触颇深,异邦人都是孤独的存在,内心是挣扎的,想要找到自己的归属,然而哪里才是归属?背景音乐很赞,听起来内心有点温暖,但是又会觉得很伤感,充满了无奈</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=508793&auto=0&height=66"></iframe>
+
+<h3 id="秒速五厘米"><a href="#秒速五厘米" class="headerlink" title="秒速五厘米"></a>秒速五厘米</h3><p>大概高一的时候第一次看了这个作品,唯美的画面,伤感的故事,再加上年少懵懂的恋爱经历,从此新海诚一生粉.回想以前是不是很多事情都可以 <code>One more time,One more chance</code></p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=540968&auto=0&height=66"></iframe>
+
+<h3 id="你看起来很好吃"><a href="#你看起来很好吃" class="headerlink" title="你看起来很好吃"></a>你看起来很好吃</h3><p>相当有趣的一部动漫,看起来完全没有负重感,从母爱,父爱,独立,自强等方面诠释了一个龙的成长.电影版是温情的结局,萌萌的画面,治愈的故事,给心情带来不一样的体验.<br>记住:哭闹的孩子 不管在哪里都会被霸王龙叼走</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=795251922&auto=0&height=66"></iframe>
+
+<h3 id="萤火之森"><a href="#萤火之森" class="headerlink" title="萤火之森"></a>萤火之森</h3><p>无法触碰的爱情,只是梦中的憧憬,这样的动漫是提醒你,在你年轻的时候曾经心里也住着一个无法触碰的他/她.</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=541381&auto=0&height=66"></iframe>
+
+<h3 id="fate-stay-night"><a href="#fate-stay-night" class="headerlink" title="fate stay night"></a>fate stay night</h3><p>作为番剧来说最喜欢的一个系列,fate stay night也是最早出来的一部,配乐,战斗,剧情都那么引人入胜,虽然fate zero也非常不错,但是让我来选择的话还是该部更让我难忘.</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=448119&auto=0&height=66"></iframe>
+
+<h3 id="怪物之子"><a href="#怪物之子" class="headerlink" title="怪物之子"></a>怪物之子</h3><p>细田守家族系列电影,复杂成长的环境会造成我们内心的空洞,然而填补这些空洞的方式就是父母的爱,即使在你眼中认为一无是处,半吊子的父亲,在最关键的时候也会奋不顾身的化身为剑去填补你内心的黑暗,细细回想小时候学习父亲的一举一动或许是每个人都无法忘记的时刻.</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=26352841&auto=0&height=66"></iframe>
+
+<h3 id="斩·赤红之瞳"><a href="#斩·赤红之瞳" class="headerlink" title="斩·赤红之瞳"></a>斩·赤红之瞳</h3><p>有点虐的番剧,几乎每个角色都是主角的设定,所以每个人角色的个性都很鲜明,也导致了每一个人物死去所带来的感染力.尤其看到结局,最初的一群角色就剩一个赤瞳了,其帮助革命军成立了新国家,然而其还要背负革命军为了革命所做的恶.该番剧有点杀红了眼,所以看的话就要做好心理准备.</p>
+<h3 id="亚人"><a href="#亚人" class="headerlink" title="亚人"></a>亚人</h3><p>这两周把亚人的电影版和TV版都看了一遍,首先电影版绝对是圈钱的作品,还是直接看TV版本吧,剧情一样.整个看下来感觉亚人一部很理性的动漫,无论是主角的处事风格,还是亚人和搜查官的联合,都是利益组建了一个关系网,截止到第二季来说目前还是这样的理性,不知道后期有没有变化.能把不死这一老套的技能演绎出这么多惊心动魄的故事场景的估计也只有亚人了吧.另外这动漫也透漏出政府只是比较大的土匪头子而已.</p>
+<h3 id="犬夜叉剧场版"><a href="#犬夜叉剧场版" class="headerlink" title="犬夜叉剧场版"></a>犬夜叉剧场版</h3><p>犬夜叉是儿时的回忆,尤其是其四个剧场版,小时候最喜欢看<code>天下霸道之剑</code>这一部,犬夜叉相比火影之类动漫的优点是其有一条爱情线,犬夜叉与阿离(我喜欢台版的这个翻译),犬夜叉与桔梗这之间复杂但却互相信任的关系.最喜欢的人物莫过于桔梗,其只是想过上普通的生活,然而命运却让其至死也无法得到想要的生活,悲情人物总能引起观看者的同情.</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=463673252&auto=0&height=66"></iframe>
+
+
+
+
+
+
+
+
+
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;动漫推荐&quot;&gt;&lt;a href=&quot;#动漫推荐&quot; class=&quot;headerlink&quot; title=&quot;动漫推荐&quot;&gt;&lt;/a&gt;动漫推荐&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： 动漫&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;从小就是个动漫爱好者,年轻时追番,现在老了追不动了,只追动漫电影和一些经典
+    
+    </summary>
+    
+      <category term="动漫" scheme="http://mrdear.cn/categories/%E5%8A%A8%E6%BC%AB/"/>
+    
+    
+      <category term="动漫" scheme="http://mrdear.cn/tags/%E5%8A%A8%E6%BC%AB/"/>
     
   </entry>
   
@@ -865,68 +924,6 @@
     
     
       <category term="jdk" scheme="http://mrdear.cn/tags/jdk/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>对一个WEB请求的理解</title>
-    <link href="http://mrdear.cn/2017/04/30/%E8%BF%90%E7%BB%B4/%E5%AF%B9%E4%B8%80%E4%B8%AAWEB%E8%AF%B7%E6%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/"/>
-    <id>http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/</id>
-    <published>2017-04-29T16:00:00.000Z</published>
-    <updated>2017-05-06T01:13:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.</p>
-<h3 id="URL解析"><a href="#URL解析" class="headerlink" title="URL解析"></a>URL解析</h3><p>首先把URL分割为几个部分,以地址<code>http://mrdear.cn/2017/04/15/动漫推荐/</code>为例<br>协议: http<br>网址: mrdear.cn<br>资源路径: 2017/04/15/动漫推荐/</p>
-<p>浏览器拿到地址后会对其中非ASCII码的Unicode字符解析,比如空格会变成%20,汉字也会变成其16进制对应的编码值,如下例子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">上面链接等价于</div><div class="line">http:<span class="comment">//mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</span></div></pre></td></tr></table></figure></p>
-<p>中间还有其他很复杂的流程,比如参数,协议,请求头,请求体等建立.</p>
-<h3 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h3><p>对于网址mrdear.cn,浏览器并不知道他所处的服务器位置,因此需要解析出其服务器ip,这个过程就是DNS域名解析.</p>
-<ul>
-<li>浏览器首先检查自身缓存dns解析,以chrome为例,输入<code>chrome://net-internals/#dns</code>即可看到缓存列表.该缓存通常几分钟到几小时不等,存在的话就直接返回,否则下一步</li>
-<li>和浏览器同样策略,OS对每一次解析结果也会做缓存,浏览器中不存在则在OS的缓存中查找.这个过成功也包括在本地hosts中查找.找到则返回,找不到则向本机的dns服务器发送查找请求.</li>
-<li><p>DNS服务器和本机在一个子网内,则APR解析到具体设备的mac地址,然后向其查找.如果不在一个子网,则直接ARP解析当前主机网关地址,网关一般是上一个路由节点,也就是把查询转交给上一层服务器,那么上一层服务器找不到还会转交给它的上一层,如此形成一个递归查询过程,直到查找到根服务器.找不到则返回失败.找到则返回ip地址和其TTL时间.<br>linux和unix下的dns配置在<code>/etc/resolv.conf</code>中,可以使用<code>nslookup或者dig查</code>看解析过程.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p" alt=""></p>
-</li>
-<li><p>解析成功后,浏览器创建与服务器的socket连接,构造请求信息,进行TCP三次握手,开始向服务器传输消息,并等服务器回复信息,这也是TPC可靠的一个原因.</p>
-</li>
-</ul>
-<h3 id="服务器响应"><a href="#服务器响应" class="headerlink" title="服务器响应"></a>服务器响应</h3><p>服务器以nginx+tomcat为例,经过以上步骤后请求到达了nginx,nginx对URL进行分析,验证其所在机器上有所需要的服务,并且用户是有权限调用的,决定该URL由哪一个tomcat服务处理,捕获处理结果,返回给请求者,最后四次挥手结束请求.到此完成浏览器,服务端的通信.</p>
-<h3 id="浏览器渲染"><a href="#浏览器渲染" class="headerlink" title="浏览器渲染"></a>浏览器渲染</h3><p>浏览器拿到了服务器的返回信息后会对内容进行解析,展现成用户所需要的内容,如html,pdf等.</p>
-<hr>
-<p>那么整个过程总结来看就是 用户输入URL -&gt; 浏览器解析地址 -&gt; DNS查找域名对应ip -&gt; 服务器响应 -&gt;浏览器拿到响应渲染.</p>
-<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="1-CDN网络"><a href="#1-CDN网络" class="headerlink" title="1.CDN网络"></a>1.CDN网络</h4><p>CDN又叫内容分布网络,一般用于静态资源如html,css,js的存储,简单的理解为一张大网,网上每一个节点都有着很多资源.那么每一个用户想要访问的时候就会去找离他最近的节点上面获取需要的内容.从而加快了网站整体访问速度.<br>举个例子:用户访问taobao的某css文件,首先浏览器会发送请求 -&gt; DNS解析域名,这里一般会有一个DNS负载均衡服务器,其得到最适合用户的CDN节点ip -&gt; 用户拿到CDN节点ip得到资源.</p>
-<h4 id="2-DNS劫持"><a href="#2-DNS劫持" class="headerlink" title="2.DNS劫持"></a>2.DNS劫持</h4><p>了解了DNS的解析是一个递归过程,找到域名 &lt;-&gt; ip就返回,如果有人手动修改了该条映射信息,那么就会返回到错误的ip地址,这种行为也叫DNS劫持,对于客户端来说,没有很好地方式能认为服务器返回的信息是可靠的,也就是不可靠的HTTP通信,所以也就导致了这一层的攻击漏洞,而这种事一般是天朝的电信运营商能干得出来,所以选择一个靠谱的DNS是非常重要,推荐<code>114.114.114.114</code></p>
-<h4 id="3-HTTPS"><a href="#3-HTTPS" class="headerlink" title="3.HTTPS"></a>3.HTTPS</h4><p>应对HTTP的不可靠通信,所以诞生了HTTPS,即HTTP over SSL,使用SSL/TLS对HTTP的内容进行加密解密.整个流程如下图:</p>
-<p><center><img src="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p" alt=""></center></p>
-<ul>
-<li>在SSL握手阶段，客户端浏览器会认证服务器的身份，这是通过“证书”来实现的，证书由证书权威（CA）为某个域名签发，可以理解为网站的身份证件，客户端需要对这个证件进行认证，需要确定该证书是否属于目标网站并确认证书本身是否有效。最后在握手阶段，通信的双方还会协商出一个用于加密和解密的会话密钥。</li>
-<li>SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。<br>HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.</li>
-</ul>
-<h4 id="4-乱码问题"><a href="#4-乱码问题" class="headerlink" title="4.乱码问题"></a>4.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
-<p>这里要保证不乱码,下一步tomcat建立了ServletRequest和ServletResponse,那么这里也有编码,一般是post表单或者request body乱码,那么就需要指定ServletRequest和ServletResponse的编码格式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(encoding);<span class="comment">//设置请求信息编码</span></div><div class="line">response.setCharacterEncoding(encoding);<span class="comment">//设置返回信息编码</span></div></pre></td></tr></table></figure></p>
-<p>Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.<br>浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如<code>Content-Type: text/html;charset=UTF-8</code>,指定以UTF-8渲染该text/html返回.</p>
-<h4 id="5-几种域名解析"><a href="#5-几种域名解析" class="headerlink" title="5.几种域名解析"></a>5.几种域名解析</h4><p>域名解析记录主要分为：A 记录、MX记录、CNAME 记录、NS记录和 TXT记录</p>
-<ul>
-<li>A记录：A 代表的是Address，用来指定域名对应的IP地址。域名可以多对一但是不能一对多。</li>
-<li>MX记录：Mail Exchange,就是讲某个域名下的邮件服务器指向自己的Mail Server。</li>
-<li>CNAME记录：别名解析。将一个域名设置一个或者多个别名。</li>
-<li>NS记录：为某个域名指定DNS解析服务器。</li>
-<li>TXT记录：为某个主机名或者域名设置文字说明。<br>本站是托管于github的,主域名<code>mrdear.cn</code>是使用CNAME解析到<code>nl101531.github.io</code>的,二级域名<code>oj.mrdear.cn</code>和<code>md.mrdear.cn</code>都是使用A记录解析到对应主机的ip地址,到达主机后再使用Nginx进行不同的服务器转发.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p" alt=""></li>
-</ul>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>个人总结,如有错误请指出,以免误人子弟.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.&lt;/p&gt;
-&lt;h3 id=&quot;URL解析&quot;&gt;&lt;a href=&quot;#URL解析&quot;
-    
-    </summary>
-    
-      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
-    
-    
-      <category term="web" scheme="http://mrdear.cn/tags/web/"/>
-    
-      <category term="http" scheme="http://mrdear.cn/tags/http/"/>
     
   </entry>
   
