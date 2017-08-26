@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-08-13T15:25:55.000Z</updated>
+  <updated>2017-08-26T03:21:33.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,95 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>cnpm导致IDEA对于Angular项目提示失效.md</title>
+    <link href="http://mrdear.cn/2017/08/26/web/Cnpm%E5%AF%BC%E8%87%B4IDEA%E5%AF%B9%E4%BA%8EAngular%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BA%E5%A4%B1%E6%95%88/"/>
+    <id>http://mrdear.cn/2017/08/26/web/Cnpm导致IDEA对于Angular项目提示失效/</id>
+    <published>2017-08-26T03:17:15.000Z</published>
+    <updated>2017-08-26T03:21:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近写Angular项目的时候,IDEA的提示时而有时而没有,找了好久的原因才发现是cnpm的锅.<br>对于<code>cnpm install</code>,安装的angular依赖时链接方式引入,如下图<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717543.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<p>对于<code>npm install</code>,安装后的依赖时实在的文件,如下图<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717577.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<p>解决方案老老实实的用npm命令,觉得慢的话可以使用http代理,mac下的shadowsocks支持直接导出http代理,复制命令后粘贴到终端,即可实现终端翻墙.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717675.png?imageMogr2/thumbnail/!70p" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近写Angular项目的时候,IDEA的提示时而有时而没有,找了好久的原因才发现是cnpm的锅.&lt;br&gt;对于&lt;code&gt;cnpm install&lt;/code&gt;,安装的angular依赖时链接方式引入,如下图&lt;br&gt;&lt;img src=&quot;http://oobu4m7ko.bk
+    
+    </summary>
+    
+      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
+    
+    
+      <category term="web" scheme="http://mrdear.cn/tags/web/"/>
+    
+      <category term="idea" scheme="http://mrdear.cn/tags/idea/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zookeeper学习记录(二)--应用场景</title>
+    <link href="http://mrdear.cn/2017/08/19/%E8%BF%90%E7%BB%B4/Zookeeper%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)--%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
+    <id>http://mrdear.cn/2017/08/19/运维/Zookeeper学习记录(二)--应用场景/</id>
+    <published>2017-08-19T02:54:00.000Z</published>
+    <updated>2017-08-26T03:22:03.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本次学习的重点就是如下的应用场景.</p>
+<h3 id="Name-Service"><a href="#Name-Service" class="headerlink" title="Name Service"></a>Name Service</h3><p>参考博文<a href="http://www.hollischuang.com/archives/1595" target="_blank" rel="external">关于命名服务的知识点都在这里了</a>,文章讲解的很详细,下面画下重点.<br>zk实现命名服务有两个很重要的前提</p>
+<ol>
+<li>其目录结构类似于文件管理形式</li>
+<li>其可以插入顺序节点<br>以实现自增id为例,简单代码如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private static final ZkClient ZK_CLIENT = new ZkClient(ZkClientConf.zkHost, ZkClientConf.zkTimeOut);</div><div class="line"></div><div class="line"></div><div class="line">private static final String nameServicePath = &quot;/quding/nameService/name&quot;;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 每次拿到id都需要创建相应的节点,再删除,适合读多写少的环境下</div><div class="line"> * @return id</div><div class="line"> */</div><div class="line">public Long getUUID() &#123;</div><div class="line">  final String sequential = ZK_CLIENT.createPersistentSequential(nameServicePath, &quot;id&quot;);</div><div class="line">  ZK_CLIENT.delete(sequential);</div><div class="line">  return Long.valueOf(sequential.substring(nameServicePath.length()));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>zk其内部维护着一个顺序,每次创建返回会自动为其加上序号如下图,那么这个顺序能保证分布式下全局的唯一性,类似于单表的数据库自增主键,但是每次创建都要连接zk,如果写&gt;读则不会有很高的性能,读&gt;写则适合使用zk作为id生成器.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503113342.png?imageMogr2/thumbnail/!100p" alt=""></p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>// todo 待更新</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本次学习的重点就是如下的应用场景.&lt;/p&gt;
+&lt;h3 id=&quot;Name-Service&quot;&gt;&lt;a href=&quot;#Name-Service&quot; class=&quot;headerlink&quot; title=&quot;Name Service&quot;&gt;&lt;/a&gt;Name Service&lt;/h3&gt;&lt;p&gt;参考博文&lt;
+    
+    </summary>
+    
+      <category term="运维" scheme="http://mrdear.cn/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+      <category term="zookeeper" scheme="http://mrdear.cn/tags/zookeeper/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zookeeper学习记录(一)--环境部署</title>
+    <link href="http://mrdear.cn/2017/08/19/%E8%BF%90%E7%BB%B4/Zookeeper%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)--%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/"/>
+    <id>http://mrdear.cn/2017/08/19/运维/Zookeeper学习记录(一)--环境部署/</id>
+    <published>2017-08-19T01:34:10.000Z</published>
+    <updated>2017-08-19T02:47:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>zk在公司系统中承担着一个很重要的角色,因此作为开发有必要了解关于zk的一些知识,推荐文档资料<a href="http://www.majunwei.com/category/201612011952003333/" target="_blank" rel="external">Zookeeper文档目录</a>.</p>
+<hr>
+<h3 id="单机部署"><a href="#单机部署" class="headerlink" title="单机部署"></a>单机部署</h3><p>zk的安装很简单,只需要下载修改配置启动即可,本文主要是用Docker方式安装,直接上Dockerfile文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"># Version 0.0.1</div><div class="line">FROM java:8</div><div class="line">MAINTAINER quding mrdear.cn </div><div class="line"></div><div class="line">#修改源信息</div><div class="line">RUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily main restricted universe multiverse&quot; &gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-security main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-updates main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-proposed main restricted universe multiverse&quot;&gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-backports main restricted universe multiverse&quot;&gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-security main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-updates main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-proposed main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-backports main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line">RUN echo &quot;APT::Get::AllowUnauthenticated 1 ;&quot; &gt;&gt; /etc/apt/apt.conf</div><div class="line"></div><div class="line">#更新源,并安装vim</div><div class="line">RUN apt-get update</div><div class="line">RUN apt install vim -y</div><div class="line"></div><div class="line">ENV ZOOKEEPER_VERSION 3.4.9</div><div class="line"></div><div class="line"># 下载zk</div><div class="line">RUN wget -q http://mirror.vorboss.net/apache/zookeeper/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;.tar.gz</div><div class="line"></div><div class="line"># 安装</div><div class="line">RUN tar -xvf zookeeper-$&#123;ZOOKEEPER_VERSION&#125;.tar.gz -C /opt</div><div class="line"></div><div class="line"># 配置zoo.cfg</div><div class="line">RUN mv /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/conf/zoo_sample.cfg /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/conf/zoo.cfg</div><div class="line">ENV ZK_HOME /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;</div><div class="line"></div><div class="line">RUN sed  -i &quot;s|/tmp/zookeeper|$ZK_HOME/data|g&quot; $ZK_HOME/conf/zoo.cfg; mkdir $ZK_HOME/data</div><div class="line"></div><div class="line">EXPOSE 2181 2888 3888</div><div class="line"></div><div class="line">WORKDIR /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;</div><div class="line">VOLUME [&quot;/opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/conf&quot;, &quot;/opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/data&quot;]</div><div class="line"></div><div class="line">CMD bash /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/bin/zkServer.sh start-foreground</div></pre></td></tr></table></figure></p>
+<p>build之后,启动该docker image,暴露出2181端口,然后使用zkClient.sh连接即可操作.</p>
+<h3 id="多机部署"><a href="#多机部署" class="headerlink" title="多机部署"></a>多机部署</h3><p>多机部署主要参考文章<a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/index.html" target="_blank" rel="external">分布式服务框架 Zookeeper – 管理分布式环境中的数据</a>.下面说下注意事项.</p>
+<h4 id="注意端口配置"><a href="#注意端口配置" class="headerlink" title="注意端口配置"></a>注意端口配置</h4><p><strong>initLimit</strong>：这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5<em>2000=10 秒<br><strong>syncLimit</strong>：这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 2</em>2000=4 秒<br><strong>server.A=B：C：D</strong>：其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</p>
+<h4 id="如何验证"><a href="#如何验证" class="headerlink" title="如何验证"></a>如何验证</h4><p>zk是主从复制形式,那么只要在leader节点中插入一个node,然后去salve中查看该node是否存在即可.</p>
+<h3 id="如何连接"><a href="#如何连接" class="headerlink" title="如何连接?"></a>如何连接?</h3><p>zk的安装目录下bin中有zkCli.sh,该工具格式为<code>zkCli.sh -server host:port</code>,使用其可以对zk进行增删改查,具体命令使用参数<code>-?</code>即可翻阅.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;zk在公司系统中承担着一个很重要的角色,因此作为开发有必要了解关于zk的一些知识,推荐文档资料&lt;a href=&quot;http://www.majunwei.com/category/201612011952003333/&quot; target=&quot;_blank&quot; rel=&quot;extern
+    
+    </summary>
+    
+      <category term="运维" scheme="http://mrdear.cn/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+      <category term="zookeeper" scheme="http://mrdear.cn/tags/zookeeper/"/>
+    
+  </entry>
   
   <entry>
     <title>OpenVZ的VPS加速指南</title>
@@ -835,120 +924,9 @@
       <category term="web" scheme="http://mrdear.cn/categories/web/"/>
     
     
-      <category term="http" scheme="http://mrdear.cn/tags/http/"/>
-    
       <category term="web" scheme="http://mrdear.cn/tags/web/"/>
     
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(八)</title>
-    <link href="http://mrdear.cn/2017/04/29/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%85%AB)/"/>
-    <id>http://mrdear.cn/2017/04/29/毕业设计/毕业设计周记(八)/</id>
-    <published>2017-04-29T10:00:00.000Z</published>
-    <updated>2017-04-29T11:08:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.</p>
-<p>修改数据库模型后代码不少地方重新写了下,耽误了点时间,五一期间仍然是写毕业论文.</p>
-<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
-<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
-<p>测试账号: 1015315668@qq.com<br>          111111</p>
-<p>等待完成:</p>
-<p>1.毕业论文</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,control
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(七)</title>
-    <link href="http://mrdear.cn/2017/04/24/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%83)/"/>
-    <id>http://mrdear.cn/2017/04/24/毕业设计/毕业设计周记(七)/</id>
-    <published>2017-04-24T11:00:00.000Z</published>
-    <updated>2017-04-24T11:07:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成.</p>
-<p>毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来.</p>
-<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
-<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
-<p>测试账号: 1015315668@qq.com<br>          111111</p>
-<p>等待完成:</p>
-<p>1.毕业论文</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成.&lt;/p&gt;
-&lt;p&gt;毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来.&lt;/p&gt;
-&lt;p&gt;前端项目地址: &lt;a href=&quot;https://github.com/nl101
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>少走弯路的10条建议(转)</title>
-    <link href="http://mrdear.cn/2017/04/21/%E7%BB%8F%E9%AA%8C/%E5%B0%91%E8%B5%B0%E5%BC%AF%E8%B7%AF%E7%9A%8410%E6%9D%A1%E5%BB%BA%E8%AE%AE(%E8%BD%AC)/"/>
-    <id>http://mrdear.cn/2017/04/21/经验/少走弯路的10条建议(转)/</id>
-    <published>2017-04-21T01:50:00.000Z</published>
-    <updated>2017-04-21T01:35:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="少走弯路的10条建议-转"><a href="#少走弯路的10条建议-转" class="headerlink" title="少走弯路的10条建议(转)"></a>少走弯路的10条建议(转)</h1><p>标签（空格分隔）： 经验</p>
-<hr>
-<p>转载自一个很佩服的大牛博客:<a href="http://www.cnblogs.com/xdp-gacl/p/4102862.html" target="_blank" rel="external">孤傲苍狼</a></p>
-<hr>
-<p>　如何在涉世之初少走弯路，有一个好的开端，开始一番成功的事业？以下是一些先行者积累的10条有益的涉世忠告。好好地遵循、把握这些忠告和建议吧，比起所学的课堂课程来，它毫不逊色！</p>
-<p>1.1、买个闹钟，以便按时叫醒你</p>
-<p>　　贪睡和不守时，都将成为你工作和事业上的绊脚石，任何时候都一样。不仅要学会准时，更要学会提前。就如你坐车去某地，沿途的风景很美，你忍不住下车看一看，后来虽然你还是赶到了某地，却不是准时到达。“闹钟”只是一种简单的标志和提示，真正灵活、实用的时间，掌握在每个人的心中。  </p>
-<p>1.2、如果你不喜欢现在的工作，要么辞职不干，要么就闭嘴不言</p>
-<p>　　初出茅庐，往往眼高手低，心高气傲，大事做不了，小事不愿做。不要养成挑三拣四的习惯。不要雨天烦打伞，不带伞又怕淋雨，处处表现出不满的情绪。记住，不做则已，要做就要做好。</p>
-<p>1.3、每个人都有孤独的时候 </p>
-<p>　　要学会忍受孤独，这样才会成熟起来。年轻人嘻嘻哈哈、打打闹闹惯了，到了一个陌生的环境，面对形形色色的人和事，一下子不知所措起来，有时连一个可以倾心说话的地方也没有。这时，千万别浮躁，学会静心，学会忍受孤独。在孤独中思考，在思考中成熟，在成熟中升华。不要因为寂寞而乱了方寸，而去做无聊无益的事情，白白浪费了宝贵的时间。  </p>
-<p>1.4、走运时要做好倒霉的准备</p>
-<p>　　有一天，一只狐狸走到一个葡萄园外，看见里面水灵灵的葡萄垂涎欲滴。可是外面有栅栏挡着，无法进去。于是它一狠心绝食三日，减肥之后，终于钻进葡萄园内饱餐一顿。当它心满意足地想离开葡萄园时，发觉自己吃得太饱，怎么也钻不出栅栏了。相信任何人都不愿做这样的狐狸。退路同样重要。饱带干粮，晴带雨伞，点滴积累，水到渠成。有的东西今天似乎一文不值，但有朝一日也许就会身价百倍。  </p>
-<p>1.5、不要像玻璃那样脆弱</p>
-<p>　　有的人眼睛总盯着自己，所以长不高看不远；总是喜欢怨天尤人，也使别人无比厌烦。没有苦中苦，哪来甜中甜？不要像玻璃那样脆弱，而应像水晶一样透明，太阳一样辉煌，腊梅一样坚强。既然睁开眼睛享受风的清凉，就不要埋怨风中细小的沙粒。  </p>
-<p>1.6、管住自己的嘴巴</p>
-<p>　　不要谈论自己，更不要议论别人。谈论自己往往会自大虚伪，在名不副实中失去自己。议论别人往往陷入鸡毛蒜皮的是非口舌中纠缠不清。每天下班后和你的那些同事朋友喝酒聊天可不是件好事，因为，这中间往往会把议论同事、朋友当做话题。背后议论人总是不好的，尤其是议论别人的短处，这些会降低你的人格。  </p>
-<p>1.7、机会从不会“失掉”，你失掉了，自有别人会得到</p>
-<p>　　不要凡事在天，守株待兔，更不要寄希望于“机会”。机会只不过是相对于充分准备而又善于创造机会的人而言的。也许，你正为失去一个机会而懊悔、埋怨的时候，机会正被你对面那个同样的“倒霉鬼”给抓住了。没有机会，就要创造机会，有了机会，就要巧妙地抓住。  </p>
-<p>1.8、若电话老是不响，你该打出去</p>
-<p>　　很多时候，电话会给你带来意想不到的收获，它不是花瓶，仅仅成为一种摆设。交了新朋友，别忘了老朋友，朋友多了路好走。交际的一大诀窍就是主动。好的人缘好的口碑，往往助你的事业更上一个台阶。  </p>
-<p>1.9、千万不要因为自己已经到了结婚年龄而草率结婚</p>
-<p>　　想结婚，就要找一个能和你心心相印、相辅相携的伴侣。不要因为放纵和游戏而恋爱，不要因为恋爱而影响工作和事业，更不要因一桩草率而失败的婚姻而使人生受阻。感情用事往往会因小失大。  </p>
-<p>1.10、写出你一生要做的事情，把单子放在皮夹里，经常拿出来看</p>
-<p>　　人生要有目标，要有计划，要有提醒，要有紧迫感。一个又一个小目标串起来，就成了你一生的大目标。生活富足了，环境改善了，不要忘了皮夹里那张看似薄薄的单子。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;少走弯路的10条建议-转&quot;&gt;&lt;a href=&quot;#少走弯路的10条建议-转&quot; class=&quot;headerlink&quot; title=&quot;少走弯路的10条建议(转)&quot;&gt;&lt;/a&gt;少走弯路的10条建议(转)&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： 经验&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;转载自
-    
-    </summary>
-    
-      <category term="经验" scheme="http://mrdear.cn/categories/%E7%BB%8F%E9%AA%8C/"/>
-    
-    
-      <category term="经验" scheme="http://mrdear.cn/tags/%E7%BB%8F%E9%AA%8C/"/>
+      <category term="http" scheme="http://mrdear.cn/tags/http/"/>
     
   </entry>
   
