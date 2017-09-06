@@ -1,7 +1,7 @@
 ---
 title: cnpm导致IDEA对于Angular项目提示失效
 tags:
-  - web
+  - angular
   - idea
 categories: web
 date: 2017-08-26 11:17:15

@@ -36,7 +36,7 @@ date: 2017-05-02 16:00:00
 
 ### 如何反序列化
 `java.io.ObjectInputStream`代表对象输入流,其使用readObject()方法读取序列化的字节,然后再转换为对象.
-```java
+```java 
   @Test
   public void testReadObj() throws IOException, ClassNotFoundException {
     File file = new File(base+File.separator+"user.out");
@@ -61,11 +61,13 @@ date: 2017-05-02 16:00:00
 ```java
 java.io.InvalidClassException: cn.edu.aust.test.ObjectTest$User; local class incompatible: stream classdesc serialVersionUID = 5768430629641297769, local class serialVersionUID = 1
 ```
-报错很明显,两边类的`serialVersionUID`不一样,也就是说对于编译好的class,其`serialVersionUID`是其序列化的唯一标识,如果未显示声明JDK则会自动为其加上,可以使用命令`seriserialver`可以查看一个class文件的`serialVersionUID`,当线上版本忘记加该字段的时候该命令还是很有用处的.
+报错很明显,两边类的`serialVersionUID`不一样,也就是说对于编译好的class,其`serialVersionUID`是其序列化的唯一标识,如果未显示声明JDK则会自动为其加上,换句话说`serialVersionUID`保证了对象的向上兼容,可以使用命令`seriserialver`可以查看一个class文件的`serialVersionUID`,当线上版本忘记加该字段的时候该命令还是很有用处的.
 ```sh
 seriserialver cn.edu.aust.test.ObjectTest\$User 
 cn.edu.aust.test.ObjectTest$User:    private static final long serialVersionUID = 1L;
 ```
+另外需要注意反序列化因为是直接从字节流里面构造出对象,因此并不会去执行构造函数.如果你的类有在构造函数中初始值的行为,那么这里就可能得到异常.
+
 ### transient的作用
 transient翻译为瞬时,也就是被其修饰的变量序列化时会忽略该字段.什么时候需要用到这个字段呢?
 在Java中对象之间的关系会组成一个对象图,序列化的过程是对该对象图的遍历,那么反序列化也仍然是对该对象图的遍历.对于对象里面的对象就是递归过程,对于链表之类的数据结构递归的话很容易引起栈溢出,那么就可以使用`transient`忽略该字段.
