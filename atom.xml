@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-08-26T03:26:13.000Z</updated>
+  <updated>2017-09-02T02:21:05.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://mrdear.cn/2017/08/26/web/Cnpm%E5%AF%BC%E8%87%B4IDEA%E5%AF%B9%E4%BA%8EAngular%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BA%E5%A4%B1%E6%95%88/"/>
     <id>http://mrdear.cn/2017/08/26/web/Cnpm导致IDEA对于Angular项目提示失效/</id>
     <published>2017-08-26T03:17:15.000Z</published>
-    <updated>2017-08-26T03:26:13.000Z</updated>
+    <updated>2017-09-02T02:21:05.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近写Angular项目的时候,IDEA的提示时而有时而没有,找了好久的原因才发现是cnpm的锅.<br>对于<code>cnpm install</code>,安装的angular依赖时链接方式引入,如下图<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717543.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <p>对于<code>npm install</code>,安装后的依赖时实在的文件,如下图<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503717577.png?imageMogr2/thumbnail/!70p" alt=""></p>
@@ -37,7 +37,7 @@
       <category term="web" scheme="http://mrdear.cn/categories/web/"/>
     
     
-      <category term="web" scheme="http://mrdear.cn/tags/web/"/>
+      <category term="angular" scheme="http://mrdear.cn/tags/angular/"/>
     
       <category term="idea" scheme="http://mrdear.cn/tags/idea/"/>
     
@@ -98,38 +98,6 @@
     
     
       <category term="动漫" scheme="http://mrdear.cn/tags/%E5%8A%A8%E6%BC%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Zookeeper学习记录(二)--应用场景</title>
-    <link href="http://mrdear.cn/2017/08/19/%E8%BF%90%E7%BB%B4/Zookeeper%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)--%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
-    <id>http://mrdear.cn/2017/08/19/运维/Zookeeper学习记录(二)--应用场景/</id>
-    <published>2017-08-19T02:54:00.000Z</published>
-    <updated>2017-08-26T03:22:03.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本次学习的重点就是如下的应用场景.</p>
-<h3 id="Name-Service"><a href="#Name-Service" class="headerlink" title="Name Service"></a>Name Service</h3><p>参考博文<a href="http://www.hollischuang.com/archives/1595" target="_blank" rel="external">关于命名服务的知识点都在这里了</a>,文章讲解的很详细,下面画下重点.<br>zk实现命名服务有两个很重要的前提</p>
-<ol>
-<li>其目录结构类似于文件管理形式</li>
-<li>其可以插入顺序节点<br>以实现自增id为例,简单代码如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private static final ZkClient ZK_CLIENT = new ZkClient(ZkClientConf.zkHost, ZkClientConf.zkTimeOut);</div><div class="line"></div><div class="line"></div><div class="line">private static final String nameServicePath = &quot;/quding/nameService/name&quot;;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 每次拿到id都需要创建相应的节点,再删除,适合读多写少的环境下</div><div class="line"> * @return id</div><div class="line"> */</div><div class="line">public Long getUUID() &#123;</div><div class="line">  final String sequential = ZK_CLIENT.createPersistentSequential(nameServicePath, &quot;id&quot;);</div><div class="line">  ZK_CLIENT.delete(sequential);</div><div class="line">  return Long.valueOf(sequential.substring(nameServicePath.length()));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>zk其内部维护着一个顺序,每次创建返回会自动为其加上序号如下图,那么这个顺序能保证分布式下全局的唯一性,类似于单表的数据库自增主键,但是每次创建都要连接zk,如果写&gt;读则不会有很高的性能,读&gt;写则适合使用zk作为id生成器.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1503113342.png?imageMogr2/thumbnail/!100p" alt=""></p>
-<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>// todo 待更新</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本次学习的重点就是如下的应用场景.&lt;/p&gt;
-&lt;h3 id=&quot;Name-Service&quot;&gt;&lt;a href=&quot;#Name-Service&quot; class=&quot;headerlink&quot; title=&quot;Name Service&quot;&gt;&lt;/a&gt;Name Service&lt;/h3&gt;&lt;p&gt;参考博文&lt;
-    
-    </summary>
-    
-      <category term="运维" scheme="http://mrdear.cn/categories/%E8%BF%90%E7%BB%B4/"/>
-    
-    
-      <category term="zookeeper" scheme="http://mrdear.cn/tags/zookeeper/"/>
     
   </entry>
   
@@ -589,66 +557,6 @@
   </entry>
   
   <entry>
-    <title>Spring Cloud学习记录(二)--服务治理</title>
-    <link href="http://mrdear.cn/2017/06/04/spring/Spring%20Cloud%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)--%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/"/>
-    <id>http://mrdear.cn/2017/06/04/spring/Spring Cloud学习记录(二)--服务治理/</id>
-    <published>2017-06-03T22:44:44.000Z</published>
-    <updated>2017-06-04T03:30:05.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>看到了<code>网易乐得团队</code>的一篇服务治理文章,很全面,直接贴地址了</p>
-<p><a href="http://tech.lede.com/2017/03/15/rd/server/SpringCloud1/" target="_blank" rel="external">Spring Cloud技术分析（1）——服务治理</a><br><a href="http://tech.lede.com/2017/03/29/rd/server/SpringCloud1C/" target="_blank" rel="external">Spring Cloud技术分析（2）—— 服务治理实践</a></p>
-<hr>
-<p>下面会更新一些实战中遇到的问题</p>
-<h3 id="关于配置"><a href="#关于配置" class="headerlink" title="关于配置"></a>关于配置</h3><p>配置主要是查看官方文档,其次再看代码,而代码大多都是AUTOCONFIG等类似的配置类,其本质大多都是注入为Spring Bean,比如我想配置feign所使用的的Httpclient,那么我会发现<code>FeignRibbonClientAutoConfiguration</code>这个类,在其中有如下的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ConditionalOnClass</span>(ApacheHttpClient.class)</div><div class="line"><span class="meta">@ConditionalOnProperty</span>(value = <span class="string">"feign.httpclient.enabled"</span>, matchIfMissing = <span class="keyword">true</span>)</div><div class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpClientFeignLoadBalancedConfiguration</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</div><div class="line">	<span class="keyword">private</span> HttpClient httpClient;</div><div class="line"></div><div class="line">	<span class="meta">@Bean</span></div><div class="line">	<span class="meta">@ConditionalOnMissingBean</span>(Client.class)</div><div class="line">	<span class="function"><span class="keyword">public</span> Client <span class="title">feignClient</span><span class="params">(CachingSpringLoadBalancerFactory cachingFactory,</span></span></div><div class="line">			SpringClientFactory clientFactory) &#123;</div><div class="line">		ApacheHttpClient delegate;</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.httpClient != <span class="keyword">null</span>) &#123;</div><div class="line">			delegate = <span class="keyword">new</span> ApacheHttpClient(<span class="keyword">this</span>.httpClient);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			delegate = <span class="keyword">new</span> ApacheHttpClient();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> LoadBalancerFeignClient(delegate, cachingFactory, clientFactory);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>那么就可以得知首先我需要引入<code>ApacheHttpClient</code>所在的架包,其次配置文件配置<code>feign.httpclient.enabled=true</code>,另外我还可以对<code>httpClient</code>自定义,然后注入到Spring中,那么就会默认使用我注入的这个HTTPClient了,然后打个断点,debug看下是否自动配置成功.</p>
-<h3 id="Feign与Ribbon"><a href="#Feign与Ribbon" class="headerlink" title="Feign与Ribbon"></a>Feign与Ribbon</h3><p>Feign中默认开启的负载均衡,至于算法则使用的是Ribbon轮询算法,在<code>LoadBalancerFeignClient</code>中有<code>CachingSpringLoadBalancerFactory</code>则会缓存每一个server-name对应的负载均衡算法实例,这些实例都来自于<code>SpringClientFactory</code>中,根据server-name从中获取,那么意味着要更改对应服务的负载均衡算法只需要在Spring中注入服务名对应的负载均衡实例即可.<br>最好的方式是在配置文件中声明,如下方式指定负载均衡使用随机规则<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server-name:</span></div><div class="line"><span class="attr">  ribbon:</span></div><div class="line"><span class="attr">    NFLoadBalancerRuleClassName:</span> <span class="string">com.netflix.loadbalancer.WeightedResponseTimeRule</span></div></pre></td></tr></table></figure></p>
-<hr>
-<blockquote>
-<p>Demo地址:<br>Spring Cloud Demo :  <a href="https://github.com/nl101531/JavaWEB" target="_blank" rel="external">https://github.com/nl101531/JavaWEB</a></p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;看到了&lt;code&gt;网易乐得团队&lt;/code&gt;的一篇服务治理文章,很全面,直接贴地址了&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://tech.lede.com/2017/03/15/rd/server/SpringCloud1/&quot; target=&quot;_blank&quot; rel=&quot;
-    
-    </summary>
-    
-      <category term="Spring" scheme="http://mrdear.cn/categories/Spring/"/>
-    
-    
-      <category term="Spring" scheme="http://mrdear.cn/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Cloud学习记录(一)--为什么需要Spring Cloud?</title>
-    <link href="http://mrdear.cn/2017/06/03/spring/Spring%20Cloud%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)--%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    <id>http://mrdear.cn/2017/06/03/spring/Spring Cloud学习记录(一)--为什么需要微服务/</id>
-    <published>2017-06-03T00:30:24.000Z</published>
-    <updated>2017-06-09T14:18:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近看了周立大大关于Spring Cloud的分享<code>itmuch.com</code>,自己做了一些总结,加深自己的理解.</p>
-<p> 理解有误,占坑</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近看了周立大大关于Spring Cloud的分享&lt;code&gt;itmuch.com&lt;/code&gt;,自己做了一些总结,加深自己的理解.&lt;/p&gt;
-&lt;p&gt; 理解有误,占坑&lt;/p&gt;
-
-    
-    </summary>
-    
-      <category term="Spring" scheme="http://mrdear.cn/categories/Spring/"/>
-    
-    
-      <category term="Spring" scheme="http://mrdear.cn/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>WEB小知识-HTTP请求对+和&amp;的处理</title>
     <link href="http://mrdear.cn/2017/05/22/web/WEB%E5%B0%8F%E7%9F%A5%E8%AF%86-HTTP%E8%AF%B7%E6%B1%82%E5%AF%B9+%E5%92%8C&amp;%E7%9A%84%E5%A4%84%E7%90%86/"/>
     <id>http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&amp;的处理/</id>
@@ -902,7 +810,7 @@
     <link href="http://mrdear.cn/2017/05/02/%E5%B7%A5%E5%85%B7/Java%E4%B8%AD%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/"/>
     <id>http://mrdear.cn/2017/05/02/工具/Java中的序列化相关知识/</id>
     <published>2017-05-02T08:00:00.000Z</published>
-    <updated>2017-05-07T13:13:41.000Z</updated>
+    <updated>2017-09-06T01:49:09.000Z</updated>
     
     <content type="html"><![CDATA[<p>今天线上遇到了DTO类实现了<code>Serializable</code>接口,但是其并没有显示声明<code>serialVersionUID</code>,这样的话每次打包有改动JDK就会为其重新生成<code>serialVersionUID</code>.这就带来了不同版本之间的实体类可能反序列化不成功,线上RPC调用出现了问题.那么就深入探讨一下原因.</p>
 <h3 id="Serializable的作用"><a href="#Serializable的作用" class="headerlink" title="Serializable的作用"></a>Serializable的作用</h3><p>看该类的JDK注释可以发现<code>The serialization interface has no methods or fields and serves only to identify the semantics of being serializable.</code>也就是说Serializable是一个标识接口,和<code>Cloneable</code>接口等一样的效果.<br>如下面的User类,实现了序列化接口,并使用<code>serialVersionUID</code>标识其序列化对应的ID序号.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">5768430629641297769L</span>;</div><div class="line">  <span class="keyword">private</span> String nickname;</div><div class="line">  <span class="keyword">private</span> String passwd;</div><div class="line">  <span class="comment">//省略get和set</span></div></pre></td></tr></table></figure></p>
@@ -910,7 +818,8 @@
 <h3 id="如何反序列化"><a href="#如何反序列化" class="headerlink" title="如何反序列化"></a>如何反序列化</h3><p><code>java.io.ObjectInputStream</code>代表对象输入流,其使用readObject()方法读取序列化的字节,然后再转换为对象.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testReadObj</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</div><div class="line">  File file = <span class="keyword">new</span> File(base+File.separator+<span class="string">"user.out"</span>);</div><div class="line">  ObjectInputStream inputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(file));</div><div class="line">  User user = (User) inputStream.readObject();</div><div class="line">  Assert.assertTrue(StringUtils.equals(user.getNickname(),<span class="string">"屈定"</span>));</div><div class="line">  Assert.assertTrue(StringUtils.equals(user.getPasswd(),<span class="string">"123456"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="serialVersionUID的作用"><a href="#serialVersionUID的作用" class="headerlink" title="serialVersionUID的作用"></a>serialVersionUID的作用</h3><p>按照上面代码,序列化和反序列化都是成功的,如果在已经序列化后,对User要作修改,增加一个email字段,再试试反序列化.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">5768430629641297769L</span>;</div><div class="line">    <span class="keyword">private</span> String nickname;</div><div class="line">    <span class="keyword">private</span> String passwd;</div><div class="line">    <span class="keyword">private</span> String email;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>程序会正常运行,而且这个email会被很智能的初始化为null.<br>修改<code>serialVersionUID</code>为1L再试试.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.io.InvalidClassException: cn.edu.aust.test.ObjectTest$User; local class incompatible: stream classdesc serialVersionUID = 5768430629641297769, local class serialVersionUID = 1</div></pre></td></tr></table></figure></p>
-<p>报错很明显,两边类的<code>serialVersionUID</code>不一样,也就是说对于编译好的class,其<code>serialVersionUID</code>是其序列化的唯一标识,如果未显示声明JDK则会自动为其加上,可以使用命令<code>seriserialver</code>可以查看一个class文件的<code>serialVersionUID</code>,当线上版本忘记加该字段的时候该命令还是很有用处的.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">seriserialver cn.edu.aust.test.ObjectTest\<span class="variable">$User</span> </div><div class="line">cn.edu.aust.test.ObjectTest<span class="variable">$User</span>:    private static final long serialVersionUID = 1L;</div></pre></td></tr></table></figure></p>
+<p>报错很明显,两边类的<code>serialVersionUID</code>不一样,也就是说对于编译好的class,其<code>serialVersionUID</code>是其序列化的唯一标识,如果未显示声明JDK则会自动为其加上,换句话说<code>serialVersionUID</code>保证了对象的向上兼容,可以使用命令<code>seriserialver</code>可以查看一个class文件的<code>serialVersionUID</code>,当线上版本忘记加该字段的时候该命令还是很有用处的.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">seriserialver cn.edu.aust.test.ObjectTest\<span class="variable">$User</span> </div><div class="line">cn.edu.aust.test.ObjectTest<span class="variable">$User</span>:    private static final long serialVersionUID = 1L;</div></pre></td></tr></table></figure></p>
+<p>另外需要注意反序列化因为是直接从字节流里面构造出对象,因此并不会去执行构造函数.如果你的类有在构造函数中初始值的行为,那么这里就可能得到异常.</p>
 <h3 id="transient的作用"><a href="#transient的作用" class="headerlink" title="transient的作用"></a>transient的作用</h3><p>transient翻译为瞬时,也就是被其修饰的变量序列化时会忽略该字段.什么时候需要用到这个字段呢?<br>在Java中对象之间的关系会组成一个对象图,序列化的过程是对该对象图的遍历,那么反序列化也仍然是对该对象图的遍历.对于对象里面的对象就是递归过程,对于链表之类的数据结构递归的话很容易引起栈溢出,那么就可以使用<code>transient</code>忽略该字段.</p>
 ]]></content>
     
@@ -924,6 +833,130 @@
     
     
       <category term="jdk" scheme="http://mrdear.cn/tags/jdk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>对一个WEB请求的理解</title>
+    <link href="http://mrdear.cn/2017/04/30/%E8%BF%90%E7%BB%B4/%E5%AF%B9%E4%B8%80%E4%B8%AAWEB%E8%AF%B7%E6%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/</id>
+    <published>2017-04-29T16:00:00.000Z</published>
+    <updated>2017-05-06T01:13:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.</p>
+<h3 id="URL解析"><a href="#URL解析" class="headerlink" title="URL解析"></a>URL解析</h3><p>首先把URL分割为几个部分,以地址<code>http://mrdear.cn/2017/04/15/动漫推荐/</code>为例<br>协议: http<br>网址: mrdear.cn<br>资源路径: 2017/04/15/动漫推荐/</p>
+<p>浏览器拿到地址后会对其中非ASCII码的Unicode字符解析,比如空格会变成%20,汉字也会变成其16进制对应的编码值,如下例子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">上面链接等价于</div><div class="line">http:<span class="comment">//mrdear.cn/2017/04/15/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</span></div></pre></td></tr></table></figure></p>
+<p>中间还有其他很复杂的流程,比如参数,协议,请求头,请求体等建立.</p>
+<h3 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h3><p>对于网址mrdear.cn,浏览器并不知道他所处的服务器位置,因此需要解析出其服务器ip,这个过程就是DNS域名解析.</p>
+<ul>
+<li>浏览器首先检查自身缓存dns解析,以chrome为例,输入<code>chrome://net-internals/#dns</code>即可看到缓存列表.该缓存通常几分钟到几小时不等,存在的话就直接返回,否则下一步</li>
+<li>和浏览器同样策略,OS对每一次解析结果也会做缓存,浏览器中不存在则在OS的缓存中查找.这个过成功也包括在本地hosts中查找.找到则返回,找不到则向本机的dns服务器发送查找请求.</li>
+<li><p>DNS服务器和本机在一个子网内,则APR解析到具体设备的mac地址,然后向其查找.如果不在一个子网,则直接ARP解析当前主机网关地址,网关一般是上一个路由节点,也就是把查询转交给上一层服务器,那么上一层服务器找不到还会转交给它的上一层,如此形成一个递归查询过程,直到查找到根服务器.找不到则返回失败.找到则返回ip地址和其TTL时间.<br>linux和unix下的dns配置在<code>/etc/resolv.conf</code>中,可以使用<code>nslookup或者dig查</code>看解析过程.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p" alt=""></p>
+</li>
+<li><p>解析成功后,浏览器创建与服务器的socket连接,构造请求信息,进行TCP三次握手,开始向服务器传输消息,并等服务器回复信息,这也是TPC可靠的一个原因.</p>
+</li>
+</ul>
+<h3 id="服务器响应"><a href="#服务器响应" class="headerlink" title="服务器响应"></a>服务器响应</h3><p>服务器以nginx+tomcat为例,经过以上步骤后请求到达了nginx,nginx对URL进行分析,验证其所在机器上有所需要的服务,并且用户是有权限调用的,决定该URL由哪一个tomcat服务处理,捕获处理结果,返回给请求者,最后四次挥手结束请求.到此完成浏览器,服务端的通信.</p>
+<h3 id="浏览器渲染"><a href="#浏览器渲染" class="headerlink" title="浏览器渲染"></a>浏览器渲染</h3><p>浏览器拿到了服务器的返回信息后会对内容进行解析,展现成用户所需要的内容,如html,pdf等.</p>
+<hr>
+<p>那么整个过程总结来看就是 用户输入URL -&gt; 浏览器解析地址 -&gt; DNS查找域名对应ip -&gt; 服务器响应 -&gt;浏览器拿到响应渲染.</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="1-CDN网络"><a href="#1-CDN网络" class="headerlink" title="1.CDN网络"></a>1.CDN网络</h4><p>CDN又叫内容分布网络,一般用于静态资源如html,css,js的存储,简单的理解为一张大网,网上每一个节点都有着很多资源.那么每一个用户想要访问的时候就会去找离他最近的节点上面获取需要的内容.从而加快了网站整体访问速度.<br>举个例子:用户访问taobao的某css文件,首先浏览器会发送请求 -&gt; DNS解析域名,这里一般会有一个DNS负载均衡服务器,其得到最适合用户的CDN节点ip -&gt; 用户拿到CDN节点ip得到资源.</p>
+<h4 id="2-DNS劫持"><a href="#2-DNS劫持" class="headerlink" title="2.DNS劫持"></a>2.DNS劫持</h4><p>了解了DNS的解析是一个递归过程,找到域名 &lt;-&gt; ip就返回,如果有人手动修改了该条映射信息,那么就会返回到错误的ip地址,这种行为也叫DNS劫持,对于客户端来说,没有很好地方式能认为服务器返回的信息是可靠的,也就是不可靠的HTTP通信,所以也就导致了这一层的攻击漏洞,而这种事一般是天朝的电信运营商能干得出来,所以选择一个靠谱的DNS是非常重要,推荐<code>114.114.114.114</code></p>
+<h4 id="3-HTTPS"><a href="#3-HTTPS" class="headerlink" title="3.HTTPS"></a>3.HTTPS</h4><p>应对HTTP的不可靠通信,所以诞生了HTTPS,即HTTP over SSL,使用SSL/TLS对HTTP的内容进行加密解密.整个流程如下图:</p>
+<p><center><img src="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p" alt=""></center></p>
+<ul>
+<li>在SSL握手阶段，客户端浏览器会认证服务器的身份，这是通过“证书”来实现的，证书由证书权威（CA）为某个域名签发，可以理解为网站的身份证件，客户端需要对这个证件进行认证，需要确定该证书是否属于目标网站并确认证书本身是否有效。最后在握手阶段，通信的双方还会协商出一个用于加密和解密的会话密钥。</li>
+<li>SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。<br>HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.</li>
+</ul>
+<h4 id="4-乱码问题"><a href="#4-乱码问题" class="headerlink" title="4.乱码问题"></a>4.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
+<p>这里要保证不乱码,下一步tomcat建立了ServletRequest和ServletResponse,那么这里也有编码,一般是post表单或者request body乱码,那么就需要指定ServletRequest和ServletResponse的编码格式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(encoding);<span class="comment">//设置请求信息编码</span></div><div class="line">response.setCharacterEncoding(encoding);<span class="comment">//设置返回信息编码</span></div></pre></td></tr></table></figure></p>
+<p>Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.<br>浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如<code>Content-Type: text/html;charset=UTF-8</code>,指定以UTF-8渲染该text/html返回.</p>
+<h4 id="5-几种域名解析"><a href="#5-几种域名解析" class="headerlink" title="5.几种域名解析"></a>5.几种域名解析</h4><p>域名解析记录主要分为：A 记录、MX记录、CNAME 记录、NS记录和 TXT记录</p>
+<ul>
+<li>A记录：A 代表的是Address，用来指定域名对应的IP地址。域名可以多对一但是不能一对多。</li>
+<li>MX记录：Mail Exchange,就是讲某个域名下的邮件服务器指向自己的Mail Server。</li>
+<li>CNAME记录：别名解析。将一个域名设置一个或者多个别名。</li>
+<li>NS记录：为某个域名指定DNS解析服务器。</li>
+<li>TXT记录：为某个主机名或者域名设置文字说明。<br>本站是托管于github的,主域名<code>mrdear.cn</code>是使用CNAME解析到<code>nl101531.github.io</code>的,二级域名<code>oj.mrdear.cn</code>和<code>md.mrdear.cn</code>都是使用A记录解析到对应主机的ip地址,到达主机后再使用Nginx进行不同的服务器转发.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p" alt=""></li>
+</ul>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>个人总结,如有错误请指出,以免误人子弟.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.&lt;/p&gt;
+&lt;h3 id=&quot;URL解析&quot;&gt;&lt;a href=&quot;#URL解析&quot;
+    
+    </summary>
+    
+      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
+    
+    
+      <category term="http" scheme="http://mrdear.cn/tags/http/"/>
+    
+      <category term="web" scheme="http://mrdear.cn/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>毕业设计周记(八)</title>
+    <link href="http://mrdear.cn/2017/04/29/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%85%AB)/"/>
+    <id>http://mrdear.cn/2017/04/29/毕业设计/毕业设计周记(八)/</id>
+    <published>2017-04-29T10:00:00.000Z</published>
+    <updated>2017-04-29T11:08:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘.</p>
+<p>修改数据库模型后代码不少地方重新写了下,耽误了点时间,五一期间仍然是写毕业论文.</p>
+<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
+<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
+<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
+<p>测试账号: 1015315668@qq.com<br>          111111</p>
+<p>等待完成:</p>
+<p>1.毕业论文</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,control
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>毕业设计周记(七)</title>
+    <link href="http://mrdear.cn/2017/04/24/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%83)/"/>
+    <id>http://mrdear.cn/2017/04/24/毕业设计/毕业设计周记(七)/</id>
+    <published>2017-04-24T11:00:00.000Z</published>
+    <updated>2017-04-24T11:07:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成.</p>
+<p>毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来.</p>
+<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
+<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
+<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
+<p>测试账号: 1015315668@qq.com<br>          111111</p>
+<p>等待完成:</p>
+<p>1.毕业论文</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成.&lt;/p&gt;
+&lt;p&gt;毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来.&lt;/p&gt;
+&lt;p&gt;前端项目地址: &lt;a href=&quot;https://github.com/nl101
+    
+    </summary>
+    
+      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
+    
+    
+      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
