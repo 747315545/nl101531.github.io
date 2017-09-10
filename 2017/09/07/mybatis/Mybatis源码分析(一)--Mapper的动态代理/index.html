@@ -1,0 +1,949 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vI-8_Ee7chpyEu09yCt-bC91dWWmTx08Bb_Mv1gltl0" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="ZJAkxniqr5" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mybatis,设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="屈定's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="工作中用的最多的就是Mybatis这款半自动ORM框架,用的久却对其了解不是很深,因此打算开一系列文章对其进行解析,顺便对知识进行查漏补缺.本篇是对Mapper动态代理原理的详解.
+
+代理模式定义为另一个对象提供一个替身或者占位符以控制对这个对象的访问.也就是说目的是控制对象形式其职责.当然也可以增强其职责,比如Spring AOP.
+代理模式类图由下图分析,代理模式所需要的角色为:
+
+对外的行为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis源码分析(一)--Mapper的动态代理">
+<meta property="og:url" content="http://mrdear.cn/2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/index.html">
+<meta property="og:site_name" content="屈定's Blog">
+<meta property="og:description" content="工作中用的最多的就是Mybatis这款半自动ORM框架,用的久却对其了解不是很深,因此打算开一系列文章对其进行解析,顺便对知识进行查漏补缺.本篇是对Mapper动态代理原理的详解.
+
+代理模式定义为另一个对象提供一个替身或者占位符以控制对这个对象的访问.也就是说目的是控制对象形式其职责.当然也可以增强其职责,比如Spring AOP.
+代理模式类图由下图分析,代理模式所需要的角色为:
+
+对外的行为">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1504793889.png?imageMogr2/thumbnail/!150p">
+<meta property="og:updated_time" content="2017-09-10T08:33:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mybatis源码分析(一)--Mapper的动态代理">
+<meta name="twitter:description" content="工作中用的最多的就是Mybatis这款半自动ORM框架,用的久却对其了解不是很深,因此打算开一系列文章对其进行解析,顺便对知识进行查漏补缺.本篇是对Mapper动态代理原理的详解.
+
+代理模式定义为另一个对象提供一个替身或者占位符以控制对这个对象的访问.也就是说目的是控制对象形式其职责.当然也可以增强其职责,比如Spring AOP.
+代理模式类图由下图分析,代理模式所需要的角色为:
+
+对外的行为">
+<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1504793889.png?imageMogr2/thumbnail/!150p">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6338709381080679000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'A0L4FVEAGD',
+      apiKey: 'f8bd7fb0a34ec8f3040c50f18fa39d06',
+      indexName: 'quding',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mrdear.cn/2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/"/>
+
+
+
+
+
+  <title> Mybatis源码分析(一)--Mapper的动态代理 | 屈定's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?05272b7f33b576c5363b4fa34583f3c3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">屈定's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">change from today</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Niu li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="屈定's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mybatis源码分析(一)--Mapper的动态代理
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-07T22:04:05+08:00">
+                2017-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mybatis/" itemprop="url" rel="index">
+                    <span itemprop="name">mybatis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工作中用的最多的就是Mybatis这款半自动ORM框架,用的久却对其了解不是很深,因此打算开一系列文章对其进行解析,顺便对知识进行查漏补缺.本篇是对Mapper动态代理原理的详解.</p>
+<hr>
+<h3 id="代理模式定义"><a href="#代理模式定义" class="headerlink" title="代理模式定义"></a>代理模式定义</h3><p>为另一个对象提供一个替身或者占位符以控制对这个对象的访问.也就是说目的是控制对象形式其职责.当然也可以增强其职责,比如Spring AOP.</p>
+<h3 id="代理模式类图"><a href="#代理模式类图" class="headerlink" title="代理模式类图"></a>代理模式类图</h3><p>由下图分析,代理模式所需要的角色为:</p>
+<ol>
+<li>对外的行为接口Subject,对于调用方Client可见</li>
+<li>RealSubject真实的Subject,其包含具体的接口行为,对于Client不可见</li>
+<li>代理类Proxy,其是RealSubject的替身,也可以当成对RealSubject的一层包装,对于Client不可见.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1504793889.png?imageMogr2/thumbnail/!150p" alt=""><h3 id="JDK动态代理Example"><a href="#JDK动态代理Example" class="headerlink" title="JDK动态代理Example"></a>JDK动态代理Example</h3>案例采取Java的动态代理形式开发,按照上述类图定义角色<br><strong>Subject</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * 反转输入的input字符串</div><div class="line">   * <span class="doctag">@param</span> input 要反转的串</div><div class="line">   * <span class="doctag">@return</span> 反转后的串</div><div class="line">   */</div><div class="line">  <span class="function">String <span class="title">reversalInput</span><span class="params">(String input)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>RealSubject</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">reversalInput</span><span class="params">(String input)</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"我是RealSubject: "</span>+input);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> StringBuilder(input).reverse().toString();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>SubjectProxy</strong><br>该类实现了InvocationHandler,实际上是对调用的拦截,拦截后转向真实对象的调用,从而拿到正确的结果.是不是很像装饰者模式?其实也可以这样理解,设计模式之前本身就有很多关联性,不需要认定某一个行为就是单一的某个模式,从产生效果来看这里的SubjectProxy实际上就是对RealSubject的装饰,只不过这个装饰并没有添加新功能.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubjectProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> Object target;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SubjectProxy</span><span class="params">(Object target)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.target = target;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">    System.out.println(<span class="string">"proxy subject is "</span>+proxy.getClass());</div><div class="line">    System.out.println(<span class="string">"real subject : "</span>+ToStringBuilder.reflectionToString(target));</div><div class="line">    System.out.println(<span class="string">"method: "</span>+method);</div><div class="line">    System.out.println(<span class="string">"args: "</span>+ ToStringBuilder.reflectionToString(args));</div><div class="line">    <span class="keyword">return</span> method.invoke(target, args);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Client</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    RealSubject subject = <span class="keyword">new</span> RealSubject();</div><div class="line"></div><div class="line">    Subject proxyInstance = (Subject) Proxy.newProxyInstance(</div><div class="line">        Subject.class.getClassLoader(),</div><div class="line">        <span class="keyword">new</span> Class[]&#123;Subject.class&#125;,</div><div class="line">        <span class="keyword">new</span> SubjectProxy(subject));</div><div class="line"></div><div class="line">    System.out.println(proxyInstance.reversalInput(<span class="string">"hello world"</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>输出</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">proxy is class com.sun.proxy.$Proxy0</div><div class="line">target proxy: cn.mrdear.proxy.RealSubject@51016012[]</div><div class="line">method: public abstract java.lang.String cn.mrdear.proxy.Subject.reversalInput(java.lang.String)</div><div class="line">args: [Ljava.lang.Object;@29444d75[&#123;hello world&#125;]</div><div class="line">我是RealSubject: hello world</div><div class="line">dlrow olleh</div></pre></td></tr></table></figure></p>
+<p><strong>分析</strong><br>1.动态代理哪里体现了动态?</p>
+<blockquote>
+<p>对于常规Java类变量创建要求有.java文件,然后编译成.class文件,然后虚拟机加载该.class文件,最后才能生成对象.但是对于<code>Subject proxyInstance</code>该代理类其是不存在.java文件的,也就是该对象的.class文件是动态生成的,然后虚拟机加载该class文件,创建对象.在Proxy.java中有如下代码动态生成class文件,感兴趣的话可以研究研究,这里不多深入.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * Generate the specified proxy class.</div><div class="line"> */</div><div class="line"><span class="keyword">byte</span>[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>2.JDK动态代理的要求</p>
+<blockquote>
+<p>JDK动态代理只能针对接口,如果要针对普通类则可以考虑CGLib的实现,这里不多分析.其次动态代理的要求有接口类<code>Subject</code>,<code>InvocationHandler</code>代理方法类存在,才能创建出代理对象,代理对象的执行方法都被<code>InvocationHandler</code>接口所拦截,转向真实类的执行或者你想要的操作.</p>
+</blockquote>
+<h3 id="Mybatis的动态Mapper"><a href="#Mybatis的动态Mapper" class="headerlink" title="Mybatis的动态Mapper"></a>Mybatis的动态Mapper</h3><p>由上面内容可以看出JDK动态代理需要接口,真实实现类,Clinet调用方,在常规的Mybatis的Mapper代理中接口就是Mapper,Client是service,那么真实的实现类是什么?显而易见这里就是Mapper代理的关键点.</p>
+<h3 id="MapperProxyFactory"><a href="#MapperProxyFactory" class="headerlink" title="MapperProxyFactory"></a>MapperProxyFactory</h3><p>顾名思义该类是产生Mapper接口的工厂类,其内部有如下方法,由此可以看出<code>MapperProxy</code>是方法拦截的地方,那么到此动态代理所需要的必须角色都以凑齐,那么接下来分析最重要的<code>MapperProxy</code>方法拦截.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">newInstance</span><span class="params">(MapperProxy&lt;T&gt; mapperProxy)</span> </span>&#123;</div><div class="line">   <span class="keyword">return</span> (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), <span class="keyword">new</span> Class[] &#123; mapperInterface &#125;, mapperProxy);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="MapperProxy"><a href="#MapperProxy" class="headerlink" title="MapperProxy"></a>MapperProxy</h3><p>该类是Mapper接口的Proxy角色,继承了<code>InvocationHandler</code>,所以具有方法拦截功能,看代码注释.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">if</span> (Object.class.equals(method.getDeclaringClass())) &#123; <span class="comment">////判断是否为object,因为其不是接口</span></div><div class="line">      <span class="keyword">return</span> method.invoke(<span class="keyword">this</span>, args);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDefaultMethod(method)) &#123; <span class="comment">//判断是否为接口总的默认方法,jdk8允许接口中声明默认方法.</span></div><div class="line">      <span class="keyword">return</span> invokeDefaultMethod(proxy, method, args);</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">    <span class="keyword">throw</span> ExceptionUtil.unwrapThrowable(t);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//对正常Mapper请求的处理</span></div><div class="line">  <span class="keyword">final</span> MapperMethod mapperMethod = cachedMapperMethod(method);</div><div class="line">  <span class="keyword">return</span> mapperMethod.execute(sqlSession, args);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对于正常的Mapper接口中的方法调用,mybatis都会转向到<code>MapperMethod</code>的execute方法中执行,拿到结果返回给调用方Client,整个代理过程结束.对于正常调用是有缓存的,并且该代理类是项目启动时就生成好的,对于性能影响并不是很大实用性还是很高的.</p>
+<p>这里要注意下对于默认接口方法的处理<code>invokeDefaultMethod(proxy, method, args)</code>,该方法中每次都直接生成代理类,对性能是一种损耗应该不小,所以<strong>不建议在Mapper接口中写默认方法</strong>.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@UsesJava</span>7</div><div class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">invokeDefaultMethod</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></div><div class="line">    <span class="keyword">throws</span> Throwable &#123;</div><div class="line">  <span class="keyword">final</span> Constructor&lt;MethodHandles.Lookup&gt; constructor = MethodHandles.Lookup.class</div><div class="line">      .getDeclaredConstructor(Class.class, <span class="keyword">int</span>.class);</div><div class="line">  <span class="keyword">if</span> (!constructor.isAccessible()) &#123;</div><div class="line">    constructor.setAccessible(<span class="keyword">true</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">final</span> Class&lt;?&gt; declaringClass = method.getDeclaringClass();</div><div class="line">  <span class="keyword">return</span> constructor</div><div class="line">      .newInstance(declaringClass,</div><div class="line">          MethodHandles.Lookup.PRIVATE | MethodHandles.Lookup.PROTECTED</div><div class="line">              | MethodHandles.Lookup.PACKAGE | MethodHandles.Lookup.PUBLIC)</div><div class="line">      .unreflectSpecial(method, declaringClass).bindTo(proxy).invokeWithArguments(args);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从上面来看动态代理的最大的好处就是接口(不单指Java的interface,也包括CGLib的动态代理实现)与其实现类的解耦,原本接口和动态类之间是强关联状态,接口不能实例化,实现类必须实现接口的所有方法,有了动态代理之后,接口与实现类的关系并不是很大,甚至不需要实现类就可以完成调用,比如Mybatis这种形式,其并没有创建该接口的实现类,而是用一个方法拦截器转向到自己的通用处理逻辑.<br>另外就是Spring AOP的动态代理,解耦后自然可以实现对原有方法增强的同时又对其代码的零侵入性.<br>最后Mybatis的Mapper动态代理实现原理还是很清晰的,下一篇具体分析<code>MapperMethod</code>,顺便学习Mybatis的各种设计模式.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/image/wechatpay.png" alt="Niu li WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/image/alipay.png" alt="Niu li Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mybatis/" rel="tag"># mybatis</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/26/web/Cnpm导致IDEA对于Angular项目提示失效/" rel="next" title="cnpm导致IDEA对于Angular项目提示失效">
+                <i class="fa fa-chevron-left"></i> cnpm导致IDEA对于Angular项目提示失效
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
+               alt="Niu li" />
+          <p class="site-author-name" itemprop="name">Niu li</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nl101531" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/niu.dear/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012706811" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://nerdtsai.me" title="Nerd'Blog" target="_blank">Nerd'Blog</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#代理模式定义"><span class="nav-text">代理模式定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理模式类图"><span class="nav-text">代理模式类图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK动态代理Example"><span class="nav-text">JDK动态代理Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis的动态Mapper"><span class="nav-text">Mybatis的动态Mapper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapperProxyFactory"><span class="nav-text">MapperProxyFactory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapperProxy"><span class="nav-text">MapperProxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niu li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'mrdear';
+      var disqus_identifier = '2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/';
+
+      var disqus_title = "Mybatis源码分析(一)--Mapper的动态代理";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

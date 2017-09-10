@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-09-02T02:21:05.000Z</updated>
+  <updated>2017-09-10T08:33:10.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mybatis源码分析(一)--Mapper的动态代理</title>
+    <link href="http://mrdear.cn/2017/09/07/mybatis/Mybatis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90(%E4%B8%80)--Mapper%E7%9A%84%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
+    <id>http://mrdear.cn/2017/09/07/mybatis/Mybatis源码分析(一)--Mapper的动态代理/</id>
+    <published>2017-09-07T14:04:05.000Z</published>
+    <updated>2017-09-10T08:33:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>工作中用的最多的就是Mybatis这款半自动ORM框架,用的久却对其了解不是很深,因此打算开一系列文章对其进行解析,顺便对知识进行查漏补缺.本篇是对Mapper动态代理原理的详解.</p>
+<hr>
+<h3 id="代理模式定义"><a href="#代理模式定义" class="headerlink" title="代理模式定义"></a>代理模式定义</h3><p>为另一个对象提供一个替身或者占位符以控制对这个对象的访问.也就是说目的是控制对象形式其职责.当然也可以增强其职责,比如Spring AOP.</p>
+<h3 id="代理模式类图"><a href="#代理模式类图" class="headerlink" title="代理模式类图"></a>代理模式类图</h3><p>由下图分析,代理模式所需要的角色为:</p>
+<ol>
+<li>对外的行为接口Subject,对于调用方Client可见</li>
+<li>RealSubject真实的Subject,其包含具体的接口行为,对于Client不可见</li>
+<li>代理类Proxy,其是RealSubject的替身,也可以当成对RealSubject的一层包装,对于Client不可见.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1504793889.png?imageMogr2/thumbnail/!150p" alt=""><h3 id="JDK动态代理Example"><a href="#JDK动态代理Example" class="headerlink" title="JDK动态代理Example"></a>JDK动态代理Example</h3>案例采取Java的动态代理形式开发,按照上述类图定义角色<br><strong>Subject</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * 反转输入的input字符串</div><div class="line">   * <span class="doctag">@param</span> input 要反转的串</div><div class="line">   * <span class="doctag">@return</span> 反转后的串</div><div class="line">   */</div><div class="line">  <span class="function">String <span class="title">reversalInput</span><span class="params">(String input)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>RealSubject</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">reversalInput</span><span class="params">(String input)</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"我是RealSubject: "</span>+input);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> StringBuilder(input).reverse().toString();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>SubjectProxy</strong><br>该类实现了InvocationHandler,实际上是对调用的拦截,拦截后转向真实对象的调用,从而拿到正确的结果.是不是很像装饰者模式?其实也可以这样理解,设计模式之前本身就有很多关联性,不需要认定某一个行为就是单一的某个模式,从产生效果来看这里的SubjectProxy实际上就是对RealSubject的装饰,只不过这个装饰并没有添加新功能.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubjectProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> Object target;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SubjectProxy</span><span class="params">(Object target)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.target = target;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">    System.out.println(<span class="string">"proxy subject is "</span>+proxy.getClass());</div><div class="line">    System.out.println(<span class="string">"real subject : "</span>+ToStringBuilder.reflectionToString(target));</div><div class="line">    System.out.println(<span class="string">"method: "</span>+method);</div><div class="line">    System.out.println(<span class="string">"args: "</span>+ ToStringBuilder.reflectionToString(args));</div><div class="line">    <span class="keyword">return</span> method.invoke(target, args);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Client</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    RealSubject subject = <span class="keyword">new</span> RealSubject();</div><div class="line"></div><div class="line">    Subject proxyInstance = (Subject) Proxy.newProxyInstance(</div><div class="line">        Subject.class.getClassLoader(),</div><div class="line">        <span class="keyword">new</span> Class[]&#123;Subject.class&#125;,</div><div class="line">        <span class="keyword">new</span> SubjectProxy(subject));</div><div class="line"></div><div class="line">    System.out.println(proxyInstance.reversalInput(<span class="string">"hello world"</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>输出</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">proxy is class com.sun.proxy.$Proxy0</div><div class="line">target proxy: cn.mrdear.proxy.RealSubject@51016012[]</div><div class="line">method: public abstract java.lang.String cn.mrdear.proxy.Subject.reversalInput(java.lang.String)</div><div class="line">args: [Ljava.lang.Object;@29444d75[&#123;hello world&#125;]</div><div class="line">我是RealSubject: hello world</div><div class="line">dlrow olleh</div></pre></td></tr></table></figure></p>
+<p><strong>分析</strong><br>1.动态代理哪里体现了动态?</p>
+<blockquote>
+<p>对于常规Java类变量创建要求有.java文件,然后编译成.class文件,然后虚拟机加载该.class文件,最后才能生成对象.但是对于<code>Subject proxyInstance</code>该代理类其是不存在.java文件的,也就是该对象的.class文件是动态生成的,然后虚拟机加载该class文件,创建对象.在Proxy.java中有如下代码动态生成class文件,感兴趣的话可以研究研究,这里不多深入.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * Generate the specified proxy class.</div><div class="line"> */</div><div class="line"><span class="keyword">byte</span>[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>2.JDK动态代理的要求</p>
+<blockquote>
+<p>JDK动态代理只能针对接口,如果要针对普通类则可以考虑CGLib的实现,这里不多分析.其次动态代理的要求有接口类<code>Subject</code>,<code>InvocationHandler</code>代理方法类存在,才能创建出代理对象,代理对象的执行方法都被<code>InvocationHandler</code>接口所拦截,转向真实类的执行或者你想要的操作.</p>
+</blockquote>
+<h3 id="Mybatis的动态Mapper"><a href="#Mybatis的动态Mapper" class="headerlink" title="Mybatis的动态Mapper"></a>Mybatis的动态Mapper</h3><p>由上面内容可以看出JDK动态代理需要接口,真实实现类,Clinet调用方,在常规的Mybatis的Mapper代理中接口就是Mapper,Client是service,那么真实的实现类是什么?显而易见这里就是Mapper代理的关键点.</p>
+<h3 id="MapperProxyFactory"><a href="#MapperProxyFactory" class="headerlink" title="MapperProxyFactory"></a>MapperProxyFactory</h3><p>顾名思义该类是产生Mapper接口的工厂类,其内部有如下方法,由此可以看出<code>MapperProxy</code>是方法拦截的地方,那么到此动态代理所需要的必须角色都以凑齐,那么接下来分析最重要的<code>MapperProxy</code>方法拦截.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">newInstance</span><span class="params">(MapperProxy&lt;T&gt; mapperProxy)</span> </span>&#123;</div><div class="line">   <span class="keyword">return</span> (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), <span class="keyword">new</span> Class[] &#123; mapperInterface &#125;, mapperProxy);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="MapperProxy"><a href="#MapperProxy" class="headerlink" title="MapperProxy"></a>MapperProxy</h3><p>该类是Mapper接口的Proxy角色,继承了<code>InvocationHandler</code>,所以具有方法拦截功能,看代码注释.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">if</span> (Object.class.equals(method.getDeclaringClass())) &#123; <span class="comment">////判断是否为object,因为其不是接口</span></div><div class="line">      <span class="keyword">return</span> method.invoke(<span class="keyword">this</span>, args);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDefaultMethod(method)) &#123; <span class="comment">//判断是否为接口总的默认方法,jdk8允许接口中声明默认方法.</span></div><div class="line">      <span class="keyword">return</span> invokeDefaultMethod(proxy, method, args);</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">    <span class="keyword">throw</span> ExceptionUtil.unwrapThrowable(t);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//对正常Mapper请求的处理</span></div><div class="line">  <span class="keyword">final</span> MapperMethod mapperMethod = cachedMapperMethod(method);</div><div class="line">  <span class="keyword">return</span> mapperMethod.execute(sqlSession, args);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对于正常的Mapper接口中的方法调用,mybatis都会转向到<code>MapperMethod</code>的execute方法中执行,拿到结果返回给调用方Client,整个代理过程结束.对于正常调用是有缓存的,并且该代理类是项目启动时就生成好的,对于性能影响并不是很大实用性还是很高的.</p>
+<p>这里要注意下对于默认接口方法的处理<code>invokeDefaultMethod(proxy, method, args)</code>,该方法中每次都直接生成代理类,对性能是一种损耗应该不小,所以<strong>不建议在Mapper接口中写默认方法</strong>.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@UsesJava</span>7</div><div class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">invokeDefaultMethod</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></div><div class="line">    <span class="keyword">throws</span> Throwable &#123;</div><div class="line">  <span class="keyword">final</span> Constructor&lt;MethodHandles.Lookup&gt; constructor = MethodHandles.Lookup.class</div><div class="line">      .getDeclaredConstructor(Class.class, <span class="keyword">int</span>.class);</div><div class="line">  <span class="keyword">if</span> (!constructor.isAccessible()) &#123;</div><div class="line">    constructor.setAccessible(<span class="keyword">true</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">final</span> Class&lt;?&gt; declaringClass = method.getDeclaringClass();</div><div class="line">  <span class="keyword">return</span> constructor</div><div class="line">      .newInstance(declaringClass,</div><div class="line">          MethodHandles.Lookup.PRIVATE | MethodHandles.Lookup.PROTECTED</div><div class="line">              | MethodHandles.Lookup.PACKAGE | MethodHandles.Lookup.PUBLIC)</div><div class="line">      .unreflectSpecial(method, declaringClass).bindTo(proxy).invokeWithArguments(args);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从上面来看动态代理的最大的好处就是接口(不单指Java的interface,也包括CGLib的动态代理实现)与其实现类的解耦,原本接口和动态类之间是强关联状态,接口不能实例化,实现类必须实现接口的所有方法,有了动态代理之后,接口与实现类的关系并不是很大,甚至不需要实现类就可以完成调用,比如Mybatis这种形式,其并没有创建该接口的实现类,而是用一个方法拦截器转向到自己的通用处理逻辑.<br>另外就是Spring AOP的动态代理,解耦后自然可以实现对原有方法增强的同时又对其代码的零侵入性.<br>最后Mybatis的Mapper动态代理实现原理还是很清晰的,下一篇具体分析<code>MapperMethod</code>,顺便学习Mybatis的各种设计模式.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;工作中用的最多的就是Mybatis这款半自动ORM框架,用的久却对其了解不是很深,因此打算开一系列文章对其进行解析,顺便对知识进行查漏补缺.本篇是对Mapper动态代理原理的详解.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;代理模式定义&quot;&gt;&lt;a href=&quot;#代理模式定义&quot; cla
+    
+    </summary>
+    
+      <category term="mybatis" scheme="http://mrdear.cn/categories/mybatis/"/>
+    
+    
+      <category term="mybatis" scheme="http://mrdear.cn/tags/mybatis/"/>
+    
+      <category term="设计模式" scheme="http://mrdear.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>cnpm导致IDEA对于Angular项目提示失效</title>
@@ -918,38 +973,6 @@
     <summary type="html">
     
       &lt;p&gt;写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,control
-    
-    </summary>
-    
-      <category term="随谈" scheme="http://mrdear.cn/categories/%E9%9A%8F%E8%B0%88/"/>
-    
-    
-      <category term="毕业设计" scheme="http://mrdear.cn/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业设计周记(七)</title>
-    <link href="http://mrdear.cn/2017/04/24/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%83)/"/>
-    <id>http://mrdear.cn/2017/04/24/毕业设计/毕业设计周记(七)/</id>
-    <published>2017-04-24T11:00:00.000Z</published>
-    <updated>2017-04-24T11:07:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成.</p>
-<p>毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来.</p>
-<p>前端项目地址: <a href="https://github.com/nl101531/AUSTOJ-WEB" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ-WEB</a></p>
-<p>后端项目地址: <a href="https://github.com/nl101531/AUSTOJ2" target="_blank" rel="external">https://github.com/nl101531/AUSTOJ2</a></p>
-<p>测试地址: <a href="http://oj.mrdear.cn" target="_blank" rel="external">http://oj.mrdear.cn</a></p>
-<p>测试账号: 1015315668@qq.com<br>          111111</p>
-<p>等待完成:</p>
-<p>1.毕业论文</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成.&lt;/p&gt;
-&lt;p&gt;毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来.&lt;/p&gt;
-&lt;p&gt;前端项目地址: &lt;a href=&quot;https://github.com/nl101
     
     </summary>
     
