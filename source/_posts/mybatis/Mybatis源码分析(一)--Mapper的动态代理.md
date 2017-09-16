@@ -16,6 +16,7 @@ date: 2017-09-07 22:04:05
 2. RealSubject真实的Subject,其包含具体的接口行为,对于Client不可见
 3. 代理类Proxy,其是RealSubject的替身,也可以当成对RealSubject的一层包装,对于Client不可见.
 ![](http://oobu4m7ko.bkt.clouddn.com/1504793889.png?imageMogr2/thumbnail/!150p)
+
 ### JDK动态代理Example
 案例采取Java的动态代理形式开发,按照上述类图定义角色
 **Subject**
