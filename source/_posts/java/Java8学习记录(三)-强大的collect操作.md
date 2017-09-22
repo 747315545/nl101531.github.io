@@ -32,7 +32,7 @@ String concat = stringStream.collect(() -> new StringBuilder(),(l, x) -> l.appen
 ```
 那么换一种,我想对一个List<Integer>收集结果总和,按照Collect的要求,首先需要容器sum,然后添加操作 sum+x,聚合操作,sum1+sum2,那么就很容易写出来了,看完下面代码后好好体会下,然后再看高级用法.当然用sum方法收集是最佳解决方案,这里只是提供一种示例应用.
 ```java
-// 由于基本类型传递为值传递,所以这里用Optional当做容器
+// 由于基本类型都是不可变类型,所以这里用数组当做容器
 final Integer[] integers = Lists.newArrayList(1, 2, 3, 4, 5)
         .stream()
         .collect(() -> new Integer[]{0}, (a, x) -> a[0] += x, (a1, a2) -> a1[0] += a2[0]);
@@ -129,7 +129,7 @@ Lists.<Person>newArrayList().stream()
 ```
 #### reducing()
 `reducing`是针对单个值的收集,其返回结果不是集合家族的类型,而是单一的实体类T
-容器: `boxSupplier(identity)`,这里包裹用的是一个长度为1的Object[]数组,至于原因自然是值传递的锅
+容器: `boxSupplier(identity)`,这里包裹用的是一个长度为1的Object[]数组,至于原因自然是不可变类型的锅
 加入容器操作: `a[0] = op.apply(a[0], t)`
 多容器合并: `a[0] = op.apply(a[0], b[0]); return a;`
 聚合后的结果操作: 结果自然是Object[0]所包裹的数据`a -> a[0]`
