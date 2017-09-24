@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-09-22T01:50:52.000Z</updated>
+  <updated>2017-09-24T03:34:18.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -14,6 +14,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>博客的好搭档七牛云</title>
+    <link href="http://mrdear.cn/2017/09/24/%E8%BF%90%E7%BB%B4/%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%A5%BD%E6%90%AD%E6%A1%A3%E4%B8%83%E7%89%9B%E4%BA%91/"/>
+    <id>http://mrdear.cn/2017/09/24/运维/博客的好搭档七牛云/</id>
+    <published>2017-09-24T01:58:10.000Z</published>
+    <updated>2017-09-24T03:34:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>博客也搭建有一段时间了,期间一些同学来询问如何搭建博客,找了几篇文章让其搭建好了后我却发现大量图片也没他上传到github了,图片本身大,再加上github国内访问并不是很流畅,那么结果就是博客速度的下降,所以分享七牛云就是解决这个问题.</p>
+<hr>
+<h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么?"></a>是什么?</h3><p>七牛云是一个云存储平台,对于个人博客而言他就是一个图床,我们可以把图片等静态资源放在上面,甚至可以把整个博客都放在上面.比如<code>http://oobu4m7ko.bkt.clouddn.com/1506220469.png</code>这张图片就是我上传到七牛云上的,嵌入到markdown中的话展示效果如下:<br><img src="http://oobu4m7ko.bkt.clouddn.com/1506220469.png?imageMogr2/thumbnail/!100p" alt=""></p>
+<p>七牛云允许你对链接加参数来对图片进行一些处理,比如下面这些操作<br><code>http://oobu4m7ko.bkt.clouddn.com/1506220469.png?imageMogr2/thumbnail/!70p</code>,这参数以为等比缩放为70%,对于mac等高分辨屏来说很实用.<br>当然还有缩略,转换,裁剪等功能.详细的可以参考该文档<a href="https://developer.qiniu.com/dora/manual/1279/basic-processing-images-imageview2" target="_blank" rel="external">七牛图片处理基本文档</a></p>
+<p>七牛给免费用户提供了每月10GB的流量,足够个人网站的使用了.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1506223925.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用?"></a>怎么用?</h3><p>七牛虽好,但是上传是个麻烦的事情,写作的时候不能还开个浏览器窗口专门上传图片,这个肯定不合理.这样的不合理肯定有好的解决方案,我理想中的方案时复制图片到剪贴板,软件从剪贴板读取,上传,返回指定形式链接到粘贴板.下面推荐一些比较好的开源方案.</p>
+<h4 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h4><p>首先注册七牛账号,不介意的话可以走我的邀请链接.</p>
+<blockquote>
+<p><a href="https://portal.qiniu.com/signup?code=3lea5e6tnitsi" target="_blank" rel="external">注册七牛云</a></p>
+</blockquote>
+<h4 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h4><p>对于mac下图床的客户端选择是非常多的,这里首推alfred的workflow,简洁实用.<br><a href="https://github.com/kaito-kidd/markdown-image-alfred" target="_blank" rel="external">https://github.com/kaito-kidd/markdown-image-alfred</a></p>
+<blockquote>
+<p>支持复制本地图片获取图片链接<br>支持截图获取图片图片链接<br>支持gif格式<br>操作结果会在通知栏显示</p>
+</blockquote>
+<h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><p>windows下首推mpic这款软件,操作简单,文档清晰,下载后配置下即可使用.<br><a href="http://mpic.lzhaofu.cn/" target="_blank" rel="external">http://mpic.lzhaofu.cn/</a></p>
+<p>如果你有更好的方案,欢迎分享.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;博客也搭建有一段时间了,期间一些同学来询问如何搭建博客,找了几篇文章让其搭建好了后我却发现大量图片也没他上传到github了,图片本身大,再加上github国内访问并不是很流畅,那么结果就是博客速度的下降,所以分享七牛云就是解决这个问题.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;
+    
+    </summary>
+    
+      <category term="运维" scheme="http://mrdear.cn/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+      <category term="七牛" scheme="http://mrdear.cn/tags/%E4%B8%83%E7%89%9B/"/>
+    
+      <category term="图片存储" scheme="http://mrdear.cn/tags/%E5%9B%BE%E7%89%87%E5%AD%98%E5%82%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>Java8学习记录(三)-强大的collect操作</title>
@@ -878,134 +920,6 @@
       &lt;p&gt;推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;作者: 李豪&lt;br&gt;地址: &lt;a href=&quot;https://github.com/CarpenterLee/JavaLambdaInternals/
-    
-    </summary>
-    
-      <category term="java" scheme="http://mrdear.cn/categories/java/"/>
-    
-    
-      <category term="java8" scheme="http://mrdear.cn/tags/java8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java8学习记录(一)-函数式接口</title>
-    <link href="http://mrdear.cn/2017/05/18/java/Java8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)-%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/"/>
-    <id>http://mrdear.cn/2017/05/18/java/Java8学习记录(一)-函数式接口/</id>
-    <published>2017-05-18T15:39:11.000Z</published>
-    <updated>2017-05-20T10:47:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>实习前只是粗略的看了下Java8的一些基本语法,但是没有系统的学习过.在使用一段时间后决定系统的对其进行一次分析,加深对Java8函数式编程的理解,提高自己的编码技巧.另外kotlin崛起,感兴趣的朋友尝试下混编也未尝不可.</p>
-<hr>
-<h3 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h3><p>函数式接口,对于Java来说就是接口内只有一个公开方法的接口,因为使用lanbda表达式,例如<code>() -&gt; user.getName()</code>对应的调用则可能是<code>func.get()</code>,编译器会根据接口推断所属于的方法,如果有两个则无法推断.Java8提供了很多函数式接口,一般都使用注解<code>@FunctionalInterface</code>声明,有必要了解如下一些函数式接口.</p>
-<table>
-<thead>
-<tr>
-<th>函数式接口</th>
-<th>参数类型</th>
-<th>返回类型</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Supplier<t></t></td>
-<td>无</td>
-<td>T</td>
-<td>接收一个T类型的值</td>
-</tr>
-<tr>
-<td>Consumer<t></t></td>
-<td>T</td>
-<td>无</td>
-<td>处理一个T类型的值</td>
-</tr>
-<tr>
-<td>BiConsumer<t, u=""></t,></td>
-<td>T,U</td>
-<td>无</td>
-<td>处理T类型和U类型的值</td>
-</tr>
-<tr>
-<td>Predicate<t></t></td>
-<td>T</td>
-<td>boolean</td>
-<td>处理T类型的值,并返回true或者false.</td>
-</tr>
-<tr>
-<td>ToIntFunction<t></t></td>
-<td>T</td>
-<td>int</td>
-<td>处理T类型的值,并返回int值</td>
-</tr>
-<tr>
-<td>ToLongFunction<t></t></td>
-<td>T</td>
-<td>long</td>
-<td>处理T类型的值,并返回long值</td>
-</tr>
-<tr>
-<td>ToDoubleFunction<t></t></td>
-<td>T</td>
-<td>double</td>
-<td>处理T类型的值,并返回double值</td>
-</tr>
-<tr>
-<td>Function<t, r=""></t,></td>
-<td>T</td>
-<td>R</td>
-<td>处理T类型的值,并返回R类型值</td>
-</tr>
-<tr>
-<td>BiFunction<t, u,="" r=""></t,></td>
-<td>T,U</td>
-<td>R</td>
-<td>处理T类型和U类型的值,并返回R类型值</td>
-</tr>
-<tr>
-<td>BiFunction<t, u,="" r=""></t,></td>
-<td>T,U</td>
-<td>R</td>
-<td>处理T类型和U类型的值,并返回R类型值</td>
-</tr>
-<tr>
-<td>UnaryOperator<t></t></td>
-<td>T</td>
-<td>T</td>
-<td>处理T类型值,并返回T类型值,</td>
-</tr>
-<tr>
-<td>BinaryOperator<t></t></td>
-<td>T,T</td>
-<td>T</td>
-<td>处理T类型值,并返回T类型值</td>
-</tr>
-</tbody>
-</table>
-<p>以上的函数每一个代表的都是一种基本的操作,操作之间可以自由组合,所以才有了stream这些灵活的操作.</p>
-<h3 id="Stream操作"><a href="#Stream操作" class="headerlink" title="Stream操作"></a>Stream操作</h3><p>Stream的操作是建立在函数式接口的组合上的,最好的学习方法是看Stream接口来学习.下面举一些例子来分析,假设有这样的一些初始数据.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; testData = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">    testData.add(<span class="string">"张三"</span>);</div><div class="line">    testData.add(<span class="string">"李四"</span>);</div><div class="line">    testData.add(<span class="string">"王二"</span>);</div><div class="line">    testData.add(<span class="string">"麻子"</span>);</div></pre></td></tr></table></figure></p>
-<p><strong>filter</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function">Stream&lt;T&gt; <span class="title">filter</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> T&gt; predicate)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>filter接收predicate函数,predicate是接收T值,返回boolean值,那么对应的引用就可以写成如下形式,意思是取集合中以’张’开头的名字.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">testData.stream()</div><div class="line">        .filter(x -&gt; x.startsWith(<span class="string">"张"</span>))</div></pre></td></tr></table></figure></p>
-<p><strong>map</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;R&gt; <span class="function">Stream&lt;R&gt; <span class="title">map</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, ? extends R&gt; mapper)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>map操作接收的是Function接口,对于Function接收T值返回R值,那map的作用就很明显是转换用的,比如下面代码,转换名称为对应的名称长度,也就是从输入String数据返回int数据.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">testData.stream()</div><div class="line">        .map(x -&gt; x.length())</div></pre></td></tr></table></figure></p>
-<p><strong>flatMap</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;R&gt; <span class="function">Stream&lt;R&gt; <span class="title">flatMap</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, ? extends Stream&lt;? extends R&gt;&gt; mapper)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>flatMap和map都是使用Function接口,不同的是返回值flatMap限定为Stream类型.所以flatMap可以作为合并流使用,如以下代码,提取出所有的字符.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">testData.stream()</div><div class="line">        .flatMap(x -&gt; Stream.of(x.split(<span class="string">""</span>)))</div><div class="line">        .collect(Collectors.toList());</div><div class="line">        <span class="comment">//输出  [张, 三, 李, 四, 王, 二, 麻, 子]</span></div></pre></td></tr></table></figure></p>
-<p><strong>peek</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function">Stream&lt;T&gt; <span class="title">peek</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>peek参数为Consumer,Consumer接收T值,无返回,那么该方法就可以作为调试不影响stream中内容的一些操作,不过由于对象都是地址引用,你再此做一些对象内容操作也是可以的.<br><strong>reduce</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;U&gt; <span class="function">U <span class="title">reduce</span><span class="params">(U identity, BiFunction&lt;U, ? <span class="keyword">super</span> T, U&gt; accumulator, BinaryOperator&lt;U&gt; combiner)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>Reduce比较复杂的一个接口,属于归纳性操作,看参数,第一个是U泛型,也就是输入类型的参数,最为初始值,第二个BiFunction,接收T,U参数,返回U类型参数,BinaryOperator接收U,U类型,并返回U类型.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> StringBuilder identity = <span class="keyword">new</span> StringBuilder();</div><div class="line"> StringBuilder reduce = testData.stream()</div><div class="line">     .flatMap(x -&gt; Stream.of(x.split(<span class="string">""</span>)))</div><div class="line">     .reduce(identity, (r, x) -&gt; &#123;</div><div class="line">       r.append(x);</div><div class="line">       <span class="keyword">return</span> r;</div><div class="line">     &#125;, StringBuilder::append);</div><div class="line"> System.out.println(identity == reduce);</div><div class="line"> System.out.println(reduce.toString());</div><div class="line"> <span class="comment">//输出 true</span></div><div class="line"><span class="comment">//  张三李四王二麻子</span></div></pre></td></tr></table></figure></p>
-<p>首先提供一个基本容器identity,然后两个参数r即是identity,x为每次输入参数,最后一个StringBuilder::append是并发下多个identity的合并策略.<br>再举个例子,既然reduce属于归纳性操作,那么也可以当成collect使用,如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">ArrayList&lt;String&gt; identity = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">   ArrayList&lt;String&gt; result = testData.stream()</div><div class="line">       .flatMap(x -&gt; Stream.of(x.split(<span class="string">""</span>)))</div><div class="line">       .reduce(identity, (r, x) -&gt; &#123;</div><div class="line">         r.add(x);</div><div class="line">         <span class="keyword">return</span> r;</div><div class="line">       &#125;,(r1,r2) -&gt; &#123;</div><div class="line">         r1.addAll(r2);</div><div class="line">         <span class="keyword">return</span> r1;</div><div class="line">       &#125;);</div><div class="line">   System.out.println(identity == result);</div><div class="line">   System.out.println(result);</div><div class="line">   <span class="comment">//输出 true</span></div><div class="line">   <span class="comment">//[张, 三, 李, 四, 王, 二, 麻, 子]</span></div></pre></td></tr></table></figure></p>
-<h3 id="强大的collect"><a href="#强大的collect" class="headerlink" title="强大的collect"></a>强大的collect</h3><p>collect无疑是stream中最强大的操作,掌握了collect操作才能说掌握了stream.为了便于使用者,Java提供了<code>Collectors</code>类,该类提供了很多便捷的collect操作,如<code>Collector&lt;T, ?, List&lt;T&gt;&gt; toList()</code>,<code>Collector&lt;T, ?, Set&lt;T&gt;&gt; toSet()</code>等操作.这些操作最终都会调用如下构造函数构造出collector对象,因此掌握该本质是最佳的学习方式.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">CollectorImpl(Supplier&lt;A&gt; supplier,</div><div class="line">                      BiConsumer&lt;A, T&gt; accumulator,</div><div class="line">                      BinaryOperator&lt;A&gt; combiner,</div><div class="line">                      Function&lt;A,R&gt; finisher,</div><div class="line">                      Set&lt;Characteristics&gt; characteristics) &#123;</div><div class="line">            <span class="keyword">this</span>.supplier = supplier;</div><div class="line">            <span class="keyword">this</span>.accumulator = accumulator;</div><div class="line">            <span class="keyword">this</span>.combiner = combiner;</div><div class="line">            <span class="keyword">this</span>.finisher = finisher;</div><div class="line">            <span class="keyword">this</span>.characteristics = characteristics;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
-<p>Supplier类似reduce中的u,接收一个元数据,BiConsumer则是操作数据,BinaryOperator并发下聚合,finisher完成时的转换操作,Set<characteristics>应该按照定义是优化一些操作中的转换.如下面的toList()操作,其finish操作为<code>castingIdentity()</code>.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt;</div><div class="line"> Collector&lt;T, ?, List&lt;T&gt;&gt; toList() &#123;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">new</span> CollectorImpl&lt;&gt;((Supplier&lt;List&lt;T&gt;&gt;) ArrayList::<span class="keyword">new</span>, List::add,</div><div class="line">                                (left, right) -&gt; &#123; left.addAll(right); <span class="keyword">return</span> left; &#125;,</div><div class="line">                                CH_ID);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></characteristics></p>
-<p>再看toMap的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T, K, U, M extends Map&lt;K, U&gt;&gt;</div><div class="line">Collector&lt;T, ?, M&gt; toMap(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; keyMapper,</div><div class="line">                            Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; valueMapper,</div><div class="line">                            BinaryOperator&lt;U&gt; mergeFunction,</div><div class="line">                            Supplier&lt;M&gt; mapSupplier) &#123;</div><div class="line">    BiConsumer&lt;M, T&gt; accumulator</div><div class="line">            = (map, element) -&gt; map.merge(keyMapper.apply(element),</div><div class="line">                                          valueMapper.apply(element), mergeFunction);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> CollectorImpl&lt;&gt;(mapSupplier, accumulator, mapMerger(mergeFunction), CH_ID);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Function作为转换函数提供了key和value的转换,BinaryOperator提供了重复key合并策略,mapSupplier则表示最终收集到的容器.那么使用就很简单了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">HashMap&lt;Character, String&gt; map = testData.stream()</div><div class="line">        .collect(Collectors.toMap(x -&gt; x.charAt(<span class="number">0</span>), Function.identity()</div><div class="line">            , (v1, v2) -&gt; v2, HashMap::<span class="keyword">new</span>));</div></pre></td></tr></table></figure></p>
-<p>其他还有很多方法,就不一一叙述,主要是了解这些接口,知道他所拥有的功能,以及组合的意义,即可很好的掌握Java中的函数式编程.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;实习前只是粗略的看了下Java8的一些基本语法,但是没有系统的学习过.在使用一段时间后决定系统的对其进行一次分析,加深对Java8函数式编程的理解,提高自己的编码技巧.另外kotlin崛起,感兴趣的朋友尝试下混编也未尝不可.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;函数式接口&quot;&gt;
     
     </summary>
     

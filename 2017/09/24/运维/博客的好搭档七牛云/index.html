@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="maven," />
+  <meta name="keywords" content="七牛,图片存储," />
 
 
 
@@ -86,19 +86,25 @@
 
 
 
-<meta name="description" content="工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了.
-附上清理脚本,实际上就是递归遍历文件夹然后判断文件更新时间,对比后决定是否要删除.首次清理后仓库从1.5G变为650M,清爽了不少.12345678910111213141516171">
+<meta name="description" content="博客也搭建有一段时间了,期间一些同学来询问如何搭建博客,找了几篇文章让其搭建好了后我却发现大量图片也没他上传到github了,图片本身大,再加上github国内访问并不是很流畅,那么结果就是博客速度的下降,所以分享七牛云就是解决这个问题.
+
+是什么?七牛云是一个云存储平台,对于个人博客而言他就是一个图床,我们可以把图片等静态资源放在上面,甚至可以把整个博客都放在上面.比如http://oobu4m">
 <meta property="og:type" content="article">
-<meta property="og:title" content="maven仓库清理脚本">
-<meta property="og:url" content="http://mrdear.cn/2017/07/29/工具/maven仓库清理脚本/index.html">
+<meta property="og:title" content="博客的好搭档七牛云">
+<meta property="og:url" content="http://mrdear.cn/2017/09/24/运维/博客的好搭档七牛云/index.html">
 <meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了.
-附上清理脚本,实际上就是递归遍历文件夹然后判断文件更新时间,对比后决定是否要删除.首次清理后仓库从1.5G变为650M,清爽了不少.12345678910111213141516171">
-<meta property="og:updated_time" content="2017-07-29T14:44:01.000Z">
+<meta property="og:description" content="博客也搭建有一段时间了,期间一些同学来询问如何搭建博客,找了几篇文章让其搭建好了后我却发现大量图片也没他上传到github了,图片本身大,再加上github国内访问并不是很流畅,那么结果就是博客速度的下降,所以分享七牛云就是解决这个问题.
+
+是什么?七牛云是一个云存储平台,对于个人博客而言他就是一个图床,我们可以把图片等静态资源放在上面,甚至可以把整个博客都放在上面.比如http://oobu4m">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1506220469.png?imageMogr2/thumbnail/!100p">
+<meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1506223925.png?imageMogr2/thumbnail/!70p">
+<meta property="og:updated_time" content="2017-09-24T03:34:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="maven仓库清理脚本">
-<meta name="twitter:description" content="工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了.
-附上清理脚本,实际上就是递归遍历文件夹然后判断文件更新时间,对比后决定是否要删除.首次清理后仓库从1.5G变为650M,清爽了不少.12345678910111213141516171">
+<meta name="twitter:title" content="博客的好搭档七牛云">
+<meta name="twitter:description" content="博客也搭建有一段时间了,期间一些同学来询问如何搭建博客,找了几篇文章让其搭建好了后我却发现大量图片也没他上传到github了,图片本身大,再加上github国内访问并不是很流畅,那么结果就是博客速度的下降,所以分享七牛云就是解决这个问题.
+
+是什么?七牛云是一个云存储平台,对于个人博客而言他就是一个图床,我们可以把图片等静态资源放在上面,甚至可以把整个博客都放在上面.比如http://oobu4m">
+<meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1506220469.png?imageMogr2/thumbnail/!100p">
 
 
 
@@ -126,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/2017/07/29/工具/maven仓库清理脚本/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/09/24/运维/博客的好搭档七牛云/"/>
 
 
 
 
 
-  <title> maven仓库清理脚本 | 屈定's Blog </title>
+  <title> 博客的好搭档七牛云 | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -319,7 +325,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/07/29/工具/maven仓库清理脚本/">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/09/24/运维/博客的好搭档七牛云/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Niu li">
@@ -340,7 +346,7 @@
             
             
               
-                maven仓库清理脚本
+                博客的好搭档七牛云
               
             
           </h2>
@@ -355,8 +361,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-29T22:40:15+08:00">
-                2017-07-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-24T09:58:10+08:00">
+                2017-09-24
               </time>
             
 
@@ -378,8 +384,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
                   </a>
                 </span>
 
@@ -396,8 +402,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/07/29/工具/maven仓库清理脚本/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/29/工具/maven仓库清理脚本/" itemprop="commentCount"></span>
+                <a href="/2017/09/24/运维/博客的好搭档七牛云/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/24/运维/博客的好搭档七牛云/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -428,8 +434,22 @@
       
 
       
-        <p>工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.<br>没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了.</p>
-<p>附上清理脚本,实际上就是递归遍历文件夹然后判断文件更新时间,对比后决定是否要删除.首次清理后仓库从1.5G变为650M,清爽了不少.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> shutil</div><div class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="comment"># maven仓库地址</span></div><div class="line">mvnHome = <span class="string">"/Users/niuli/.m2/repository"</span></div><div class="line"><span class="comment"># 删除该日期前的文件以及文件夹</span></div><div class="line">deleteDateBefore = datetime(<span class="number">2017</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">listPathAndClean</span><span class="params">(pathContext)</span>:</span></div><div class="line">    pathDir = os.listdir(pathContext)</div><div class="line">    <span class="keyword">for</span> filename <span class="keyword">in</span> pathDir:</div><div class="line">        filepath = os.path.join(pathContext, filename)</div><div class="line">        currentTimeFile = datetime.fromtimestamp(os.path.getmtime(filepath))</div><div class="line"></div><div class="line">        <span class="comment"># 对比时间</span></div><div class="line">        <span class="keyword">if</span> deleteDateBefore &gt; currentTimeFile:</div><div class="line">            print(<span class="string">"filePath:"</span>+filepath+<span class="string">"-----updatetime:"</span>+str(currentTimeFile))</div><div class="line">            print(<span class="string">'delete this'</span>)</div><div class="line">            <span class="keyword">if</span> (os.path.isdir(filepath)):</div><div class="line">                shutil.rmtree(filepath)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                os.remove(filepath)</div><div class="line">            <span class="keyword">continue</span></div><div class="line">            </div><div class="line">        <span class="comment"># 不到期的则深入遍历</span></div><div class="line">        <span class="keyword">if</span> os.path.isdir(filepath):</div><div class="line">            listPathAndClean(filepath)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    print(deleteDateBefore)</div><div class="line">    print(<span class="string">'start list should delete path'</span>)</div><div class="line">    listPathAndClean(mvnHome)</div></pre></td></tr></table></figure></p>
+        <p>博客也搭建有一段时间了,期间一些同学来询问如何搭建博客,找了几篇文章让其搭建好了后我却发现大量图片也没他上传到github了,图片本身大,再加上github国内访问并不是很流畅,那么结果就是博客速度的下降,所以分享七牛云就是解决这个问题.</p>
+<hr>
+<h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么?"></a>是什么?</h3><p>七牛云是一个云存储平台,对于个人博客而言他就是一个图床,我们可以把图片等静态资源放在上面,甚至可以把整个博客都放在上面.比如<code>http://oobu4m7ko.bkt.clouddn.com/1506220469.png</code>这张图片就是我上传到七牛云上的,嵌入到markdown中的话展示效果如下:<br><img src="http://oobu4m7ko.bkt.clouddn.com/1506220469.png?imageMogr2/thumbnail/!100p" alt=""></p>
+<p>七牛云允许你对链接加参数来对图片进行一些处理,比如下面这些操作<br><code>http://oobu4m7ko.bkt.clouddn.com/1506220469.png?imageMogr2/thumbnail/!70p</code>,这参数以为等比缩放为70%,对于mac等高分辨屏来说很实用.<br>当然还有缩略,转换,裁剪等功能.详细的可以参考该文档<a href="https://developer.qiniu.com/dora/manual/1279/basic-processing-images-imageview2" target="_blank" rel="external">七牛图片处理基本文档</a></p>
+<p>七牛给免费用户提供了每月10GB的流量,足够个人网站的使用了.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1506223925.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用?"></a>怎么用?</h3><p>七牛虽好,但是上传是个麻烦的事情,写作的时候不能还开个浏览器窗口专门上传图片,这个肯定不合理.这样的不合理肯定有好的解决方案,我理想中的方案时复制图片到剪贴板,软件从剪贴板读取,上传,返回指定形式链接到粘贴板.下面推荐一些比较好的开源方案.</p>
+<h4 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h4><p>首先注册七牛账号,不介意的话可以走我的邀请链接.</p>
+<blockquote>
+<p><a href="https://portal.qiniu.com/signup?code=3lea5e6tnitsi" target="_blank" rel="external">注册七牛云</a></p>
+</blockquote>
+<h4 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h4><p>对于mac下图床的客户端选择是非常多的,这里首推alfred的workflow,简洁实用.<br><a href="https://github.com/kaito-kidd/markdown-image-alfred" target="_blank" rel="external">https://github.com/kaito-kidd/markdown-image-alfred</a></p>
+<blockquote>
+<p>支持复制本地图片获取图片链接<br>支持截图获取图片图片链接<br>支持gif格式<br>操作结果会在通知栏显示</p>
+</blockquote>
+<h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><p>windows下首推mpic这款软件,操作简单,文档清晰,下载后配置下即可使用.<br><a href="http://mpic.lzhaofu.cn/" target="_blank" rel="external">http://mpic.lzhaofu.cn/</a></p>
+<p>如果你有更好的方案,欢迎分享.</p>
 
       
     </div>
@@ -474,7 +494,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/maven/" rel="tag"># maven</a>
+            <a href="/tags/七牛/" rel="tag"># 七牛</a>
+          
+            <a href="/tags/图片存储/" rel="tag"># 图片存储</a>
           
         </div>
       
@@ -487,8 +509,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/29/工具/Maven子模块打包后拷贝目标文件到父模块/" rel="next" title="Maven子模块打包后拷贝目标文件到父模块">
-                <i class="fa fa-chevron-left"></i> Maven子模块打包后拷贝目标文件到父模块
+              <a href="/2017/09/20/java/Java8学习记录(三)-强大的collect操作/" rel="next" title="Java8学习记录(三)-强大的collect操作">
+                <i class="fa fa-chevron-left"></i> Java8学习记录(三)-强大的collect操作
               </a>
             
           </div>
@@ -496,10 +518,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/07/工具/如何搭建属于自己的shadowsocks/" rel="prev" title="如何搭建属于自己的shadowsocks">
-                如何搭建属于自己的shadowsocks <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -553,8 +571,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
@@ -662,6 +689,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#是什么"><span class="nav-text">是什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么用"><span class="nav-text">怎么用?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册账号"><span class="nav-text">注册账号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mac"><span class="nav-text">mac</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#windows"><span class="nav-text">windows</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -803,9 +846,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'mrdear';
-      var disqus_identifier = '2017/07/29/工具/maven仓库清理脚本/';
+      var disqus_identifier = '2017/09/24/运维/博客的好搭档七牛云/';
 
-      var disqus_title = "maven仓库清理脚本";
+      var disqus_title = "博客的好搭档七牛云";
 
 
       function run_disqus_script(disqus_script) {
