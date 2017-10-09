@@ -96,7 +96,7 @@
 <meta property="og:description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.
 
 在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
-<meta property="og:updated_time" content="2017-09-22T01:50:52.000Z">
+<meta property="og:updated_time" content="2017-09-24T15:49:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8学习记录(三)-强大的collect操作">
 <meta name="twitter:description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.
@@ -455,6 +455,9 @@
 <li>未指定冲突合并策略,也就是第三个参数<code>BinaryOperator&lt;U&gt; mergeFunction</code>时遇到重复的key会直接抛<code>IllegalStateException</code>,因此需要注意.</li>
 </ol>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到此对于<code>collect</code>的操作应该就很清晰了,希望通过这些例子能掌握核心,也就是<code>Collector</code>接口中那几个函数的作用,希望对你有帮助.</p>
+<blockquote>
+<p>个人博客 <a href="mrdear.cn">mrdear.cn</a> ,欢迎交流</p>
+</blockquote>
 
       
     </div>
@@ -603,7 +606,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

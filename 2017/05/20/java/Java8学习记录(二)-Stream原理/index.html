@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1499071806.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1499071772.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1499071708.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-07-04T04:30:33.000Z">
+<meta property="og:updated_time" content="2017-09-24T15:52:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8学习记录(二)-Stream原理">
 <meta name="twitter:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
@@ -516,6 +516,9 @@
 <p>那么就相当于sorted给原有操作断路了一次,然后又重新接上,再次遍历.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1499071708.png?imageMogr2/thumbnail/!70p" alt=""></p>
 <h4 id="如何收集到结果"><a href="#如何收集到结果" class="headerlink" title="如何收集到结果?"></a>如何收集到结果?</h4><p>foreach是不需要收集到结果的,但是对于collect这样的操作是需要拿到最终end产生的结果.end产生的结果在最后一个Sink中,这样的操作最终都会提供一个取出数据的get方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="keyword">public</span> &lt;P_IN&gt; <span class="function">R <span class="title">evaluateSequential</span><span class="params">(PipelineHelper&lt;T&gt; helper,</span></span></div><div class="line">                                    Spliterator&lt;P_IN&gt; spliterator) &#123;</div><div class="line">     <span class="keyword">return</span> helper.wrapAndCopyInto(makeSink(), spliterator).get();</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>如此拿到数据返回</p>
+<blockquote>
+<p>个人博客 <a href="mrdear.cn">mrdear.cn</a> ,欢迎交流</p>
+</blockquote>
 
       
     </div>
@@ -664,7 +667,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
