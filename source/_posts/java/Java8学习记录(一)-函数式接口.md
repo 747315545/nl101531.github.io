@@ -154,3 +154,5 @@ HashMap<Character, String> map = testData.stream()
 
 其他还有很多方法,就不一一叙述,主要是了解这些接口,知道他所拥有的功能,以及组合的意义,即可很好的掌握Java中的函数式编程.
 
+> 个人博客 [mrdear.cn](mrdear.cn) ,欢迎交流
+
