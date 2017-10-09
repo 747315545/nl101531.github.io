@@ -4,6 +4,7 @@ tags:
   - jdk      
 categories: 工作问题
 date: 2017-05-02 16:00:00
+updated: 2017-05-02 16:00:00
 ---
 
 今天线上遇到了DTO类实现了`Serializable`接口,但是其并没有显示声明`serialVersionUID`,这样的话每次打包有改动JDK就会为其重新生成`serialVersionUID`.这就带来了不同版本之间的实体类可能反序列化不成功,线上RPC调用出现了问题.那么就深入探讨一下原因.

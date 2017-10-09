@@ -4,6 +4,7 @@ tags:
   - zookeeper    
 categories: 运维
 date: 2017-08-19 09:34:10
+updated: 2017-08-19 09:34:10
 ---
 zk在公司系统中承担着一个很重要的角色,因此作为开发有必要了解关于zk的一些知识,推荐文档资料[Zookeeper文档目录](http://www.majunwei.com/category/201612011952003333/).
 - - - - -

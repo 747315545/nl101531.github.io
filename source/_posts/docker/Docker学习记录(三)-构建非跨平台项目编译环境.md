@@ -1,10 +1,10 @@
-﻿---
+---
 title: Docker学习记录(三)-构建非跨平台项目编译环境
 categories: docker
 tags:
  - docker
 date: 2017-03-12 15:21:00
-
+updated:  2017-03-12 15:21:00
 ---
 
 # Docker学习记录(三)-构建非跨平台项目编译环境

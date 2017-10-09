@@ -4,6 +4,7 @@ tags:
   - shadowsocks    
 categories: vps
 date: 2017-08-13 22:39:05
+updated: 2017-08-13 22:39:05
 ---
 ### 实现理论
 OpenVZ架构的VPS加速选择比较少,不然KVM方便,除去双边加速比如FinalSpeed等软件后可用选择并不多,其中比较好的方案是Google BBR加速,为了在OpenVZ架构上使用必须借助UML这一子linux系统.

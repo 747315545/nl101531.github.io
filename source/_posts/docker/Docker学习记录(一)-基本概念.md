@@ -1,10 +1,10 @@
-﻿---
+---
 title: Docker学习记录(一)-基本概念
 categories: docker
 tags:
  - docker
 date: 2017-03-10 17:21:00
-
+updated:  2017-03-10 17:21:00
 ---
 
 # Docker学习记录(一)-基本概念

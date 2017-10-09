@@ -4,6 +4,7 @@ tags:
   - angular
 categories: web
 date: 2017-10-09 23:34:43
+updated: 2017-10-09 23:34:43
 ---
 最近写[http://www.itoolshub.com/](http://www.itoolshub.com/)的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以[https://github.com/sentsin/laydate](https://github.com/sentsin/laydate)组件为例.
 

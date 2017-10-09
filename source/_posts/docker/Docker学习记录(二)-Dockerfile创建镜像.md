@@ -1,12 +1,12 @@
-﻿---
+---
 title: Docker学习记录(二)-Dockerfile创建镜像
 categories: docker
 tags:
  - docker
 date: 2017-03-10 21:21:00
-
+updated:  2017-03-10 21:21:00
 ---
-
+M
 # Docker学习记录(二)-Dockerfile创建镜像
 
 标签（空格分隔）： docker

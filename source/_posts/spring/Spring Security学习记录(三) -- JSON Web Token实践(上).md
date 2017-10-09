@@ -4,6 +4,7 @@ tags:
   - Spring    
 categories: Spring
 date: 2017-06-26 16:36:33
+updated: 2017-06-26 16:36:33
 ---
 JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.
 - - - - -

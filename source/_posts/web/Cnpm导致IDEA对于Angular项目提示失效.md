@@ -5,6 +5,7 @@ tags:
   - idea
 categories: web
 date: 2017-08-26 11:17:15
+updated: 2017-08-26 11:17:15
 ---
 最近写Angular项目的时候,IDEA的提示时而有时而没有,找了好久的原因才发现是cnpm的锅.
 对于`cnpm install`,安装的angular依赖时链接方式引入,如下图

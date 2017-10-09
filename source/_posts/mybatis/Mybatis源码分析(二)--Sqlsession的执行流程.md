@@ -4,6 +4,7 @@ tags:
   - mybatis    
 categories: mybatis
 date: 2017-09-09 19:49:52
+updated:  2017-09-09 19:49:52
 ---
 上一篇Mapper动态代理中发现Mybatis会对Mapper接口的方法转向`mapperMethod.execute(sqlSession, args)`,那么该篇就学习Mybatis对于sql的执行总体流程,文章不会涉及很多细节点,重点学习其设计以及这样做的理由.
 - - - - -
