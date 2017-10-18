@@ -86,28 +86,18 @@
 
 
 
-<meta name="description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.
-
-对于+号会被编码为空格对于&amp;amp;也会被编码成空格
-
-举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta name="description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.  对于+号会被编码为空格对于&amp;amp;也会被编码成空格  举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta name="keywords" content="bug">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WEB小知识-HTTP请求对+和&的处理">
+<meta property="og:title" content="WEB小知识-HTTP请求对+和&amp;的处理">
 <meta property="og:url" content="http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&的处理/index.html">
-<meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.
-
-对于+号会被编码为空格对于&amp;amp;也会被编码成空格
-
-举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta property="og:site_name" content="屈定&#39;s Blog">
+<meta property="og:description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.  对于+号会被编码为空格对于&amp;amp;也会被编码成空格  举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-05-22T14:18:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WEB小知识-HTTP请求对+和&的处理">
-<meta name="twitter:description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.
-
-对于+号会被编码为空格对于&amp;amp;也会被编码成空格
-
-举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
+<meta name="twitter:title" content="WEB小知识-HTTP请求对+和&amp;的处理">
+<meta name="twitter:description" content="1.问题在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.  对于+号会被编码为空格对于&amp;amp;也会被编码成空格  举个例子,需要向服务端提交如下代码:123456789#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int a,b;    cin &amp;gt;&amp;gt; a &amp;g">
 
 
 
@@ -441,8 +431,8 @@
 <blockquote>
 <p>对于<code>+</code>号会被编码为空格<br>对于<code>&amp;</code>也会被编码成空格</p>
 </blockquote>
-<p>举个例子,需要向服务端提交如下代码:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> a,b;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>编码后的内容如下,可以发现<code>a+b</code>被转换成了<code>a b</code>导致服务端接收到后编译失败.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#include%20%3Ciostream%3E%0A%0Ausing%20namespace%20std;</div><div class="line">%0A%0Aint%20main()%0A%7B%0A%20%20%20%20int%20a,b;</div><div class="line">%0A%20%20%20%20cin%20%3E%3E%20a%20%3E%3E%20b;</div><div class="line">%0A%20%20%20%20cout%20%3C%3C%20a b%20%3C%3C%20endl;</div><div class="line">%0A%20%20%20%20return%200;%0A%7D</div></pre></td></tr></table></figure></p>
+<p>举个例子,需要向服务端提交如下代码:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> a,b;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编码后的内容如下,可以发现<code>a+b</code>被转换成了<code>a b</code>导致服务端接收到后编译失败.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#include%20%3Ciostream%3E%0A%0Ausing%20namespace%20std;</div><div class="line">%<span class="number">0</span>A%<span class="number">0</span>Aint%<span class="number">20</span>main()%<span class="number">0</span>A%<span class="number">7</span>B%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span><span class="keyword">int</span>%<span class="number">20</span>a,b;</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cin%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>a%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>b;</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cout%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>a b%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>endl;</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>return%<span class="number">200</span>;%<span class="number">0</span>A%<span class="number">7</span>D</div></pre></td></tr></table></figure></p>
 <h3 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h3><p>使用函数<code>encodeURIComponent()</code>,该函数会把特殊字符都给转义,转义结果如下面所示,可见<code>a+b</code>转换成了<code>a%2Bb</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%<span class="number">23</span>include%<span class="number">20</span>%<span class="number">3</span>Ciostream%<span class="number">3</span>E%<span class="number">0</span>A%<span class="number">0</span>Ausing%<span class="number">20</span>namespace%<span class="number">20</span>std%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">0</span>Aint%<span class="number">20</span>main()%<span class="number">0</span>A%<span class="number">7</span>B%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span><span class="keyword">int</span>%<span class="number">20</span>a%<span class="number">2</span>Cb%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cin%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>a%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>b%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cout%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>a%<span class="number">2</span>Bb%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>endl%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>return%<span class="number">200</span>%<span class="number">3</span>B%<span class="number">0</span>A%<span class="number">7</span>D</div></pre></td></tr></table></figure></p>
 <p>服务端需要使用<code>URLDecoder</code>对其进行反转义,该问题到此解决.</p>
 
@@ -719,7 +709,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2017 皖ICP备17023807号</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -731,11 +721,15 @@
   由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
-<div class="theme-info">
+<div class="theme-info powered-by">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://coding.net" target="blank">Hosted by Coding Pages</a>
 </div>
 
 

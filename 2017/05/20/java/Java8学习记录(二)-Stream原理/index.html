@@ -86,24 +86,14 @@
 
 
 
-<meta name="description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
-
-作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
-
-需求:
-
-从&amp;quot;张三&amp;quot;,&amp;quot;李四&amp;quot;,&amp;quot;王二&amp;quot;,&amp;quot;张">
+<meta name="description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.  作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md  需求:  从&amp;quot;张三&amp;quot;,&amp;quot;李四&amp;quot;,&amp;quot;王二&amp;quot;,&amp;quot;张">
+<meta name="keywords" content="java8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8学习记录(二)-Stream原理">
 <meta property="og:url" content="http://mrdear.cn/2017/05/20/java/Java8学习记录(二)-Stream原理/index.html">
-<meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
-
-作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
-
-需求:
-
-从&amp;quot;张三&amp;quot;,&amp;quot;李四&amp;quot;,&amp;quot;王二&amp;quot;,&amp;quot;张">
+<meta property="og:site_name" content="屈定&#39;s Blog">
+<meta property="og:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.  作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md  需求:  从&amp;quot;张三&amp;quot;,&amp;quot;李四&amp;quot;,&amp;quot;王二&amp;quot;,&amp;quot;张">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1497141037.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1497146463.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1499071580.png?imageMogr2/thumbnail/!60p">
@@ -113,13 +103,7 @@
 <meta property="og:updated_time" content="2017-05-20T11:06:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8学习记录(二)-Stream原理">
-<meta name="twitter:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.
-
-作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md
-
-需求:
-
-从&amp;quot;张三&amp;quot;,&amp;quot;李四&amp;quot;,&amp;quot;王二&amp;quot;,&amp;quot;张">
+<meta name="twitter:description" content="推荐一篇博文,很好的介绍了Stream的原理.本文对其进行一些补充更加详细的讲解.  作者: 李豪地址: https://github.com/CarpenterLee/JavaLambdaInternals/blob/master/6-Stream%20Pipelines.md  需求:  从&amp;quot;张三&amp;quot;,&amp;quot;李四&amp;quot;,&amp;quot;王二&amp;quot;,&amp;quot;张">
 <meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1497141037.png?imageMogr2/thumbnail/!70p">
 
 
@@ -514,7 +498,7 @@
 <h4 id="有状态的中间操作何时执行"><a href="#有状态的中间操作何时执行" class="headerlink" title="有状态的中间操作何时执行?"></a>有状态的中间操作何时执行?</h4><p>例如sorted()操作,其依赖上一次操作的结果集,按照调用链来说结果集必须在accept()调用完才会产生.那也就说明sorted操作需要在end中,然后再重新开启调用链.</p>
 <p><strong>sorted的end方法</strong>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">end</span><span class="params">()</span> </span>&#123;</div><div class="line">     list.sort(comparator);</div><div class="line">     downstream.begin(list.size());</div><div class="line">     <span class="keyword">if</span> (!cancellationWasRequested) &#123;</div><div class="line">         list.forEach(downstream::accept);</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">else</span> &#123;</div><div class="line">         <span class="keyword">for</span> (T t : list) &#123;</div><div class="line">             <span class="keyword">if</span> (downstream.cancellationRequested()) <span class="keyword">break</span>;</div><div class="line">             downstream.accept(t);</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line">     downstream.end();</div><div class="line">     list = <span class="keyword">null</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>那么就相当于sorted给原有操作断路了一次,然后又重新接上,再次遍历.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1499071708.png?imageMogr2/thumbnail/!70p" alt=""></p>
-<h4 id="如何收集到结果"><a href="#如何收集到结果" class="headerlink" title="如何收集到结果?"></a>如何收集到结果?</h4><p>foreach是不需要收集到结果的,但是对于collect这样的操作是需要拿到最终end产生的结果.end产生的结果在最后一个Sink中,这样的操作最终都会提供一个取出数据的get方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="keyword">public</span> &lt;P_IN&gt; <span class="function">R <span class="title">evaluateSequential</span><span class="params">(PipelineHelper&lt;T&gt; helper,</span></span></div><div class="line">                                    Spliterator&lt;P_IN&gt; spliterator) &#123;</div><div class="line">     <span class="keyword">return</span> helper.wrapAndCopyInto(makeSink(), spliterator).get();</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="如何收集到结果"><a href="#如何收集到结果" class="headerlink" title="如何收集到结果?"></a>如何收集到结果?</h4><p>foreach是不需要收集到结果的,但是对于collect这样的操作是需要拿到最终end产生的结果.end产生的结果在最后一个Sink中,这样的操作最终都会提供一个取出数据的get方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="keyword">public</span> &lt;P_IN&gt; <span class="function">R <span class="title">evaluateSequential</span><span class="params">(PipelineHelper&lt;T&gt; helper,</span></span></div><div class="line"><span class="function"><span class="params">                                    Spliterator&lt;P_IN&gt; spliterator)</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> helper.wrapAndCopyInto(makeSink(), spliterator).get();</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>如此拿到数据返回</p>
 <blockquote>
 <p>个人博客 <a href="mrdear.cn">mrdear.cn</a> ,欢迎交流</p>
@@ -793,7 +777,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2017 皖ICP备17023807号</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -805,11 +789,15 @@
   由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
-<div class="theme-info">
+<div class="theme-info powered-by">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://coding.net" target="blank">Hosted by Coding Pages</a>
 </div>
 
 

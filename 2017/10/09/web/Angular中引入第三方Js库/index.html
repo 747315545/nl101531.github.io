@@ -86,19 +86,18 @@
 
 
 
-<meta name="description" content="最近写http://www.itoolshub.com/的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以https://github.com/sentsin/laydate组件为例.
-引入js与">
+<meta name="description" content="最近写http://www.itoolshub.com/的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以https://github.com/sentsin/laydate组件为例. 引入js与">
+<meta name="keywords" content="angular">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Angular中引入第三方JS库">
 <meta property="og:url" content="http://mrdear.cn/2017/10/09/web/Angular中引入第三方Js库/index.html">
-<meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="最近写http://www.itoolshub.com/的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以https://github.com/sentsin/laydate组件为例.
-引入js与">
+<meta property="og:site_name" content="屈定&#39;s Blog">
+<meta property="og:description" content="最近写http://www.itoolshub.com/的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以https://github.com/sentsin/laydate组件为例. 引入js与">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-10-09T15:34:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Angular中引入第三方JS库">
-<meta name="twitter:description" content="最近写http://www.itoolshub.com/的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以https://github.com/sentsin/laydate组件为例.
-引入js与">
+<meta name="twitter:description" content="最近写http://www.itoolshub.com/的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以https://github.com/sentsin/laydate组件为例. 引入js与">
 
 
 
@@ -429,10 +428,10 @@
 
       
         <p>最近写<a href="http://www.itoolshub.com/" target="_blank" rel="external">http://www.itoolshub.com/</a>的时候用到了日期时间选择器,Angular本身material2只有日期选择器,也不知道为什么官方不提供日期时间选择器,也可能是Angular2以及如今的4有些年轻,很多库都不是很成熟,于是乎搜索到的解决方案就是借助第三方的库来使用一些优秀的组件.本文以<a href="https://github.com/sentsin/laydate" target="_blank" rel="external">https://github.com/sentsin/laydate</a>组件为例.</p>
-<h3 id="引入js与css"><a href="#引入js与css" class="headerlink" title="引入js与css"></a>引入js与css</h3><p><a href="https://github.com/sentsin/laydate" target="_blank" rel="external">https://github.com/sentsin/laydate</a>是采用原生js实现的组件,因此不需要考虑相关依赖,直接入手.<br>1.使用npm下载该组件<code>npm install layui-laydate -save</code><br>2.在<code>.angular-cli.json</code>文件中配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">"styles": [</div><div class="line">     "styles.scss",</div><div class="line">     "../node_modules/layui-laydate/dist/theme/default/laydate.css"</div><div class="line">   ],</div><div class="line">   "scripts": [</div><div class="line">     "../node_modules/layui-laydate/dist/laydate.js"</div><div class="line">   ],</div></pre></td></tr></table></figure></p>
+<h3 id="引入js与css"><a href="#引入js与css" class="headerlink" title="引入js与css"></a>引入js与css</h3><p><a href="https://github.com/sentsin/laydate" target="_blank" rel="external">https://github.com/sentsin/laydate</a>是采用原生js实现的组件,因此不需要考虑相关依赖,直接入手.<br>1.使用npm下载该组件<code>npm install layui-laydate -save</code><br>2.在<code>.angular-cli.json</code>文件中配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">"styles": [</div><div class="line">     "styles.scss",</div><div class="line">     <span class="string">"../node_modules/layui-laydate/dist/theme/default/laydate.css"</span></div><div class="line">   ],</div><div class="line">   "scripts": [</div><div class="line">     <span class="string">"../node_modules/layui-laydate/dist/laydate.js"</span></div><div class="line">   ],</div></pre></td></tr></table></figure></p>
 <p>Angular在编译的时候会把上述的js引用都打包到<code>scripts.bundle.js</code>文件中</p>
-<h3 id="ts编译识别laydate"><a href="#ts编译识别laydate" class="headerlink" title="ts编译识别laydate"></a>ts编译识别laydate</h3><p>第一步完成后如果在TS中使用laydate变量,编译器是会直接报错的,因为其找不到这个变量,因此这一步要做的就是让ts识别该变量.做法很简单,在<code>typings.d.ts</code>中加入声明<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* SystemJS module definition */</span></div><div class="line">declare <span class="keyword">var</span> <span class="built_in">module</span>: NodeModule;</div><div class="line">interface NodeModule &#123;</div><div class="line">  <span class="attr">id</span>: string;</div><div class="line">&#125;</div><div class="line"><span class="comment">// laydate声明</span></div><div class="line">declare <span class="keyword">var</span> laydate: any;</div></pre></td></tr></table></figure></p>
-<h3 id="使用laydate功能"><a href="#使用laydate功能" class="headerlink" title="使用laydate功能"></a>使用laydate功能</h3><p><code>laydate</code>是需要更改Dom节点的,因此该步骤必须放到Angular对视图渲染之后,也就是生命周期中的<code>AfterViewInit</code>函数中执行.另外该渲染会使得双向绑定失效,需要处理结果则可以在<code>laydate</code>的回调函数中处理.<br>另外使用的时候就可以按照ts的语法来使用了,最终都会解析成原生js.比如下方的箭头函数.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">ngAfterViewInit(): <span class="keyword">void</span> &#123;</div><div class="line">  <span class="keyword">let</span> done = <span class="function">(<span class="params">value, date, endDate</span>) =&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> selectTime = <span class="keyword">new</span> <span class="built_in">Date</span>(value);</div><div class="line">    <span class="keyword">this</span>.timeStampOut = selectTime.getTime() / <span class="number">1000</span>;</div><div class="line">    <span class="keyword">this</span>.timeStampWeek = TimestampComponent.WEEKS[selectTime.getDay()] == <span class="literal">null</span> ? <span class="string">"Invalid Week"</span>: TimestampComponent.WEEKS[selectTime.getDay()]</div><div class="line">  &#125;;</div><div class="line">  laydate.render(&#123;</div><div class="line">    <span class="attr">elem</span>: <span class="string">'#layerdate'</span>,</div><div class="line">    <span class="attr">type</span>: <span class="string">'datetime'</span>,</div><div class="line">    <span class="attr">change</span>: done,</div><div class="line">    <span class="attr">done</span>: done</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="ts编译识别laydate"><a href="#ts编译识别laydate" class="headerlink" title="ts编译识别laydate"></a>ts编译识别laydate</h3><p>第一步完成后如果在TS中使用laydate变量,编译器是会直接报错的,因为其找不到这个变量,因此这一步要做的就是让ts识别该变量.做法很简单,在<code>typings.d.ts</code>中加入声明<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* SystemJS module definition */</span></div><div class="line">declare <span class="keyword">var</span> <span class="built_in">module</span>: NodeModule;</div><div class="line">interface NodeModule &#123;</div><div class="line">  id: string;</div><div class="line">&#125;</div><div class="line"><span class="comment">// laydate声明</span></div><div class="line">declare <span class="keyword">var</span> laydate: any;</div></pre></td></tr></table></figure></p>
+<h3 id="使用laydate功能"><a href="#使用laydate功能" class="headerlink" title="使用laydate功能"></a>使用laydate功能</h3><p><code>laydate</code>是需要更改Dom节点的,因此该步骤必须放到Angular对视图渲染之后,也就是生命周期中的<code>AfterViewInit</code>函数中执行.另外该渲染会使得双向绑定失效,需要处理结果则可以在<code>laydate</code>的回调函数中处理.<br>另外使用的时候就可以按照ts的语法来使用了,最终都会解析成原生js.比如下方的箭头函数.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">ngAfterViewInit(): <span class="keyword">void</span> &#123;</div><div class="line">  <span class="keyword">let</span> done = <span class="function">(<span class="params">value, date, endDate</span>) =&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> selectTime = <span class="keyword">new</span> <span class="built_in">Date</span>(value);</div><div class="line">    <span class="keyword">this</span>.timeStampOut = selectTime.getTime() / <span class="number">1000</span>;</div><div class="line">    <span class="keyword">this</span>.timeStampWeek = TimestampComponent.WEEKS[selectTime.getDay()] == <span class="literal">null</span> ? <span class="string">"Invalid Week"</span>: TimestampComponent.WEEKS[selectTime.getDay()]</div><div class="line">  &#125;;</div><div class="line">  laydate.render(&#123;</div><div class="line">    elem: <span class="string">'#layerdate'</span>,</div><div class="line">    type: <span class="string">'datetime'</span>,</div><div class="line">    change: done,</div><div class="line">    done: done</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>很多库都是直接对DOM进行操作,这对于Angular这种虚拟Dom操作会导致绑定失效等各种异常问题,一般情况下不建议混编,尤其是大项目,到后期会出现各种折磨人的小问题.</p>
 <p>更多Angular实战代码可以参考我的开源项目:</p>
 <blockquote>
@@ -708,7 +707,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2017 皖ICP备17023807号</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -720,11 +719,15 @@
   由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
-<div class="theme-info">
+<div class="theme-info powered-by">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://coding.net" target="blank">Hosted by Coding Pages</a>
 </div>
 
 

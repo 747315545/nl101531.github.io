@@ -86,22 +86,18 @@
 
 
 
-<meta name="description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.
-
-在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
+<meta name="description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.  在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
+<meta name="keywords" content="java8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8学习记录(三)-强大的collect操作">
 <meta property="og:url" content="http://mrdear.cn/2017/09/20/java/Java8学习记录(三)-强大的collect操作/index.html">
-<meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.
-
-在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
+<meta property="og:site_name" content="屈定&#39;s Blog">
+<meta property="og:description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.  在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-09-20T14:59:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8学习记录(三)-强大的collect操作">
-<meta name="twitter:description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.
-
-在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
+<meta name="twitter:description" content="collect应该说是Stream中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.  在Stream接口中有如下两个方法12345 &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier,                 BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator,">
 
 
 
@@ -433,9 +429,9 @@
       
         <p><code>collect</code>应该说是<code>Stream</code>中最强大的终端操作了,使用其几乎能得到你想要的任意数据的聚合,下面好好分析该工具的用法.</p>
 <hr>
-<p>在Stream接口中有如下两个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> &lt;R&gt; <span class="function">R <span class="title">collect</span><span class="params">(Supplier&lt;R&gt; supplier,</span></span></div><div class="line">                 BiConsumer&lt;R, ? <span class="keyword">super</span> T&gt; accumulator,</div><div class="line">                 BiConsumer&lt;R, R&gt; combiner);</div><div class="line">                 </div><div class="line">&lt;R, A&gt; <span class="function">R <span class="title">collect</span><span class="params">(Collector&lt;? <span class="keyword">super</span> T, A, R&gt; collector)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>在Stream接口中有如下两个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> &lt;R&gt; <span class="function">R <span class="title">collect</span><span class="params">(Supplier&lt;R&gt; supplier,</span></span></div><div class="line"><span class="function"><span class="params">                 BiConsumer&lt;R, ? <span class="keyword">super</span> T&gt; accumulator,</span></span></div><div class="line"><span class="function"><span class="params">                 BiConsumer&lt;R, R&gt; combiner)</span></span>;</div><div class="line">                 </div><div class="line">&lt;R, A&gt; <span class="function">R <span class="title">collect</span><span class="params">(Collector&lt;? <span class="keyword">super</span> T, A, R&gt; collector)</span></span>;</div></pre></td></tr></table></figure></p>
 <p>很明显第一种相当于简易实现版本,第二种为高级用法.更多更复杂的操作都封装到Collector接口中,并提供一些静态方法供使用者调用.下面逐一分析.</p>
-<h3 id="简易调用形式"><a href="#简易调用形式" class="headerlink" title="简易调用形式"></a>简易调用形式</h3><p>简易调用形式就是第一种接口,接口如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;R&gt; <span class="function">R <span class="title">collect</span><span class="params">(Supplier&lt;R&gt; supplier,</span></span></div><div class="line">                BiConsumer&lt;R, ? <span class="keyword">super</span> T&gt; accumulator,</div><div class="line">                BiConsumer&lt;R, R&gt; combiner);</div></pre></td></tr></table></figure></p>
+<h3 id="简易调用形式"><a href="#简易调用形式" class="headerlink" title="简易调用形式"></a>简易调用形式</h3><p>简易调用形式就是第一种接口,接口如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;R&gt; <span class="function">R <span class="title">collect</span><span class="params">(Supplier&lt;R&gt; supplier,</span></span></div><div class="line"><span class="function"><span class="params">                BiConsumer&lt;R, ? <span class="keyword">super</span> T&gt; accumulator,</span></span></div><div class="line"><span class="function"><span class="params">                BiConsumer&lt;R, R&gt; combiner)</span></span>;</div></pre></td></tr></table></figure></p>
 <p>调用方式如下,很明显第一个参数<code>supplier</code>为结果存放容器,第二个参数<code>accumulator</code>为结果如何添加到容器的操作,第三个参数<code>combiner</code>则为多个容器的聚合策略.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String concat = stringStream.collect(StringBuilder::<span class="keyword">new</span>, StringBuilder::append,StringBuilder::append).toString();</div><div class="line"><span class="comment">//等价于上面,这样看起来应该更加清晰</span></div><div class="line">String concat = stringStream.collect(() -&gt; <span class="keyword">new</span> StringBuilder(),(l, x) -&gt; l.append(x), (r1, r2) -&gt; r1.append(r2)).toString();</div></pre></td></tr></table></figure></p>
 <p>那么换一种,我想对一个List<integer>收集结果总和,按照Collect的要求,首先需要容器sum,然后添加操作 sum+x,聚合操作,sum1+sum2,那么就很容易写出来了,看完下面代码后好好体会下,然后再看高级用法.当然用sum方法收集是最佳解决方案,这里只是提供一种示例应用.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 由于基本类型都是不可变类型,所以这里用数组当做容器</span></div><div class="line"><span class="keyword">final</span> Integer[] integers = Lists.newArrayList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</div><div class="line">        .stream()</div><div class="line">        .collect(() -&gt; <span class="keyword">new</span> Integer[]&#123;<span class="number">0</span>&#125;, (a, x) -&gt; a[<span class="number">0</span>] += x, (a1, a2) -&gt; a1[<span class="number">0</span>] += a2[<span class="number">0</span>]);</div></pre></td></tr></table></figure></integer></p>
 <p>那么再换一种,有一个<code>Person</code>类,其拥有type与name两个属性,那么使用<code>collect</code>把他收集到Map集合中,其中键为type,值为person的集合.如下代码所示,看明白了相信就掌握了该方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Lists.&lt;Person&gt;newArrayList().stream()</div><div class="line">     .collect(() -&gt; <span class="keyword">new</span> HashMap&lt;Integer,List&lt;Person&gt;&gt;(),</div><div class="line">         (h, x) -&gt; &#123;</div><div class="line">           List&lt;Person&gt; value = h.getOrDefault(x.getType(), Lists.newArrayList());</div><div class="line">           value.add(x);</div><div class="line">           h.put(x.getType(), value);</div><div class="line">         &#125;,</div><div class="line">         HashMap::putAll</div><div class="line">     );</div></pre></td></tr></table></figure></p>
@@ -732,7 +728,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2017 皖ICP备17023807号</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -744,11 +740,15 @@
   由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
-<div class="theme-info">
+<div class="theme-info powered-by">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://coding.net" target="blank">Hosted by Coding Pages</a>
 </div>
 
 

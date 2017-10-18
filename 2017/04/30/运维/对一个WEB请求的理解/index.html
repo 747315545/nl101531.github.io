@@ -86,22 +86,21 @@
 
 
 
-<meta name="description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
-URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
+<meta name="description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西. URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
+<meta name="keywords" content="http,web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对一个WEB请求的理解">
 <meta property="og:url" content="http://mrdear.cn/2017/04/30/运维/对一个WEB请求的理解/index.html">
-<meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
-URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
+<meta property="og:site_name" content="屈定&#39;s Blog">
+<meta property="og:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西. URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493510445.png?imageMogr2/thumbnail/!100p">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1493775848.png?imageMogr2/thumbnail/!70p">
 <meta property="og:updated_time" content="2017-04-29T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对一个WEB请求的理解">
-<meta name="twitter:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西.
-URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
+<meta name="twitter:description" content="随着写的WEB程序越来越多,项目的部署也越来越繁琐,对于一些线上问题总是搞不清楚是哪个环节出的问题,归根结底是对整个流程的不熟悉导致,所以分析下一个WEB请求从用户输入地址到页面出来到底经历过多少东西. URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/动漫推荐/为例协议: http网址: mrdear.cn资源路径: 2017/04/15/动漫推">
 <meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1493479248.png?imageMogr2/thumbnail/!60p">
 
 
@@ -457,7 +456,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
 <li>在SSL握手阶段，客户端浏览器会认证服务器的身份，这是通过“证书”来实现的，证书由证书权威（CA）为某个域名签发，可以理解为网站的身份证件，客户端需要对这个证件进行认证，需要确定该证书是否属于目标网站并确认证书本身是否有效。最后在握手阶段，通信的双方还会协商出一个用于加密和解密的会话密钥。</li>
 <li>SSL握手阶段结束之后，服务器和客户端使用协商出的会话密钥对交互的数据进行加密/解密操作，对于HTTP协议来说，就是将HTTP请求和应答经过加密之后再发送到网络上。<br>HTTPS协议对服务器进行了一次身份验证,所以即使DNS被劫持,定向到的服务器也会因为没证书而无法通过身份验证.</li>
 </ul>
-<h4 id="4-乱码问题"><a href="#4-乱码问题" class="headerlink" title="4.乱码问题"></a>4.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="4-乱码问题"><a href="#4-乱码问题" class="headerlink" title="4.乱码问题"></a>4.乱码问题</h4><p>流程清晰后乱码问题就很好解决了,把浏览器,Nginx,Tomcat等都当成水池的话,数据的乱码只能在每一个的入口端和出口端.如果发生了乱码,那么首先定位到是哪一个口产生了乱码,然后再去找原因,一般都能解决.<br>以JavaWEB应用为例,乱码主要发生在IO交互的过程中.其一浏览器与服务器建立socket连接,浏览器对URL以及request转换编码.请求到达tomcat,tomcat会对其进行解码,这个解码可在tomcat目录下的conf/server.xml中配置URIEncoding<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connector</span> <span class="attr">port</span>=<span class="string">”8080″</span> <span class="attr">protocol</span>=<span class="string">”HTTP/1.1″</span> <span class="attr">maxThreads</span>=<span class="string">”150″</span>   <span class="attr">connectionTimeout</span>=<span class="string">”200000″</span></span></div><div class="line"><span class="tag">     <span class="attr">redirecPort</span>=<span class="string">”8443″</span>    <span class="attr">URIEncoding</span>=<span class="string">”utf-8″/</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>这里要保证不乱码,下一步tomcat建立了ServletRequest和ServletResponse,那么这里也有编码,一般是post表单或者request body乱码,那么就需要指定ServletRequest和ServletResponse的编码格式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(encoding);<span class="comment">//设置请求信息编码</span></div><div class="line">response.setCharacterEncoding(encoding);<span class="comment">//设置返回信息编码</span></div></pre></td></tr></table></figure></p>
 <p>Java程序在处理请求时和操作系统会有IO通信,和数据库会有IO通信,整个过程也会涉及编码,这种一般代码中会自动控制,出问题几率不大.<br>浏览器拿到返回信息后对页面进行渲染,这一步也会有编码,这个一般手动指定下浏览器的渲染编码,比如<code>Content-Type: text/html;charset=UTF-8</code>,指定以UTF-8渲染该text/html返回.</p>
 <h4 id="5-几种域名解析"><a href="#5-几种域名解析" class="headerlink" title="5.几种域名解析"></a>5.几种域名解析</h4><p>域名解析记录主要分为：A 记录、MX记录、CNAME 记录、NS记录和 TXT记录</p>
@@ -745,7 +744,7 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2017 皖ICP备17023807号</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -757,11 +756,15 @@ URL解析首先把URL分割为几个部分,以地址http://mrdear.cn/2017/04/15/
   由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
-<div class="theme-info">
+<div class="theme-info powered-by">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://coding.net" target="blank">Hosted by Coding Pages</a>
 </div>
 
 

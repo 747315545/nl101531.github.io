@@ -86,26 +86,19 @@
 
 
 
-<meta name="description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.
-
-JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题.
-JWT是什">
+<meta name="description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.  JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题. JWT是什">
+<meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Security学习记录(三) -- JSON Web Token实践(上)">
 <meta property="og:url" content="http://mrdear.cn/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践(上)/index.html">
-<meta property="og:site_name" content="屈定's Blog">
-<meta property="og:description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.
-
-JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题.
-JWT是什">
+<meta property="og:site_name" content="屈定&#39;s Blog">
+<meta property="og:description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.  JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题. JWT是什">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oobu4m7ko.bkt.clouddn.com/1498469217.png?imageMogr2/thumbnail/!70p">
 <meta property="og:updated_time" content="2017-06-26T08:36:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Security学习记录(三) -- JSON Web Token实践(上)">
-<meta name="twitter:description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.
-
-JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题.
-JWT是什">
+<meta name="twitter:description" content="JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.  JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:JSON Web Token - 在Web应用间安全地传递信息因为原作者写的很详细,这里就只说下个人认为比较重要的问题. JWT是什">
 <meta name="twitter:image" content="http://oobu4m7ko.bkt.clouddn.com/1498469217.png?imageMogr2/thumbnail/!70p">
 
 
@@ -459,7 +452,7 @@ JWT是什">
 <p><strong>与Session的区别</strong><br>session实际上是基于cookie来传输的,最重要的session信息是存储在服务器的,所以服务器每次可以通过cookie中的sessionId获取到当前会话的用户,对于单台服务器这样做没问题,但是对于多台就涉及到共享session的问题了,而且认证用户的增多,session会占用大量的服务器内存.<br>那么jwt是存储在客户端的,服务器不需要存储jwt,jwt里面有用户id,服务器拿到jwt验证后可以获得用户信息.也就实现了session的功能,但是相比session,jwt是无状态的,其不与任何机器绑定,只要签名秘钥足够的安全就能保证jwt的可靠性.</p>
 <h3 id="JWT下服务端认为什么样子的请求是可信的"><a href="#JWT下服务端认为什么样子的请求是可信的" class="headerlink" title="JWT下服务端认为什么样子的请求是可信的?"></a>JWT下服务端认为什么样子的请求是可信的?</h3><p>对于服务端来说,无法确定下一个请求是哪一个用户,哪一个终端发出,所以其需要一些信息定位到该用户或者该机器,对于JWT来说其Playload里面存储着UserId,那么服务端接收到Token后对其进行签名验证,验证成功,则认为其是<strong>可信的</strong>,然后通过UserId从DB或者Cache中查询出来用户信息.</p>
 <h3 id="为什么JWT能保证信息传输的安全可靠"><a href="#为什么JWT能保证信息传输的安全可靠" class="headerlink" title="为什么JWT能保证信息传输的安全可靠?"></a>为什么JWT能保证信息传输的安全可靠?</h3><p>比如现在有token<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eyJhbGciOiJIUzI1NiJ9.</div><div class="line">eyJleHAiOjE0OTg0ODIxNTQsInN1YiI6InF1ZGluZyIsInVzZXJJZCI6IjEwMzc5NDAxIiwicm9sZSI6ImFkbWluIn0.</div><div class="line">-YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Header</div><div class="line">&#123;</div><div class="line">  "alg": "HS256"</div><div class="line">&#125;</div><div class="line">Playload</div><div class="line">&#123;</div><div class="line">  "exp": 1498482154,</div><div class="line">  "sub": "quding",</div><div class="line">  "userId": "10379401",</div><div class="line">  "role": "admin"</div><div class="line">&#125;</div><div class="line">Sign</div><div class="line">YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Header</div><div class="line">&#123;</div><div class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></div><div class="line">&#125;</div><div class="line">Playload</div><div class="line">&#123;</div><div class="line">  <span class="attr">"exp"</span>: <span class="number">1498482154</span>,</div><div class="line">  <span class="attr">"sub"</span>: <span class="string">"quding"</span>,</div><div class="line">  <span class="attr">"userId"</span>: <span class="string">"10379401"</span>,</div><div class="line">  <span class="attr">"role"</span>: <span class="string">"admin"</span></div><div class="line">&#125;</div><div class="line">Sign</div><div class="line">YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure>
 <p>假设我的playload被其他人劫持了,其他人把userId修改为他自己的,比如123456,但是其没有签名的秘钥,所以他就没法生成签名.<br>服务端收到该Token后,会用先Base64解码出来相应的信息,然后重新生成sign,使用该sign与客户端传来的Sign进行对比,一样则证明没被修改,也就是可信的请求,否则拒绝该请求.</p>
 <p>下一篇开始实战.</p>
 <blockquote>
@@ -739,7 +732,7 @@ JWT是什">
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2017 皖ICP备17023807号</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -751,11 +744,15 @@ JWT是什">
   由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
-<div class="theme-info">
+<div class="theme-info powered-by">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://coding.net" target="blank">Hosted by Coding Pages</a>
 </div>
 
 
