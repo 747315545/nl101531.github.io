@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-10-09T15:34:43.000Z</updated>
+  <updated>2017-10-18T14:15:44.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网站升级HTTPS与HTTP2记录</title>
+    <link href="http://mrdear.cn/2017/10/18/%E8%BF%90%E7%BB%B4/%E7%BD%91%E7%AB%99%E5%8D%87%E7%BA%A7HTTPS%E4%B8%8EHTTP2%E8%AE%B0%E5%BD%95/"/>
+    <id>http://mrdear.cn/2017/10/18/运维/网站升级HTTPS与HTTP2记录/</id>
+    <published>2017-10-18T14:15:37.000Z</published>
+    <updated>2017-10-18T14:15:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近看到两篇文章对于HTTPS与HTTP2两者讲解的很详细,分享并实践一下,正好近期捣鼓了一个工具类站点<a href="https://www.itoolshub.com/" target="_blank" rel="external">https://www.itoolshub.com/</a>,可以用来实验.<br><strong>文章地址</strong><br><a href="https://fed.renren.com/2017/09/03/upgrade-to-https/" target="_blank" rel="external">为什么要把网站升级到HTTPS</a><br><a href="https://fed.renren.com/2017/09/23/http2/" target="_blank" rel="external">怎样把网站升级到http/2</a></p><h3 id="升级HTTPS"><a href="#升级HTTPS" class="headerlink" title="升级HTTPS"></a>升级HTTPS</h3><p>升级的好处如文章所说,另外这里主要是按照文章中的教程来处理,不过我的服务器是Centos7,大体步骤相同,选择操作系统与服务器后会到该页面<a href="https://certbot.eff.org/#centosrhel7-nginx" target="_blank" rel="external">https://certbot.eff.org/#centosrhel7-nginx</a>.<br>要注意<code>sudo certbot --nginx</code>命令,该命令默认会去<code>usr/bin/nginx</code>与<code>/etc/nginx</code>下寻找nginx启动文件与配置文件,因此如果你的nginx位置不对就会报<code>not install</code>错误,导致无法进行,解决方案为使用软链接形式创建链接.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/<span class="built_in">local</span>/nginx/sbin/nginx /usr/bin/nginx</div><div class="line">ln -s /usr/<span class="built_in">local</span>/nginx/conf/ /etc/nginx</div></pre></td></tr></table></figure></p><p>命令都执行完后,nginx的server节点下会多出如下配置,第一部分为监听443端口.即https默认端口,使用该证书.第二部分是对非https请求重定向到https.这样也就学到了nginx是怎么配置https请求.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    listen 443 ssl; # managed by Certbot</div><div class="line">ssl_certificate /etc/letsencrypt/live/itoolshub.com/fullchain.pem; # managed by Certbot</div><div class="line">ssl_certificate_key /etc/letsencrypt/live/itoolshub.com/privkey.pem; # managed by Certbot</div><div class="line">    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot</div><div class="line">    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot</div><div class="line"></div><div class="line">    if ($scheme != &quot;https&quot;) &#123;</div><div class="line">        return 301 https://$host$request_uri;</div><div class="line">    &#125; # managed by Certbot</div></pre></td></tr></table></figure></p><h3 id="升级HTTP2"><a href="#升级HTTP2" class="headerlink" title="升级HTTP2"></a>升级HTTP2</h3><p>正如原作者所说HTTP2具有太多的优势,比如多路复用，对同一个域的服务器只建立一次TCP连接，加载多个资源，使用二进制帧传输，同时会对http头部进行压缩,大大提高了传输的效率.<br><strong>要注意的是</strong><br>Nginx启用http2则需要安装<code>http_v2_module</code>模块,并且需要openssl版本大于1.0.2,由于Chrome改变了验证http2的方式,详情可以参考此文章<a href="https://news.cnblogs.com/n/545972/" target="_blank" rel="external">https://news.cnblogs.com/n/545972/</a>.</p><p><strong>推荐做法</strong><br>nginx的模块是支持静态编译的,因此自己下载所需要的软件版本,然后编译时指定配置相应的版本是最佳解决方案.如下脚本,我配置了<code>http_v2_module</code>和<code>/opt/openssl-OpenSSL_1_0_2k</code>的版本,这样nginx编译时则不会去使用系统自带的openssl.注意不要<code>make install</code>,该命令是会执行安装操作,也就是会把你之前安装的nginx覆盖掉.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">./configure \</div><div class="line">  --prefix=/usr/<span class="built_in">local</span>/nginx \</div><div class="line">  --conf-path=/etc/nginx/nginx.conf \</div><div class="line">  --pid-path=/var/<span class="built_in">local</span>/nginx/nginx.pid \</div><div class="line">  --lock-path=/var/lock/nginx/nginx.lock \</div><div class="line">  --error-log-path=/quding/logs/nginx/error.log \</div><div class="line">  --http-log-path=/quding/logs/nginx/access.log \</div><div class="line">  --with-http_gzip_static_module \</div><div class="line">  --http-client-body-temp-path=/var/temp/nginx/client \</div><div class="line">  --http-proxy-temp-path=/var/temp/nginx/proxy \</div><div class="line">  --http-fastcgi-temp-path=/var/temp/nginx/fastcgi \</div><div class="line">  --http-uwsgi-temp-path=/var/temp/nginx/uwsgi \</div><div class="line">  --with-http_ssl_module \</div><div class="line">  --http-scgi-temp-path=/var/temp/nginx/scgi \</div><div class="line">  --with-http_v2_module \</div><div class="line">  --with-openssl=/opt/openssl-OpenSSL_1_0_2k</div><div class="line"><span class="built_in">echo</span> <span class="string">'make start...'</span></div><div class="line">make</div></pre></td></tr></table></figure></p><p>脚本执行完毕后,手动copy nginx替换原nginx,使用<code>nginx -V</code>查看所使用的openssl版本信息,如下所示则不会有大问题.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1508370655.png?imageMogr2/thumbnail/!100p" alt=""></p><p>最后在https监听那里加上http2,nginx reload下即可.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">listen 443 ssl http2;</div></pre></td></tr></table></figure></p><p>对于chrome最可信的调试方式是访问<code>chrome://net-internals/#http2</code>,如果显示你的网站使用的协议为h2,那么恭喜你开启了http2</p><p>目前<a href="https://www.itoolshub.com/" target="_blank" rel="external">https://www.itoolshub.com/</a>已经开启了HTTPS与HTTP2.但是图片是放在七牛云的,七牛的HTTPS收费,所以目前没解决,由于图片并不是很多后期迁到自己的服务器上,或者使用base64形式.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近看到两篇文章对于HTTPS与HTTP2两者讲解的很详细,分享并实践一下,正好近期捣鼓了一个工具类站点&lt;a href=&quot;https://www.itoolshub.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.itool
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="http://mrdear.cn/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+      <category term="https" scheme="http://mrdear.cn/tags/https/"/>
+    
+      <category term="http2" scheme="http://mrdear.cn/tags/http2/"/>
+    
+  </entry>
   
   <entry>
     <title>Angular中引入第三方JS库</title>
@@ -512,32 +539,6 @@
     
     
       <category term="Spring" scheme="http://mrdear.cn/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WEB小知识-HTTP请求对+和&amp;的处理</title>
-    <link href="http://mrdear.cn/2017/05/22/web/WEB%E5%B0%8F%E7%9F%A5%E8%AF%86-HTTP%E8%AF%B7%E6%B1%82%E5%AF%B9+%E5%92%8C&amp;%E7%9A%84%E5%A4%84%E7%90%86/"/>
-    <id>http://mrdear.cn/2017/05/22/web/WEB小知识-HTTP请求对+和&amp;的处理/</id>
-    <published>2017-05-22T14:18:00.000Z</published>
-    <updated>2017-05-22T14:18:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p>在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.</p><blockquote><p>对于<code>+</code>号会被编码为空格<br>对于<code>&amp;</code>也会被编码成空格</p></blockquote><p>举个例子,需要向服务端提交如下代码:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> a,b;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p><p>编码后的内容如下,可以发现<code>a+b</code>被转换成了<code>a b</code>导致服务端接收到后编译失败.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#include%20%3Ciostream%3E%0A%0Ausing%20namespace%20std;</div><div class="line">%<span class="number">0</span>A%<span class="number">0</span>Aint%<span class="number">20</span>main()%<span class="number">0</span>A%<span class="number">7</span>B%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span><span class="keyword">int</span>%<span class="number">20</span>a,b;</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cin%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>a%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>b;</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cout%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>a b%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>endl;</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>return%<span class="number">200</span>;%<span class="number">0</span>A%<span class="number">7</span>D</div></pre></td></tr></table></figure></p><h3 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h3><p>使用函数<code>encodeURIComponent()</code>,该函数会把特殊字符都给转义,转义结果如下面所示,可见<code>a+b</code>转换成了<code>a%2Bb</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%<span class="number">23</span>include%<span class="number">20</span>%<span class="number">3</span>Ciostream%<span class="number">3</span>E%<span class="number">0</span>A%<span class="number">0</span>Ausing%<span class="number">20</span>namespace%<span class="number">20</span>std%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">0</span>Aint%<span class="number">20</span>main()%<span class="number">0</span>A%<span class="number">7</span>B%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span><span class="keyword">int</span>%<span class="number">20</span>a%<span class="number">2</span>Cb%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cin%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>a%<span class="number">20</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">20</span>b%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>cout%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>a%<span class="number">2</span>Bb%<span class="number">20</span>%<span class="number">3</span>C%<span class="number">3</span>C%<span class="number">20</span>endl%<span class="number">3</span>B</div><div class="line">%<span class="number">0</span>A%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>%<span class="number">20</span>return%<span class="number">200</span>%<span class="number">3</span>B%<span class="number">0</span>A%<span class="number">7</span>D</div></pre></td></tr></table></figure></p><p>服务端需要使用<code>URLDecoder</code>对其进行反转义,该问题到此解决.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-问题&quot;&gt;&lt;a href=&quot;#1-问题&quot; class=&quot;headerlink&quot; title=&quot;1.问题&quot;&gt;&lt;/a&gt;1.问题&lt;/h3&gt;&lt;p&gt;在HTTP请求中如果传的参数有一些特殊字符则会被编码成空格,导致服务端获取不到响应的信息.&lt;/p&gt;
-&lt;blockquote&gt;
-      
-    
-    </summary>
-    
-      <category term="web" scheme="http://mrdear.cn/categories/web/"/>
-    
-    
-      <category term="bug" scheme="http://mrdear.cn/tags/bug/"/>
     
   </entry>
   
