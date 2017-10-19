@@ -89,7 +89,7 @@ baidusitemap:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
 - type: git
-  repository: https://github.com/nl101531/nl101531.github.io.git
+  repository: https://github.com/mrdear/nl101531.github.io.git
   branch: master
 - type: git
   repository: git@git.coding.net:mrdear/mrdear.git
