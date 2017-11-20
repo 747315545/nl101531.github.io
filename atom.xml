@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mrdear.cn/"/>
-  <updated>2017-11-13T14:44:05.000Z</updated>
+  <updated>2017-11-20T14:40:01.000Z</updated>
   <id>http://mrdear.cn/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git的回滚操作</title>
+    <link href="http://mrdear.cn/2017/11/20/%E5%B7%A5%E5%85%B7/git%E7%9A%84%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/"/>
+    <id>http://mrdear.cn/2017/11/20/工具/git的回滚操作/</id>
+    <published>2017-11-20T14:39:59.000Z</published>
+    <updated>2017-11-20T14:40:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>一直在使用git作为版本管理器,但是有一次线上出问题,但是又有未通过完整测试的代码在mater分支上,那么所需要的操作就是 <code>回滚代码到上一个已通过测试的master版本</code> -&gt; <code>修复bug</code> -&gt; <code>发布</code> -&gt; <code>还原master</code> -&gt; <code>合并修改了bug的分支</code> -&gt; <code>重新上预发布</code>,那么下面开始演练.</p><p>为了简单描述,我们把定义几个分支.<br>init-master //最初的master<br>untest-master  //未完全通过测试的master,其是远程仓库上最新的master<br>bugfix/fix_some_bug  //修改的bug分支</p><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p><strong>拉取untest-master</strong><br>首先是切换并更新master,注意此时的master是<code>untest-master</code>,也就是我们要对其进行回滚操作<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git pull origin master</div></pre></td></tr></table></figure></p><p><strong>回滚到init-master</strong><br>回滚操作首先需要定义到要回滚到的提交记录,然后强制回滚到该记录上,注意这里的操作只是对本地分支的操作并不会影响到远程分支<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//使用git <span class="built_in">log</span>查看其提交记录,确定要回滚到的`commit id`</div><div class="line">git <span class="built_in">log</span> </div><div class="line">g reset --hard [commit id]</div></pre></td></tr></table></figure></p><p><strong>回滚远程master</strong><br>回滚操作是把你当前的分支强制提交到master上也就是加<code>-f</code>参数指明<strong>强制覆盖</strong>,该命令需要你有相应的master权限.这样的话master上就是之前的版本了.那么接下来就是一般的修改bug了.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push -u origin master -f</div></pre></td></tr></table></figure></p><p><strong>修复bug,并发布</strong><br>bug的修复是在当前<code>init-master</code>分支的基础上,切出一个新的分支,然后像平常一样修改提交,最后合到<code>init-master</code>上.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout -b bugfix/fix_some_bug</div><div class="line">// 修复bug</div><div class="line">// 发布</div></pre></td></tr></table></figure></p><p><strong>取消回滚</strong><br>取消回滚则是重新强制恢复到修改过的版本,然后就可以强制回滚到任意版本了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git reflog  查看该分支的变动,可以确定其commit id</div><div class="line">git reset --hard [commit id]</div></pre></td></tr></table></figure></p><p><strong>合并修改了bug的分支</strong><br>这次回滚后你处在<code>untest-master</code>分支上,该分支上是没有<code>bugfix/fix_some_bug</code>修复bug的代码的,那么把他合并过来.然后推送上去,那么master就是当前最新的版本了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git merge bugfix/fix_some_bug</div><div class="line">git push origin master</div></pre></td></tr></table></figure></p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上是操作是必须需要有master权限的,否则无法回滚,另外如果担心代码丢失那么在<code>untest-master</code>分支上再次checkout一个分支,这样即使master再怎么变,这个分支仍然是<code>untest-master</code>的副本.<br>最后git是一款强大的版本工具,其可能有更加简单的方法,欢迎分享.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一直在使用git作为版本管理器,但是有一次线上出问题,但是又有未通过完整测试的代码在mater分支上,那么所需要的操作就是 &lt;code&gt;回滚代码到上一个已通过测试的master版本&lt;/code&gt; -&amp;gt; &lt;code&gt;修复bug&lt;/code&gt; -&amp;gt; &lt;code&gt;发布
+      
+    
+    </summary>
+    
+      <category term="git" scheme="http://mrdear.cn/categories/git/"/>
+    
+    
+      <category term="git" scheme="http://mrdear.cn/tags/git/"/>
+    
+  </entry>
   
   <entry>
     <title>委派模型与类加载器</title>
@@ -503,33 +528,6 @@
       
       
         &lt;h3 id=&quot;前提&quot;&gt;&lt;a href=&quot;#前提&quot; class=&quot;headerlink&quot; title=&quot;前提&quot;&gt;&lt;/a&gt;前提&lt;/h3&gt;&lt;p&gt;接着上篇的内容,了解了JWT Token后,发现这东西就是一个可信的用户信息存储方式,那么可信的话就可以省去验证这个步骤,只有当需要用户的详
-      
-    
-    </summary>
-    
-      <category term="Spring" scheme="http://mrdear.cn/categories/Spring/"/>
-    
-    
-      <category term="Spring" scheme="http://mrdear.cn/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Security学习记录(三) -- JSON Web Token实践(上)</title>
-    <link href="http://mrdear.cn/2017/06/26/spring/Spring%20Security%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)%20--%20JSON%20Web%20Token%E5%AE%9E%E8%B7%B5(%E4%B8%8A)/"/>
-    <id>http://mrdear.cn/2017/06/26/spring/Spring Security学习记录(三) -- JSON Web Token实践(上)/</id>
-    <published>2017-06-26T08:36:33.000Z</published>
-    <updated>2017-06-26T08:36:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.</p><hr><p>JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解释可以参考博文:<br><a href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/" target="_blank" rel="external">JSON Web Token - 在Web应用间安全地传递信息</a><br>因为原作者写的很详细,这里就只说下个人认为比较重要的问题.</p><h3 id="JWT是什么样子的结构"><a href="#JWT是什么样子的结构" class="headerlink" title="JWT是什么样子的结构?"></a>JWT是什么样子的结构?</h3><p>JSON Web Token说到底也是一串token,其形式分三段,看下图,<strong>红色</strong>的为Header,指定token类型与签名类型,<strong>紫色</strong>的为请求体,存储用户id等关键信息,最后<strong>蓝色</strong>的为签名,保证整个信息的完整性,可靠性.<br><img src="http://oobu4m7ko.bkt.clouddn.com/1498469217.png?imageMogr2/thumbnail/!70p" alt=""><br>其中playload中可以</p><ul><li>iss: 该JWT的签发者</li><li>sub: 该JWT所面向的用户</li><li>aud: 接收该JWT的一方</li><li>exp(expires): 什么时候过期，这里是一个Unix时间戳</li><li>iat(issued at): 在什么时候签发的</li><li>nbf: 定义在什么时间之前，该jwt都是不可用的.</li><li>jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。</li></ul><h3 id="JWT是一个怎样的流程"><a href="#JWT是一个怎样的流程" class="headerlink" title="JWT是一个怎样的流程?"></a>JWT是一个怎样的流程?</h3><ol><li>客户端使用账户密码请求登录接口</li><li>登录成功后返回JWT</li><li>客户端再次请求其他接口时带上JWT</li><li>服务端接收到JWT后验证签名的有效性.</li></ol><h3 id="JWT解决了什么问题"><a href="#JWT解决了什么问题" class="headerlink" title="JWT解决了什么问题?"></a>JWT解决了什么问题?</h3><p><strong>token被劫持</strong><br>一开始理解很容易陷入一个误区,比如有人会问对于JWT来说,jwt被劫持了的话,那么对方就可以伪造请求,这东西怎么能保证安全呢?<br>这里问题是没理解好JWT,JWT解决的是认证与授权的问题,上述劫持或者类似的中间人攻击是JWT不可避免的,也是其他认证与授权方式不可避免的,想避免可以使用HTTPS,或者签发jwt的时候记录下Client的ip地址,这些就和JWT没关系了.</p><p><strong>与Session的区别</strong><br>session实际上是基于cookie来传输的,最重要的session信息是存储在服务器的,所以服务器每次可以通过cookie中的sessionId获取到当前会话的用户,对于单台服务器这样做没问题,但是对于多台就涉及到共享session的问题了,而且认证用户的增多,session会占用大量的服务器内存.<br>那么jwt是存储在客户端的,服务器不需要存储jwt,jwt里面有用户id,服务器拿到jwt验证后可以获得用户信息.也就实现了session的功能,但是相比session,jwt是无状态的,其不与任何机器绑定,只要签名秘钥足够的安全就能保证jwt的可靠性.</p><h3 id="JWT下服务端认为什么样子的请求是可信的"><a href="#JWT下服务端认为什么样子的请求是可信的" class="headerlink" title="JWT下服务端认为什么样子的请求是可信的?"></a>JWT下服务端认为什么样子的请求是可信的?</h3><p>对于服务端来说,无法确定下一个请求是哪一个用户,哪一个终端发出,所以其需要一些信息定位到该用户或者该机器,对于JWT来说其Playload里面存储着UserId,那么服务端接收到Token后对其进行签名验证,验证成功,则认为其是<strong>可信的</strong>,然后通过UserId从DB或者Cache中查询出来用户信息.</p><h3 id="为什么JWT能保证信息传输的安全可靠"><a href="#为什么JWT能保证信息传输的安全可靠" class="headerlink" title="为什么JWT能保证信息传输的安全可靠?"></a>为什么JWT能保证信息传输的安全可靠?</h3><p>比如现在有token<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eyJhbGciOiJIUzI1NiJ9.</div><div class="line">eyJleHAiOjE0OTg0ODIxNTQsInN1YiI6InF1ZGluZyIsInVzZXJJZCI6IjEwMzc5NDAxIiwicm9sZSI6ImFkbWluIn0.</div><div class="line">-YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure></p><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Header</div><div class="line">&#123;</div><div class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></div><div class="line">&#125;</div><div class="line">Playload</div><div class="line">&#123;</div><div class="line">  <span class="attr">"exp"</span>: <span class="number">1498482154</span>,</div><div class="line">  <span class="attr">"sub"</span>: <span class="string">"quding"</span>,</div><div class="line">  <span class="attr">"userId"</span>: <span class="string">"10379401"</span>,</div><div class="line">  <span class="attr">"role"</span>: <span class="string">"admin"</span></div><div class="line">&#125;</div><div class="line">Sign</div><div class="line">YFTYJ6FLlIQqD4G3hYcWvYlYE8H9eAA2369WEcJFVY</div></pre></td></tr></table></figure><p>假设我的playload被其他人劫持了,其他人把userId修改为他自己的,比如123456,但是其没有签名的秘钥,所以他就没法生成签名.<br>服务端收到该Token后,会用先Base64解码出来相应的信息,然后重新生成sign,使用该sign与客户端传来的Sign进行对比,一样则证明没被修改,也就是可信的请求,否则拒绝该请求.</p><p>下一篇开始实战.</p><blockquote><p>github地址:  <a href="https://github.com/nl101531/JavaWEB" target="_blank" rel="external">https://github.com/nl101531/JavaWEB</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;JWT实际上与Spring Security没多大关系,本文打算使用Spring Security配合JWT这种方式完成用户的认证和授权.&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;JSON Web Token(JWT),是一个开放安全的行业标准,用于多个系统之间传递安全可靠的信息.关于其解
       
     
     </summary>

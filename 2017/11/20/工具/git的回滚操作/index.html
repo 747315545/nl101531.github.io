@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="IT小生" />
+  <meta name="keywords" content="git," />
 
 
 
@@ -86,16 +86,18 @@
 
 
 
-<meta name="description" content="change from today">
-<meta property="og:type" content="website">
-<meta property="og:title" content="屈定&#39;s Blog">
-<meta property="og:url" content="http://mrdear.cn/tags/学习方法/index.html">
+<meta name="description" content="一直在使用git作为版本管理器,但是有一次线上出问题,但是又有未通过完整测试的代码在mater分支上,那么所需要的操作就是 回滚代码到上一个已通过测试的master版本 -&amp;gt; 修复bug -&amp;gt; 发布 -&amp;gt; 还原master -&amp;gt; 合并修改了bug的分支 -&amp;gt; 重新上预发布,那么下面开始演练. 为了简单描述,我们把定义几个分支.init-master //最初的mast">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git的回滚操作">
+<meta property="og:url" content="http://mrdear.cn/2017/11/20/工具/git的回滚操作/index.html">
 <meta property="og:site_name" content="屈定&#39;s Blog">
-<meta property="og:description" content="change from today">
+<meta property="og:description" content="一直在使用git作为版本管理器,但是有一次线上出问题,但是又有未通过完整测试的代码在mater分支上,那么所需要的操作就是 回滚代码到上一个已通过测试的master版本 -&amp;gt; 修复bug -&amp;gt; 发布 -&amp;gt; 还原master -&amp;gt; 合并修改了bug的分支 -&amp;gt; 重新上预发布,那么下面开始演练. 为了简单描述,我们把定义几个分支.init-master //最初的mast">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-20T14:40:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="屈定&#39;s Blog">
-<meta name="twitter:description" content="change from today">
+<meta name="twitter:title" content="git的回滚操作">
+<meta name="twitter:description" content="一直在使用git作为版本管理器,但是有一次线上出问题,但是又有未通过完整测试的代码在mater分支上,那么所需要的操作就是 回滚代码到上一个已通过测试的master版本 -&amp;gt; 修复bug -&amp;gt; 发布 -&amp;gt; 还原master -&amp;gt; 合并修改了bug的分支 -&amp;gt; 重新上预发布,那么下面开始演练. 为了简单描述,我们把定义几个分支.init-master //最初的mast">
 
 
 
@@ -123,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://mrdear.cn/tags/学习方法/"/>
+  <link rel="canonical" href="http://mrdear.cn/2017/11/20/工具/git的回滚操作/"/>
 
 
 
 
 
-  <title> 标签: 学习方法 | 屈定's Blog </title>
+  <title> git的回滚操作 | 屈定's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -164,7 +166,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -300,46 +302,216 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        学习方法
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://mrdear.cn/2017/11/20/工具/git的回滚操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Niu li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="屈定's Blog">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                git的回滚操作
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T22:39:59+08:00">
+                2017-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/20/工具/git的回滚操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/20/工具/git的回滚操作/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>一直在使用git作为版本管理器,但是有一次线上出问题,但是又有未通过完整测试的代码在mater分支上,那么所需要的操作就是 <code>回滚代码到上一个已通过测试的master版本</code> -&gt; <code>修复bug</code> -&gt; <code>发布</code> -&gt; <code>还原master</code> -&gt; <code>合并修改了bug的分支</code> -&gt; <code>重新上预发布</code>,那么下面开始演练.</p>
+<p>为了简单描述,我们把定义几个分支.<br>init-master //最初的master<br>untest-master  //未完全通过测试的master,其是远程仓库上最新的master<br>bugfix/fix_some_bug  //修改的bug分支</p>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p><strong>拉取untest-master</strong><br>首先是切换并更新master,注意此时的master是<code>untest-master</code>,也就是我们要对其进行回滚操作<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git pull origin master</div></pre></td></tr></table></figure></p>
+<p><strong>回滚到init-master</strong><br>回滚操作首先需要定义到要回滚到的提交记录,然后强制回滚到该记录上,注意这里的操作只是对本地分支的操作并不会影响到远程分支<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//使用git <span class="built_in">log</span>查看其提交记录,确定要回滚到的`commit id`</div><div class="line">git <span class="built_in">log</span> </div><div class="line">g reset --hard [commit id]</div></pre></td></tr></table></figure></p>
+<p><strong>回滚远程master</strong><br>回滚操作是把你当前的分支强制提交到master上也就是加<code>-f</code>参数指明<strong>强制覆盖</strong>,该命令需要你有相应的master权限.这样的话master上就是之前的版本了.那么接下来就是一般的修改bug了.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push -u origin master -f</div></pre></td></tr></table></figure></p>
+<p><strong>修复bug,并发布</strong><br>bug的修复是在当前<code>init-master</code>分支的基础上,切出一个新的分支,然后像平常一样修改提交,最后合到<code>init-master</code>上.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout -b bugfix/fix_some_bug</div><div class="line">// 修复bug</div><div class="line">// 发布</div></pre></td></tr></table></figure></p>
+<p><strong>取消回滚</strong><br>取消回滚则是重新强制恢复到修改过的版本,然后就可以强制回滚到任意版本了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git reflog  查看该分支的变动,可以确定其commit id</div><div class="line">git reset --hard [commit id]</div></pre></td></tr></table></figure></p>
+<p><strong>合并修改了bug的分支</strong><br>这次回滚后你处在<code>untest-master</code>分支上,该分支上是没有<code>bugfix/fix_some_bug</code>修复bug的代码的,那么把他合并过来.然后推送上去,那么master就是当前最新的版本了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git merge bugfix/fix_some_bug</div><div class="line">git push origin master</div></pre></td></tr></table></figure></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上是操作是必须需要有master权限的,否则无法回滚,另外如果担心代码丢失那么在<code>untest-master</code>分支上再次checkout一个分支,这样即使master再怎么变,这个分支仍然是<code>untest-master</code>的副本.<br>最后git是一款强大的版本工具,其可能有更加简单的方法,欢迎分享.</p>
 
-      <h2 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/02/01/随谈/如何学习一门新技术/" itemprop="url">
-              
-                <span itemprop="name">如何学习一门新技术</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h2>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/image/wechatpay.png" alt="Niu li WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/image/alipay.png" alt="Niu li Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-01T10:37:00+08:00"
-              content="2017-02-01" >
-          02-01
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/13/java/委派模型与类加载器/" rel="next" title="委派模型与类加载器">
+                <i class="fa fa-chevron-left"></i> 委派模型与类加载器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -347,6 +519,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -366,8 +549,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460"
@@ -475,6 +667,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作"><span class="nav-text">操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -600,6 +808,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -616,9 +828,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'mrdear';
-      var disqus_identifier = 'tags/学习方法/index.html';
+      var disqus_identifier = '2017/11/20/工具/git的回滚操作/';
 
-      var disqus_title = "";
+      var disqus_title = "git的回滚操作";
 
 
       function run_disqus_script(disqus_script) {
@@ -631,6 +843,13 @@
 
       run_disqus_script('count.js');
 
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
       
 
     </script>
