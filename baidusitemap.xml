@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://mrdear.cn/2017/08/25/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</loc>
+    <lastmod>2017-11-26T13:24:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>动漫推荐</title>
+        <pubTime>2017-08-25T03:26:23.000Z</pubTime>
+        
+        <tag>动漫</tag>
+         
+         
+           
+             
+              <breadCrumb title="动漫" url="http://mrdear.cn/categories/%E5%8A%A8%E6%BC%AB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://mrdear.cn/2017/11/20/%E5%B7%A5%E5%85%B7/git%E7%9A%84%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/</loc>
     <lastmod>2017-11-20T14:40:01.000Z</lastmod>
     <data>
@@ -225,26 +245,6 @@
            
              
               <breadCrumb title="web" url="http://mrdear.cn/categories/web/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://mrdear.cn/2017/08/25/%E5%8A%A8%E6%BC%AB/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/</loc>
-    <lastmod>2017-08-25T03:26:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>动漫推荐</title>
-        <pubTime>2017-08-25T03:26:23.000Z</pubTime>
-        
-        <tag>动漫</tag>
-         
-         
-           
-             
-              <breadCrumb title="动漫" url="http://mrdear.cn/categories/%E5%8A%A8%E6%BC%AB/"/>
           
         </display>
     </data>
