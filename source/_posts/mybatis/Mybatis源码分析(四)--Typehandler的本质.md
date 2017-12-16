@@ -1,5 +1,5 @@
 ---
-title: Mybatis源码分析(四)--Typehandler的解析
+title: Mybatis源码分析(四)--TypeHandler的解析
 tags:
   - mybatis
 categories:   mybatis    
