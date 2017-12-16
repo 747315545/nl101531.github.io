@@ -24,7 +24,7 @@ updated: 2017-12-02 10:03:11
 ### 实现
 DB连接: DBUtils
 Excel: POI
-具体过程很简单,代码逻辑也很清晰,这里就不叙述了,直接放出Github地址,另外由于个人使用,所以没有太多的校验和异常考虑.
+具体过程很简单,代码逻辑也很清晰,这里只说下主要流程,详细的可以参考源码Github地址,另外由于个人使用,所以没有太多的校验和异常考虑.
 
 **easy-excel**   [[https://github.com/mrdear/easy-excel](https://github.com/mrdear/easy-excel)]([https://github.com/mrdear/easy-excel](https://github.com/mrdear/easy-excel))
 
