@@ -26,11 +26,6 @@ category_dir: categories
 i18n_dir: :lang
 skip_render:
 
-menu:
-  home: / 
-  archive: /archives
-  about: /about
-
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
@@ -49,8 +44,6 @@ highlight:
 
 # Category & Tag
 default_category: uncategorized
-category_map:
-tag_map:
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
