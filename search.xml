@@ -160,17 +160,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Zookeeper学习记录(一)--环境部署]]></title>
-    <url>%2F2017%2F08%2F19%2F%E8%BF%90%E7%BB%B4%2FZookeeper%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)--%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2%2F</url>
-    <content type="text"><![CDATA[zk在公司系统中承担着一个很重要的角色,因此作为开发有必要了解关于zk的一些知识,推荐文档资料Zookeeper文档目录. 单机部署zk的安装很简单,只需要下载修改配置启动即可,本文主要是用Docker方式安装,直接上Dockerfile文件1234567891011121314151617181920212223242526272829303132333435363738394041# Version 0.0.1FROM java:8MAINTAINER quding mrdear.cn #修改源信息RUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily main restricted universe multiverse&quot; &gt; /etc/apt/sources.listRUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-security main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-updates main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-proposed main restricted universe multiverse&quot;&gt;&gt; /etc/apt/sources.listRUN echo &quot;deb http://mirrors.163.com/ubuntu/ wily-backports main restricted universe multiverse&quot;&gt;&gt; /etc/apt/sources.listRUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-security main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-updates main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-proposed main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;deb-src http://mirrors.163.com/ubuntu/ wily-backports main restricted universe multiverse&quot; &gt;&gt; /etc/apt/sources.listRUN echo &quot;APT::Get::AllowUnauthenticated 1 ;&quot; &gt;&gt; /etc/apt/apt.conf#更新源,并安装vimRUN apt-get updateRUN apt install vim -yENV ZOOKEEPER_VERSION 3.4.9# 下载zkRUN wget -q http://mirror.vorboss.net/apache/zookeeper/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;.tar.gz# 安装RUN tar -xvf zookeeper-$&#123;ZOOKEEPER_VERSION&#125;.tar.gz -C /opt# 配置zoo.cfgRUN mv /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/conf/zoo_sample.cfg /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/conf/zoo.cfgENV ZK_HOME /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;RUN sed -i &quot;s|/tmp/zookeeper|$ZK_HOME/data|g&quot; $ZK_HOME/conf/zoo.cfg; mkdir $ZK_HOME/dataEXPOSE 2181 2888 3888WORKDIR /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;VOLUME [&quot;/opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/conf&quot;, &quot;/opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/data&quot;]CMD bash /opt/zookeeper-$&#123;ZOOKEEPER_VERSION&#125;/bin/zkServer.sh start-foreground build之后,启动该docker image,暴露出2181端口,然后使用zkClient.sh连接即可操作. 多机部署多机部署主要参考文章分布式服务框架 Zookeeper – 管理分布式环境中的数据.下面说下注意事项. 注意端口配置initLimit：这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 52000=10 秒syncLimit：这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 22000=4 秒server.A=B：C：D：其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。 如何验证zk是主从复制形式,那么只要在leader节点中插入一个node,然后去salve中查看该node是否存在即可. 如何连接?zk的安装目录下bin中有zkCli.sh,该工具格式为zkCli.sh -server host:port,使用其可以对zk进行增删改查,具体命令使用参数-?即可翻阅.]]></content>
-      <categories>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[OpenVZ的VPS加速指南]]></title>
     <url>%2F2017%2F08%2F13%2F%E5%B7%A5%E5%85%B7%2FOpenVZ%E7%9A%84VPS%E5%8A%A0%E9%80%9F%E6%8C%87%E5%8D%97%2F</url>
     <content type="text"><![CDATA[实现理论OpenVZ架构的VPS加速选择比较少,不然KVM方便,除去双边加速比如FinalSpeed等软件后可用选择并不多,其中比较好的方案是Google BBR加速,为了在OpenVZ架构上使用必须借助UML这一子linux系统. 所谓的UML全称为User Mode Linux,允许用户在Linux中以一个进程的方式再运行一个lInux,那么就很容易实现我们所需要的加速架构,原理是在UML中启动Shadowsocks,然后访问该Shadowsocks实现加速. 安装指南拿来主义原则,给出原博主链接OpenVZ的UML+BBR加速一键包,按照文章描述步骤配置即可,在这里做一些额外的补充. 宿主机请求转发一键脚本配置完毕后其是运行在UML主机里面的程序,其内网相对宿主机ip为10.0.0.2,但我们只能访问到宿主机,需要如下命令转发,其中端口8888改成你的ss配置的端口即可. 12iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 8888 -j DNAT --to-destination 10.0.0.2iptables -t nat -A PREROUTING -i venet0 -p udp --dport 8888 -j DNAT --to-destination 10.0.0.2 接下来像以往一样访问即可.]]></content>
@@ -193,7 +182,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[maven仓库清理脚本]]></title>
+    <title><![CDATA[Maven仓库清理脚本]]></title>
     <url>%2F2017%2F07%2F29%2F%E5%B7%A5%E5%85%B7%2Fmaven%E4%BB%93%E5%BA%93%E6%B8%85%E7%90%86%E8%84%9A%E6%9C%AC%2F</url>
     <content type="text"><![CDATA[工作中本地maven仓库随着项目增多会变得越来越大,看着心烦,于是想着清理.没有发现很好的清理策略,只能从文件以及文件夹修改时间上入手,修改时间小于指定时间的文件夹以及文件都给删除,循环清理几次后仓库应该就干净了. 附上清理脚本,实际上就是递归遍历文件夹然后判断文件更新时间,对比后决定是否要删除.首次清理后仓库从1.5G变为650M,清爽了不少.123456789101112131415161718192021222324252627282930313233343536import osimport shutilfrom datetime import datetime# maven仓库地址mvnHome = "/Users/niuli/.m2/repository"# 删除该日期前的文件以及文件夹deleteDateBefore = datetime(2017,4,1,0,0,0)def listPathAndClean(pathContext): pathDir = os.listdir(pathContext) for filename in pathDir: filepath = os.path.join(pathContext, filename) currentTimeFile = datetime.fromtimestamp(os.path.getmtime(filepath)) # 对比时间 if deleteDateBefore &gt; currentTimeFile: print("filePath:"+filepath+"-----updatetime:"+str(currentTimeFile)) print('delete this') if (os.path.isdir(filepath)): shutil.rmtree(filepath) else: os.remove(filepath) continue # 不到期的则深入遍历 if os.path.isdir(filepath): listPathAndClean(filepath)if __name__ == '__main__': print(deleteDateBefore) print('start list should delete path') listPathAndClean(mvnHome)]]></content>
       <categories>
@@ -337,28 +326,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[毕业设计周记(八)]]></title>
-    <url>%2F2017%2F04%2F29%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%85%AB)%2F</url>
-    <content type="text"><![CDATA[写毕业设计过程中发现一些设计不是很好的地方,比如说结构上之前maven模块化分层,dao,service,controller每一个都是单独的maven项目,导致开发起来比较麻烦,所以改掉了,把数据库模型对应的DO单独放入一个架包,然后dao,service,controller等放入一个war包中,明白了对于一个小项目来说过多的分层是系统开发的累赘. 修改数据库模型后代码不少地方重新写了下,耽误了点时间,五一期间仍然是写毕业论文. 前端项目地址: https://github.com/nl101531/AUSTOJ-WEB 后端项目地址: https://github.com/nl101531/AUSTOJ2 测试地址: http://oj.mrdear.cn 测试账号: 1015315668@qq.com 111111 等待完成: 1.毕业论文]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[毕业设计周记(七)]]></title>
-    <url>%2F2017%2F04%2F24%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%83)%2F</url>
-    <content type="text"><![CDATA[本周把个人中心完成了,用户注册后的邮件验证,以及注册后的更新自身信息,找回密码等功能都完成. 毕业论文正在写系统整体设计,需要画一些图.预计五一假期之后初稿出来. 前端项目地址: https://github.com/nl101531/AUSTOJ-WEB 后端项目地址: https://github.com/nl101531/AUSTOJ2 测试地址: http://oj.mrdear.cn 测试账号: 1015315668@qq.com 111111 等待完成: 1.毕业论文]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[少走弯路的10条建议(转)]]></title>
     <url>%2F2017%2F04%2F21%2F%E7%BB%8F%E9%AA%8C%2F%E5%B0%91%E8%B5%B0%E5%BC%AF%E8%B7%AF%E7%9A%8410%E6%9D%A1%E5%BB%BA%E8%AE%AE(%E8%BD%AC)%2F</url>
     <content type="text"><![CDATA[少走弯路的10条建议(转)标签（空格分隔）： 经验 转载自一个很佩服的大牛博客:孤傲苍狼 如何在涉世之初少走弯路，有一个好的开端，开始一番成功的事业？以下是一些先行者积累的10条有益的涉世忠告。好好地遵循、把握这些忠告和建议吧，比起所学的课堂课程来，它毫不逊色！ 1.1、买个闹钟，以便按时叫醒你 贪睡和不守时，都将成为你工作和事业上的绊脚石，任何时候都一样。不仅要学会准时，更要学会提前。就如你坐车去某地，沿途的风景很美，你忍不住下车看一看，后来虽然你还是赶到了某地，却不是准时到达。“闹钟”只是一种简单的标志和提示，真正灵活、实用的时间，掌握在每个人的心中。 1.2、如果你不喜欢现在的工作，要么辞职不干，要么就闭嘴不言 初出茅庐，往往眼高手低，心高气傲，大事做不了，小事不愿做。不要养成挑三拣四的习惯。不要雨天烦打伞，不带伞又怕淋雨，处处表现出不满的情绪。记住，不做则已，要做就要做好。 1.3、每个人都有孤独的时候 要学会忍受孤独，这样才会成熟起来。年轻人嘻嘻哈哈、打打闹闹惯了，到了一个陌生的环境，面对形形色色的人和事，一下子不知所措起来，有时连一个可以倾心说话的地方也没有。这时，千万别浮躁，学会静心，学会忍受孤独。在孤独中思考，在思考中成熟，在成熟中升华。不要因为寂寞而乱了方寸，而去做无聊无益的事情，白白浪费了宝贵的时间。 1.4、走运时要做好倒霉的准备 有一天，一只狐狸走到一个葡萄园外，看见里面水灵灵的葡萄垂涎欲滴。可是外面有栅栏挡着，无法进去。于是它一狠心绝食三日，减肥之后，终于钻进葡萄园内饱餐一顿。当它心满意足地想离开葡萄园时，发觉自己吃得太饱，怎么也钻不出栅栏了。相信任何人都不愿做这样的狐狸。退路同样重要。饱带干粮，晴带雨伞，点滴积累，水到渠成。有的东西今天似乎一文不值，但有朝一日也许就会身价百倍。 1.5、不要像玻璃那样脆弱 有的人眼睛总盯着自己，所以长不高看不远；总是喜欢怨天尤人，也使别人无比厌烦。没有苦中苦，哪来甜中甜？不要像玻璃那样脆弱，而应像水晶一样透明，太阳一样辉煌，腊梅一样坚强。既然睁开眼睛享受风的清凉，就不要埋怨风中细小的沙粒。 1.6、管住自己的嘴巴 不要谈论自己，更不要议论别人。谈论自己往往会自大虚伪，在名不副实中失去自己。议论别人往往陷入鸡毛蒜皮的是非口舌中纠缠不清。每天下班后和你的那些同事朋友喝酒聊天可不是件好事，因为，这中间往往会把议论同事、朋友当做话题。背后议论人总是不好的，尤其是议论别人的短处，这些会降低你的人格。 1.7、机会从不会“失掉”，你失掉了，自有别人会得到 不要凡事在天，守株待兔，更不要寄希望于“机会”。机会只不过是相对于充分准备而又善于创造机会的人而言的。也许，你正为失去一个机会而懊悔、埋怨的时候，机会正被你对面那个同样的“倒霉鬼”给抓住了。没有机会，就要创造机会，有了机会，就要巧妙地抓住。 1.8、若电话老是不响，你该打出去 很多时候，电话会给你带来意想不到的收获，它不是花瓶，仅仅成为一种摆设。交了新朋友，别忘了老朋友，朋友多了路好走。交际的一大诀窍就是主动。好的人缘好的口碑，往往助你的事业更上一个台阶。 1.9、千万不要因为自己已经到了结婚年龄而草率结婚 想结婚，就要找一个能和你心心相印、相辅相携的伴侣。不要因为放纵和游戏而恋爱，不要因为恋爱而影响工作和事业，更不要因一桩草率而失败的婚姻而使人生受阻。感情用事往往会因小失大。 1.10、写出你一生要做的事情，把单子放在皮夹里，经常拿出来看 人生要有目标，要有计划，要有提醒，要有紧迫感。一个又一个小目标串起来，就成了你一生的大目标。生活富足了，环境改善了，不要忘了皮夹里那张看似薄薄的单子。]]></content>
@@ -370,18 +337,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[毕业设计周记(六)]]></title>
-    <url>%2F2017%2F04%2F16%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%85%AD)%2F</url>
-    <content type="text"><![CDATA[前端项目重构完毕,目前已部署到个人服务器上了. 接下来写毕业论文,然后对OJ的功能进行测试,并且对其中的小bug进行修复. 前端项目地址: https://github.com/nl101531/AUSTOJ-WEB 后端项目地址: https://github.com/nl101531/AUSTOJ2 测试地址: http://oj.mrdear.cn 测试账号: 1015315668@qq.com 111111 等待完成: 1.毕业论文]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[angular2学习记录-给后端程序员的经验分享]]></title>
+    <title><![CDATA[Angular2学习记录-给后端程序员的经验分享]]></title>
     <url>%2F2017%2F04%2F08%2Fweb%2Fangular2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E7%BB%99%E5%90%8E%E7%AB%AF%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB%2F</url>
     <content type="text"><![CDATA[1.前言前几天刚下定决心把毕业设计改造下,因为毕业设计算是我学习的基石,学习到的东西都尽可能的在这个平台上施展,锻炼自己.改造为前后端分离,前端使用angular2,后端只提供接口.便于以后的维护.那么就要学习agular2了. 这里就要说下个人观点了,安利一波:我认为每个程序员都应该有自己的一个项目,一个可以让你学习的东西能施展到上面的项目,可能该项目一开始很简单,但是随着你不断的学习,不断的把新知识运用进去,这个项目就会伴随着你的成长而丰富起来,给你带来的则是更多的实战经验. 2.angular2简介 angular2是类似全家桶组合的框架,所需要的东西几乎都包办了,所以开发起来很迅速. 使用TypeScript作为开发语言,对于Java和C#程序员可以快速上手,还有就是我比较喜欢强类型语言,每个变量各司其职,由其的类型来限定,开发人员也很明确知道变量的作用. google和Microsoft支持 WebStorm对angular2的强大支持. 一篇安利文章http://www.infoq.com/cn/articles/why-choose-angular2/ 一些学习资料ECMAScript 6入门 http://es6.ruanyifeng.com/TypeScript入门 http://www.imooc.com/learn/763TypeScript中文网 https://www.tslang.cn/docs/tutorial.html慕课网1小时快速上手视频 http://www.imooc.com/learn/789官方文档 https://www.angular.cn/docs/ts/latest/cli-quickstart.html 3.遇到的问题3.1滚动监听要实现页面滚动后导航栏会变色的效果,如下图(图来自我的csdn博客,没找到其他好图床) 之前使用Jq是123$(window).scroll(function () &#123; indexApp.scrollBar = parseInt(document.body.scrollTop||document.documentElement.scrollTop);&#125;); 不打算依赖Jq,搜了点资料发现了下面两种写法.1234567891011//下面这种写法在TS下不会有效果. isAddBackColor()&#123; if (this.getIsIndex())&#123; var self = this; //该处使用匿名函数,而不是箭头函数. window.addEventListener('scroll',function () &#123; let marginTop = document.body.scrollTop|| document.documentElement.scrollTop; self.isBackColor = marginTop &gt; 20 &amp;&amp; self.getIsIndex(); &#125;); &#125; &#125; 12345678910111213/** * 判断是否需要加背景色(有效果的) * 使用isBackColor控制结果 */ isAddBackColor()&#123; if (this.getIsIndex())&#123; //监听事件使用箭头函数,这样ng2才会管理该变量 window.addEventListener('scroll',() =&gt; &#123; let marginTop = document.body.scrollTop|| document.documentElement.scrollTop; this.isBackColor = marginTop &gt; 20 &amp;&amp; this.getIsIndex(); &#125;); &#125; &#125; 原因不明,猜想是var self = this;赋值操作后相当于一个全新的变量,self并不受angular管理,导致刷新的变量是self中的isBackColor. 3.2http参数传递按照下面代码传参数应该是没有问题的,但是我遇到了url被编码问题,例如输入1111@qq.com会被转换为1111%40qq.com,导致服务端解析失败,找了很多原因才发现是URLSearchParams这个对象用错了,angular2提供了这个对象,es6里面也有一个该对象,换成ng2中对象即可,import {URLSearchParams} from &quot;@angular/http&quot;;12345678let urlParams = new URLSearchParams();urlParams.set('search',search);urlParams.set('order',order);urlParams.set('pageNum',pageNum.toString());urlParams.set('pageSize',pageSize.toString());return this.http.get(Config.url_problem_stage + stage,&#123;params:urlParams&#125;).toPromise() .then(response =&gt; response.json()) .catch(LogService.handleError) 3.3跨域问题浏览器要求同源下才可请求,否则就产生跨域问题. URL 说明 是否允许通信 http://www.a.com/a.jshttp://www.a.com/b.js 同一域名下 允许 http://www.a.com/lab/a.js http://www.a.com/script/b.js 同一域名下不同文件夹 允许 http://www.a.com:8000/a.js http://www.a.com/b.js 同一域名，不同端口 不允许 http://www.a.com/a.js https://www.a.com/b.js 同一域名，不同协议 不允许 http://www.a.com/a.js http://70.32.92.74/b.js 域名和域名对应ip 不允许 http://www.a.com/a.js http://script.a.com/b.js 主域相同，子域不同 不允许 http://www.a.com/a.js http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问） http://www.cnblogs.com/a.js http://www.a.com/b.js 不同域名 不允许 解决方案是用nginx反向代理到不同端口,模拟同一域名下不同文件夹情况.nginx监听本地888端口,这个也是项目入口,对于带api标识的请求转到后端服务器,对于其他请求则到前端服务器.123456789101112131415server &#123; listen 8888; server_name localhost; #charset koi8-r; #access_log logs/host.access.log main; location /api &#123; proxy_pass http://127.0.0.1:8080; &#125; location / &#123; proxy_pass http://127.0.0.1:4200; &#125;&#125; 3.4路由问题angular2的路由匹配规则是从根路由也就是forRoot()的这个开始.在该处匹配寻找规则. 根路由:12345678910111213141516171819export const appRoutes: Routes = [ &#123; path:'', component: IndexComponent, pathMatch:'full' &#125;, &#123; path:'aust', loadChildren:'./content/content.module#ContentAndAsideModule' &#125;, &#123; path:'index', component: IndexComponent, &#125;, &#123; path:'**', loadChildren:'./content/content.module#ContentAndAsideModule' &#125;,]; 子路由:12345678910export const childRouter : Routes = [ &#123; path: '', component:ContentAndAsideComponent, children:[ &#123;path:'',redirectTo:'/index',pathMatch:'full'&#125;, &#123;path:'start',component:StartComponent&#125;, ] &#125; ]; 举例:访问/,则先在根路由寻找,找到其跳转到IndexComponent,完成任务访问/aust.则先在根路由找,发现需要到子路由里面寻找,到子路由后,在children中发现被重定向到/index,那么回到根路由,找到IndexComponent完成任务.访问/aust/start,则先在根路由找,发现需要到子路由,到子路由匹配到StartComponent,完成任务. 路由参数路由传参数主要有两种方式,一种是restful风格的,一种是?号参数风格的.两种参数都保存在ActivatedRoute对象中,因此下面代码中的route为此对象— restful风格配置:{path:&#39;article/:id&#39;,component:ArticleComponent}链接:http://domain/article/1路由:[routerLink]=&quot;[&#39;article&#39;,article.id]&quot;或者直接拼接urljs获取:this.route.params中的一系列方法,或者this.route.snapshot.params[&#39;id&#39;]— 问号参数风格配置:{path:&#39;article&#39;,component:ArticleComponent}链接:http://domain/article?id=1路由:routerLink=&quot;article&quot; [queryParams]=&quot;{id: article.id}&quot;js获取:this.route.queryParams中的一系列方法,或者this.route.snapshot.queryParams[&#39;id&#39;],另外可以使用订阅模式queryParamMap.subscribe(),路由参数更新时自动通知 3.5组件通信父-&gt;子:子组件使用input装饰器,接受父组件的属性,并且可使用ngOnChanges或则setter监听变化,做额外处理.子-&gt;父:使用output装饰器加EventEmitter向上弹出事件到父组件,父组件监听后处理.任意组件:使用service通讯(要求service单例),service提供Observable的next发布,其他组件引用service对象subscribe该发布,那么就实现了信息的流动,并且是在只要订阅了该发布的组件中都能获取. 3.6单例?agular2的service是providers提供的,该组件如果引用了这个service,那么会先在自己的providers中寻找service,找不到则再向上找父组件,直到module.那么意味着每一个providers提供的是一个实例,旗下的组件都是享用这一个实例,那么怎么实现全局单例呢?很简单在根module中提供服务且其他组件不要自己providers该服务. 3.7组件生命周期组件生命周期看下面这张图.图中没有onChanges(changes: SimpleChanges)方法的调用,该方法检测到组件的输入属性发生变化时调用,也就是存在@input装饰的属性,该属性每次变化时会调该方法. 3.8部署问题单页应用部署到服务器上可能会出现访问www.domain.xx可以访问,并且点击什么的都能成功,但是直接访问其中一个路由www.domain.xx/aust/start却报404.先分析下问题的原因,我们的单页应用只有一个入口,报404也就是没找到这个入口.看nginx的配置.nginx收到请求后会去root下寻找aust/start下的index.html那么自然找不到,所以直接访问就会404.那么问题来了为什么访问www.domain.xx之后页面内跳转到路由没问题呢?这是因为访问主域名后angular的js都已经全部加载了,这个时候跳转是js来控制的,不经过nginx自然不会出现上面的问题.1234location / &#123; root /Users/niuli/workspace/web/austoj/dist; index index.html index.htm;&#125; 解决方法:解决方法就是让其对于路由都去加载index.html这个文件.使用try_files指令,该指令会把uri当成一个文件,去根目录下寻找,找不到的话则内部重定向到配置的/index.html.这样配置的好处,对于静态资源try_files会直接找到后就返回,对于路由则会定向到/index.html.12345location / &#123; try_files $uri /index.html; root /Users/niuli/workspace/web/austoj/dist; index index.html index.htm;&#125; 3.9文件上传文件上传是通过ajax操作上传,使用FormData形式,主要有以下问题要解决. 怎么获得input框所选中的文件(为input绑定change事件,然后获取$event,文件就是event.srcElement.files[0]) 怎么上传到服务器?(使用formData对象,调用其append方法添加文件,再使用angular2的http组件post上去)1234567uploadAvatar(file: any): Promise&lt;any&gt;&#123; let formData:FormData = new FormData(); formData.append('avatar',file); return this.http.post(Config.url_upload_img,formData).toPromise() .then(response =&gt; response.json()) .catch(LogService.handleError); &#125; angular2项目:https://github.com/nl101531/AUSTOJ-WEB]]></content>
       <categories>
@@ -392,29 +348,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[毕业设计周记(五)]]></title>
-    <url>%2F2017%2F04%2F08%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%BA%94)%2F</url>
-    <content type="text"><![CDATA[本周一直在重构前端,目前登录注册+侧边栏都已经完成,在此过程熟悉了angular2的开发模式,不得不佩服这些前端大神们,搞出来ng2这种类似后端写法的框架,下周进度会更加快,希望下周重构完成. 前端项目地址: https://github.com/nl101531/AUSTOJ-WEB 等待完成: 1.前端页面的重构 源码地址: https://github.com/nl101531/AUSTOJ2]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[毕业设计周记(四)]]></title>
-    <url>%2F2017%2F04%2F03%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E5%9B%9B)%2F</url>
-    <content type="text"><![CDATA[上周注册流程等都写完了,开始重构前端页面,最终选择使用angular2来重构,其类似后端的写法以及typescript语法对js的修正使得其很容易上手.这周任务主要是在重构中熟悉angular的写法.到五月份的话不知道能不能重构完,尽力而为了. 测试地址: http://oj.mrdear.cn/ 服务器比价渣,速度比较慢 测试账号: 1015315668@qq.com 密码: 111111 等待完成: 1.前端页面的重构 源码地址: https://github.com/nl101531/AUSTOJ2]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[redis学习记录(四)-SpringDataRedis分析]]></title>
+    <title><![CDATA[Redis学习记录(四)-SpringDataRedis分析]]></title>
     <url>%2F2017%2F03%2F29%2Flinux%2Fredis%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E5%9B%9B)-SpringDataRedis%E5%88%86%E6%9E%90%2F</url>
     <content type="text"><![CDATA[redis学习记录(四)-SpringDataRedis分析标签（空格分隔）： redis Redis学习记录(一)–入门知识Redis学习记录(二)–使用Jedis连接redis学习记录(三)-redis中的数据结构 1.简介Spring Data Redis是对redis客户端(如jedis)的高度封装,支持多种客户端,因其高抽象,所以在某一个客户端不支持更新的时候可以容易切换到其他客户端. 本文是在Spring boot 1.5.2版本下测试. 需要引入架包12345678910111213141516171819202122232425262728&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;&lt;/parent&gt;&lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;java.version&gt;1.8&lt;/java.version&gt;&lt;/properties&gt;&lt;dependencies&gt; &lt;!--spring boot start--&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt;&lt;/dependencies&gt; 2.配置在Spring Boot下默认使用jedis作为客户端,并在包org.springframework.boot.autoconfigure.data.redis下,提供自动配置类RedisProperties,RedisAutoConfiguration等. 根据RedisProperties可以定位到可配置的属性,如:123456789101112131415161718# Redis数据库索引（默认为0）spring.redis.database=0# Redis服务器地址spring.redis.host=115.159.185.14# Redis服务器连接端口spring.redis.port=6379# Redis服务器连接密码（默认为空）spring.redis.password=# 连接池最大连接数（使用负值表示没有限制）spring.redis.pool.max-active=8# 连接池最大阻塞等待时间（使用负值表示没有限制）spring.redis.pool.max-wait=-1# 连接池中的最大空闲连接spring.redis.pool.max-idle=8# 连接池中的最小空闲连接spring.redis.pool.min-idle=0# 连接超时时间（毫秒）spring.redis.timeout=2000 在application.properties中配置即可,另外还有Sentinel和Cluster说明支持分布式和集群,博主研究不多就不瞎说这个了. 自动配置主要在RedisAutoConfiguration中,该类会提供三个bean: JedisConnectionFactory : jedis连接控制工厂 RedisTemplate : redis操作入口 StringRedisTemplate : redis操作入口 那么就开始入口学习. 3.RedisTemplateRedisTemplate是操作的入口.该类继承了RedisAccessor,可以通过其拿到redis连接,实现了RedisOperations接口,获得了操作redis的能力,如下图所示: 3.1 Test case那么具体操作过程是怎么样子的呢?写一个简单的测试去跟踪代码,如下代码,往redis中设置key为ping的字串.123456789101112@RunWith(SpringJUnit4ClassRunner.class)@SpringBootTest(classes = Application.class)public class RedisConnectTest &#123; @Resource private RedisTemplate&lt;String,String&gt; redisTemplate; @Test public void testSetAndGet() &#123; redisTemplate.opsForValue().set("ping","pong"); System.out.println(redisTemplate.opsForValue().get("ping")); &#125;&#125; 运行之后查看redis数据库,你会发现很奇怪的事情,如下图,代码中存入的是ping,但是到redis中后却是一堆字符+ping,这个原因是什么呢?接着跟踪代码. 3.2 XXXOperations上述代码的第一步先获取到了ValueOperations,在RedisTemplate中同样还有其他XXXOperations,根据官方文档,这些接口是针对redis的每一种命令的操作.如下表: 接口 操作 ValueOperations Redis string (or value) operations ListOperations Redis list operations SetOperations Redis set operations ZSetOperations Redis zset (or sorted set) operations HashOperations Redis hash operations HyperLogLogOperations Redis HyperLogLog operations like (pfadd, pfcount,…​) GeoOperations Redis geospatial operations like GEOADD, GEORADIUS,…​) BoundValueOperations Redis string (or value) key bound operations BoundListOperations Redis list key bound operations BoundSetOperations Redis set key bound operations BoundZSetOperations Redis zset (or sorted set) key bound operations BoundHashOperations Redis hash key bound operations BoundGeoOperations Redis key bound geospatial operations. 其中BoundXXXOperations是在key已知的情况下使用,其所有操作都是建立在有一个certain key的前提.可以看下源码就能明白了. 3.3 XXXSerializer那测试代码中第一步是获取了string类型的redis操作入口,然后执行set方法设置键和值,接着分析set方法. 12345678910public void set(K key, V value) &#123; final byte[] rawValue = rawValue(value); execute(new ValueDeserializingRedisCallback(key) &#123; protected byte[] inRedis(byte[] rawKey, RedisConnection connection) &#123; connection.set(rawKey, rawValue); return null; &#125; &#125;, true);&#125; 可以发现rawKey()方法和rawValue()方法对key和value进行了一次序列化操作.该序列化使用的类为RedisTemplate中的XXXSerializer,那么回到RedisTemplate,在afterPropertiesSet()方法中有以下初始化方法,默认使用的序列化方式为JdkSerializationRedisSerializer,也就是ObjectInputStream和ObjectOutputStream写入和读取.这也是写入到redis中却在redis数据库通过”ping”访问不到的原因.1234567891011121314151617181920212223if (defaultSerializer == null) &#123; defaultSerializer = new JdkSerializationRedisSerializer( classLoader != null ? classLoader : this.getClass().getClassLoader()); &#125; if (enableDefaultSerializer) &#123; if (keySerializer == null) &#123; keySerializer = defaultSerializer; defaultUsed = true; &#125; if (valueSerializer == null) &#123; valueSerializer = defaultSerializer; defaultUsed = true; &#125; if (hashKeySerializer == null) &#123; hashKeySerializer = defaultSerializer; defaultUsed = true; &#125; if (hashValueSerializer == null) &#123; hashValueSerializer = defaultSerializer; defaultUsed = true; &#125; &#125; 那么SpringDataRedis支持哪些序列化呢?从官网可以看到:StringRedisSerializer: string类型序列化,也是最常用的类型JdkSerializationRedisSerializer: jdk默认序列化OxmSerializer : xml格式JacksonJsonRedisSerializer : json格式 通过手动注入RedisTemplate,更改所选择的序列化方式.另外Spring提供了最常使用的StringRedisTemplate,实现了StringRedisSerializer序列化方式.1234567public StringRedisTemplate() &#123; RedisSerializer&lt;String&gt; stringSerializer = new StringRedisSerializer(); setKeySerializer(stringSerializer); setValueSerializer(stringSerializer); setHashKeySerializer(stringSerializer); setHashValueSerializer(stringSerializer);&#125; 更改成StringRedisTemplate,再次执行,正常了. 3.4 总结过程 获取RedisTemplate 获取操作入口XXXOperations 使用RedisSerializer序列化key和value 获取conn连接 执行命令 4.发布与订阅发布与订阅过程需要发布者,订阅者,以及把两者连在一起的桥梁.那么在SpringRedis中怎么实现呢?订阅者:里面有一个处理方法即可.12345678910111213141516@Componentpublic class Listen &#123; private static Logger logger = LoggerFactory.getLogger(Listen.class); private CountDownLatch latch = new CountDownLatch(1); public void handleMsg(String message) &#123; logger.info("reciver msg :" + message); latch.countDown(); &#125; public CountDownLatch getLatch() &#123; return latch; &#125;&#125; 发布者:XXXRedisTemplate.convertAndSend(chanel,msg)即作为发布者存在. 连接桥梁:RedisMessageListenerContainer,该container监听Redis的消息,分发给各自的监听者.关键代码为 123456789101112131415161718192021222324@Configurationpublic class PublishConfig &#123; /** * 注入消息容器 * @param jedisConnectionFactory jedis连接池 * @param listenerAdapter 监听适配器 * @return bean */ @Bean public RedisMessageListenerContainer container(RedisConnectionFactory jedisConnectionFactory, MessageListenerAdapter listenerAdapter)&#123; RedisMessageListenerContainer container = new RedisMessageListenerContainer(); container.setConnectionFactory(jedisConnectionFactory); //绑定监听者与信道的管理 container.addMessageListener(listenerAdapter,new PatternTopic("java")); return container; &#125; @Bean public MessageListenerAdapter adapter(Listen listen)&#123; //指定监听者和监听方法 return new MessageListenerAdapter(listen,"handleMsg"); &#125;&#125; 测试:12345@Testpublic void testPublish() throws InterruptedException &#123; stringRedisTemplate.convertAndSend("java","hello world"); listen.getLatch().await();&#125; 5.事务对于事务的操作是通过SessionCallback实现,该接口保证其内部所有操作都是在同一个Session中的,在最后exec的时候执行全部操作.关键代码如下12RedisConnectionUtils.bindConnection(factory, enableTransactionSupport);execute(this) 12345678910111213141516171819202122232425@Test public void testMulti() &#123; boolean isThrow = false; List&lt;Object&gt; result = null; try &#123; result = stringRedisTemplate.execute(new SessionCallback&lt;List&lt;Object&gt;&gt;() &#123; @Override public List&lt;Object&gt; execute(RedisOperations operations) throws DataAccessException &#123; operations.multi(); ValueOperations&lt;String,String&gt; ops = operations.opsForValue(); ops.set("ping1","pong1"); ops.set("ping2","pong2"); if (isThrow)&#123; throw new IllegalArgumentException("测试异常"); &#125; return operations.exec(); &#125; &#125;); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125; System.out.println(result); &#125; 6.管道直接引用官方案例1234567891011//pop a specified number of items from a queueList&lt;Object&gt; results = stringRedisTemplate.executePipelined( new RedisCallback&lt;Object&gt;() &#123; public Object doInRedis(RedisConnection connection) throws DataAccessException &#123; StringRedisConnection stringRedisConn = (StringRedisConnection)connection; for(int i=0; i&lt; batchSize; i++) &#123; stringRedisConn.rPop("myqueue"); &#125; return null; &#125;&#125;); 还有脚本执行等,在官方文档中都有案例,这里就不复制粘贴了,如有错误请指出,不胜感激. 参考文档: http://docs.spring.io/spring-data/redis/docs/1.8.1.RELEASE/reference/html/#redis:template github: https://github.com/nl101531/JavaWEB]]></content>
       <categories>
@@ -425,7 +359,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[redis学习记录(三)-redis中的数据结构]]></title>
+    <title><![CDATA[Redis学习记录(三)-redis中的数据结构]]></title>
     <url>%2F2017%2F03%2F26%2Flinux%2Fredis%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)-redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%2F</url>
     <content type="text"><![CDATA[redis学习记录(三)-redis中的数据结构标签（空格分隔）： redis Redis学习记录(一)–入门知识oRedis学习记录(二)–使用Jedis连接 redis有五种数据类型,string,list,set,hash,sort set,不同场景使用不同数据结构的前提是了解每一种数据结构.那么结构图片是最佳的了解方式,图片来自慕课网. stringstring是的key-&gt;value类型的存储,可以存储字符串类型和数值类型,可对数值类型是可以增加减少,对string类型可以追加内容. listlist是列表,也就是一个key-&gt;多个value,可以支持双端队列,栈来操作,因此越靠近两端其查找速度越快,端点的复杂度查找为O(1),同时队列有阻塞操作,也就是可以当成阻塞队列使用. setset为无序,且不重复的集合,且提供O(1)复杂度度的快速查找.set集合支持集合的并,交,差操作,因为无序性,因此也提供迭代方法. hashhash类型适合存储对象,相比前面的string,所带来的优势是可以使用一个key查出该下面所有的键值对,并且可以单独对某一属性更改,如图所示: sort set可排序的集合,如图所示存在score排名分数,隐藏属性rank排名,0为最小.注意对sort set来说value是唯一性的,而不是score,如果两个score相同,则按照value的字典序排序. 应用场景string计数器:redis的incr操作是原子性的,因此可以应对高并发,如网站要求每个用户获取验证码后60秒内不得再次获取,那么第一次获取的时候用incr给该用户设置key,过期时间为60秒,如果结果等于1则为第一次请求,那么第二次获取时比较决定是否操作频繁. Listlist的优势的有序性,两端插入复杂度为O(1),那么对于最近文章列表等类似需求是最佳解决方案,维护一个定长的列表,每次插入后执行trim操作. Setset的优势是唯一性,O(1)的查找查找复杂度,并且支持差并集,那么二度好友问题就迎刃而解了. hashhash非常适合存储对象,不同的键为对象的特征,值为特征值,那么比string好的就是修改不需要每次都修改一个整串,而可以选择修改某一指定键值. sort setsort set可排序特性使其很容易解决排行榜类应用,但是要注意值需要存储不变的属性,因为值要求唯一性,score可不唯一.]]></content>
       <categories>
@@ -433,17 +367,6 @@
       </categories>
       <tags>
         <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[毕业设计周记(三)]]></title>
-    <url>%2F2017%2F03%2F25%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%89)%2F</url>
-    <content type="text"><![CDATA[3.26更新周末把竞赛支持也写好了,但是总觉得和自己想要的不太一样了,前端太乏力,因此下周开始重构前端,采用VUE写成一个单页逻辑应用.希望不会耽误太多时间. 花了一下午的时间把服务器重装了,所有实例包括mysql,redis,nginx都跑在docker中,项目也是跑在docker中,目前来看效果很不错,对服务器的利用率比之前高太多了. 部署的OJ漏洞挺多的,体验上也没怎么优化,尤其是注册流程,问题多多,接下来要优化代码,优化这个流程. 竞赛方面的支持,因为上周公司出了几个大活动,一直比较忙,而没去做,本周也继续做竞赛方面支持. 因此目前进度: 服务器部署全部docker化 线上可以直接判题 测试地址: http://oj.mrdear.cn/ 服务器比价渣,速度比较慢 测试账号: 1015315668@qq.com 密码: 111111 等待完成: 1.竞赛的支持2.注册流程优化 源码地址: https://github.com/nl101531/AUSTOJ2]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
       </tags>
   </entry>
   <entry>
@@ -458,61 +381,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[毕业设计周记(二)]]></title>
-    <url>%2F2017%2F03%2F18%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%BA%8C)%2F</url>
-    <content type="text"><![CDATA[上周学习docker之后,建立起docker的判题环境,目前已成功判题,前端部分也打通.目前支持语言C,C++,Java,后续会添加更多语言支持.接下来的任务是整理代码,重构部分逻辑代码,还有竞赛判题的支持.预计下周完成. 因此目前进度: WEB端和Judge端打通,近期部署到自己的服务器上,以便展示. 等待完成: 1.竞赛的支持2.代码重构,一些体验上的逻辑优化 源码地址: https://github.com/nl101531/AUSTOJ2]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Docker学习记录(三)-构建非跨平台项目编译环境]]></title>
-    <url>%2F2017%2F03%2F12%2Fdocker%2FDocker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%89)-%E6%9E%84%E5%BB%BA%E9%9D%9E%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%A1%B9%E7%9B%AE%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%2F</url>
-    <content type="text"><![CDATA[Docker学习记录(三)-构建非跨平台项目编译环境标签（空格分隔）： docker 个人独立博客: http://mrdear.cn 因为毕业设计的问题所以去学了docker,本文描述这个问题解决的过程. 1.问题在毕业设计AUSTOJ中,判题端使用JNI方式调用C++来编译和执行代码,得到输出结果,Java端进行结果对比.然而该C++代码在mac下无法编译,总是会报错,JNI也会出问题.另外该子模块在mac下无法使用maven打包,所以打包也需要放在docker中.因此docker需要环境 java maven gcc g++ make 2.构建编译环境编写dockerfile文件,该文件的maven包我是从本机复制进去的,同样你也可以从外网下载.Dockerfile:123456789101112131415161718192021#构建judger端需要的环境,方便本地测试#基于java8环境FROM java:8#维护人信息MAINTAINER quding niudear@foxmail.com#更新源RUN apt-get update#gcc g++ make安装RUN apt-get install -y gcc-4.9RUN apt-get install -y g++-4.9RUN apt-get install -y build-essential#配置mvn环境ADD apache-maven-3.3.9.tar.gz /usr/localENV M2_HOME /usr/local/apache-maven-3.3.9ENV PATH $PATH:$JAVA_HOME/bin:$M2_HOME/bin#jni环境RUN cp $JAVA_HOME/include/linux/jawt_md.h $JAVA_HOME/include/RUN cp $JAVA_HOME/include/linux/jni_md.h $JAVA_HOME/include/ 构建命令:docker build -t dev . 3.挂载运行运行时需要挂载本项目到docker中,该挂载是映射,因此本地和docker任意位置改变项目中文件都会反映在真实项目中,这也是想要的结果.挂载命令:12docker run -ti -p 50013:50013 -v /Users/niuli/workspace/git/AUSTOJ2/:/AUSTOJ2 -v /Users/niuli/workspace/git/testcase/:/austoj/testcase dev 该命令以交互模式启动一个docker容器,同时绑定docker的50013端口到此容器的50013,因为我的项目使用的是50013端口.另外我挂载了本项目目录AUSTOJ2和测试数据目录分别到docker的/AUSTOJ2目录和/austoj/testcase目录. 那么启动之后如下所示: ok,到此编译环境搞定,可以随心所欲的编译启动该子模块,并且还能实时反映到本机目录下]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Docker学习记录(二)-Dockerfile创建镜像]]></title>
-    <url>%2F2017%2F03%2F10%2Fdocker%2FDocker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%BA%8C)-Dockerfile%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F%2F</url>
-    <content type="text"><![CDATA[M Docker学习记录(二)-Dockerfile创建镜像标签（空格分隔）： docker 本文学习Dcokerfile的基本命令,并且创建一个支持ssh服务的镜像. 1.Dockerfile1.1基本案例dockerfile可以说是docker的描述符,该文件定义了docker镜像的所能拥有哪些东西.基本格式如下:123456789101112第一行指定该镜像基于的基础镜像(必须)FROM java:8维护者信息MAINTAINER quding niudear@foxmail.com镜像操作指令RUN echo $JAVA_HOME启动时操作的命令CMD ./usr/sbin/nginx 该文件说明从Java8这个基础镜像创建一个新的镜像,输出Java路径,启动成功则启动nginx服务,这也是一个Dockerfile需要包含的操作步骤. 1.2指令详解1.FROM：格式为 FROM &lt;image&gt;或FROM&lt;image&gt;:&lt;tag&gt;第一条指令必须是FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。 2.MAINTAINER：格式为MAINTAIER，指定维护者信息。 3.RUN：格式为RUN &lt;command&gt;或者RUN [“executable”，“param1”，“param2”]。前者将在shell终端中运行的命令，即/bin/sh–c；后者则使用exec执行。指定使用其他终端可以通过第二种方式实现，例如RUN[“/bin/bash”，“-c”，“echohello”]。每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像。当命令较长时可以使用\来换行。这实际上就是在容器构建时需要执行哪些指令，例如容器构建时需要下拉代码，但是默认启动的容器中是没有Git指令的，就需要下载，可以执行：RUN apt-get install -y git，然后RUN git clonexxxx 4.CMD：指定容器启动后执行的命令命令格式为:sh格式: CMD &lt;命令&gt;exec格式:CMD [“可执行文件”,”参数1”,”参数2”]一般都是早就写好的脚本或者启动一个服务，例如：CMD[“/run.sh”]。注意：如果Dockerfile中指定了多条命令，只有最后一条会被执行。如果用户启动时候加了运行的命令，则会覆盖掉CMD指定的指令。 这里有一个问题,很多时候我们想要docker一直在后台运行,但是往往docker启动后就停止.原因就在于此.比如执行CMD serice mysql start,那么翻译过来的话是CMD [&quot;sh&quot;,&quot;-c&quot;,&quot;serice mysql start&quot;],那么对于docker来说CMD主进程为sh,那么sh执行完该命令就结束,所以导致docker停止.所以要改成直接启动文件形式CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;&quot;daemon off;],指定前台运行. 5.EXPOSE：告诉Docker服务端容器需要暴露的端口号，供互联系统使用。在启动容器时需要通过-P（注意是大写），Docker主机会自动分配一个端口转发到指定的端口；使用-p，则可以具体指定哪个本地端口映射过来。例如：我在elasticsearch镜像的Dockerfile中指定了暴露出9200和9300端口，我可以在Dockerfile中写：EXPOSE 9200 9300 6.ENV：创建的时候给容器中加上个需要的环境变量。指定一个值，为后续的RUN指令服务 7.COPY：复制本地的文件或目录到容器中。目标路径不存在时，会自动创建。 8.ENTRYPOINT：配置容器启动后执行的命令，并且不可被docker run 提供的参数覆盖。每个Dockerfile中只能有一个ENTRYPOINT，当指定多个ENTRYPOINT时，只有最后一个生效 9.VOLUME：创建一个挂在点，可以从本机或其他容器挂载的挂载点。意思就是从容器中暴露出一部分，和外界共享这块东西，一般放数据库的数据或者是代码。在容器启动运行的时候，如果需要将volume暴露的东西和本地的一个文件夹进行映射，想要通过本地文件直接访问容器中暴露的部分，可以在运行的时候进行映射： 10.USER：指定运行容器时的用户名或者UID，后续的RUN也会使用指定的用户。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户。要临时获取管理员权限的时候要使用gosu，不推荐使用sudo。如果不指定，容器默认是root运行。 11.WORKDIR：定义工作目录，如果容器中没有此目录，会自动创建 创建指令docker build 路径,该命令会读取路径下的Dockerfile文件和其他文件,然后发送给服务端,由服务端创建镜像. 2.创建SSH服务镜像2.1准备Java8环境后续教程需要利用到Java8环境,因此先下载一个官方的Java8镜像作为基础镜像.直接执行如下命令.可以利用之前的教程,启动容器查看下java路径.1docker pull java:8 2.2编写Dockerfilessh服务主要是openssh-server来提供,因此需要在容器中安装该服务.Dockerfile:1234567891011121314151617181920212223242526272829#显示该镜像是基于java8镜像FROM java:8#维护人信息MAINTAINER quding niudear@foxmail.com#更新源RUN apt-get update#安装软件RUN apt-get install -y openssh-serverRUN mkdir -p /var/run/sshdRUN mkdir -p /root/.ssh#取消pam限制RUN sed -ri &apos;s/session required pam_loginuid.so/#session required pam_loginuid.so/g&apos; /etc/pam.d/sshd#复制配置文件到相应位置COPY authorized_keys /root/.ssh/authorized_keysCOPY run.sh /run.sh#赋予脚本权限RUN chmod 755 /run.sh#开放端口EXPOSE 22#设置启动命令CMD [&quot;/run.sh&quot;] run.sh12#!/bin/bash/usr/sbin/sshd -D 拷贝本机的id_ras12cat ~/.ssh/id_rsa.pub &gt;authorized_keys//用来免密的 执行构建1docker build -t sshd:java . 构建成功后使用docker images即可查看,然后像上篇一样启动容器,暴露出端口,再使用ssh连接,和一般linux系统就没什么差别了.]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Docker学习记录(一)-基本概念]]></title>
-    <url>%2F2017%2F03%2F10%2Fdocker%2FDocker%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95(%E4%B8%80)-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
-    <content type="text"><![CDATA[Docker学习记录(一)-基本概念标签（空格分隔）： docker 因为做的项目用到了docker,所以开始学习下这方面的知识. 1.基本概念docker虚拟机:docker环境,docker的操作都要依赖此虚拟机,可以理解为JDK.docker镜像:镜像可以用面向对象中的Model类来理解,就是一个已经建立好的模型.docker容器:容器可以关联面向对象中的实例来理解,实例是依赖类来创建,所以容器就是依赖镜像创建,同样一个类可以有多个实例,那么一个镜像也可以对应多个容器.docker仓库:仓库是镜像市场,里面有别人建立好的Model类,也就是镜像,可以直接拿来使用. 这样说应该很好理解了吧. 因此创建一个helloworld的流程就和清晰了.启动docker虚拟机-&gt;创建docker镜像(或者从仓库拉取)-&gt;创建docker容器(运行helloworld)-&gt;结束 2.docker虚拟机首先docker安装后自带的虚拟机配置下载镜像又要GFW的原因速度很慢,一般使用阿里云加速器,登陆后找到加速器按照要求先创建一个新的docker主机,然后启动该主机.这里要注意,阿里云给的命令是创建一个名字为default的主机,安装后自带了一个default,所以先运行docker-machine rm default删除默认主机. 2.1新建主机 2.2为当前shell配置环境 2.3验证 到此docker虚拟机创建完毕,这里需要掌握一些基本增删改查基本命令.123456789101112docker-machine kill 停止某个Docker主机docker-machine ls 列出所有管理的Docker主机docker-machine regenerate-certs 为某个主机重新成功TLS认证信息docker-machine restart 重启Docker主机docker-machine rm 删除Docker主机docker-machine scp 在Docker主机之间复制文件docker-machine ssh SSH到主机上执行命令docker-machine start 启动一个主机docker-machine status 查看一个主机状态docker-machine stop 停止一个主机docker-machine upgrade 更新主机Docker版本为最新docker-machine url 获取主机的URL 3.docker镜像使用docker images可以列出机器上所有的docker镜像. 其中:REPOSTITORY：表示镜像的仓库源TAG：镜像的标签IMAGE ID：镜像IDCREATED：镜像创建时间SIZE：镜像大小 使用docker search 镜像名查找某一镜像,例如查找hello world,可以看到带有OFFICIAL的为官方提供的镜像. 使用docker pull 镜像名获取一个镜像,这里获取hello world,另外镜像后可以跟版本号,例如docker pull redis:3.2,就指定拉去redis3.2版本 使用docker run 镜像名从该镜像启动一个实例. 常见命令,另外对于docker镜像的创建和运行比较重要,后续文章单独学习分析.123456docker inspect 查看镜像详情docker rmi 删除镜像,带上-f参数则强制删除docker save 导出镜像docker load 导入镜像docker push 上传镜像到仓库docker tag 给镜像设置标签 4.docker容器容器是应用的实例,使用docker create创建一个容器,使用docker start启动一个容器,另一个简单方式就是docker run,等价于先创建再启动. 那么使用docker run的时候后台做了哪些操作? 查找是否存在指定镜像,不存在则从公有仓库下载 利用镜像创建并启动一个容器 分配一个文件系统,在只读的镜像层外面挂载一层可读写层 从宿主主机配置的网桥接口中桥接一个虚拟接到容器中去 从地址池配置一个ip地址给容器 执行用户指定应用程序 执行完毕后容器被终止 使用docker ps -a查看最近启动的容器 使用docker rm删除容器,清理完毕后再删除hello world镜像. 下面使用redis镜像实战整个流程,并学习容器常用命令. 5.创建redis镜像有了helloworld经历,这里流程就很清晰了,搜索镜像-&gt;拉去镜像-&gt;创建实例-&gt;连接交互 可以看到启动了redis,但是这里直接输出到当前控制台了,可以通过参数配置使其后台运行.docker run参数12345678910111213141516-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；-d: 后台运行容器，并返回容器ID；-i: 以交互模式运行容器，通常与 -t 同时使用；-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；--name=&quot;nginx-lb&quot;: 为容器指定一个名称；--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；-h &quot;mars&quot;: 指定容器的hostname；-e username=&quot;ritchie&quot;: 设置环境变量；--env-file=[]: 从指定文件读入环境变量；--cpuset=&quot;0-2&quot; or --cpuset=&quot;0,1,2&quot;: 绑定容器到指定CPU运行；-m :设置容器使用内存最大值；--net=&quot;bridge&quot;: 指定容器的网络连接类型，支持 bridge/host/none/Container: 四种类型；--link=[]: 添加链接到另一个容器；--expose=[]: 开放一个端口或一组端口；-p 指定容器端口映射,该参数可以使得容器端口和主机端口相互映射 首先使用-d -p参数,可以看到redis跑在了后台. 外部连接:使用docker port 容器id查看映射出来的端口,该端口为docker主机的哈,所以要通过docker主机ip:端口才可以访问.比如我的docker主机ip为:192.168.99.100(使用docker-machine env查看),docker分配映射端口为32768,那么访问就是192.168.99.100:32768,如果想用主机地址访问的话,就需要-p参数加上主机端口映射了 进入容器使用docker exec命令可以进入容器内部,参数和run的参数作用相同. 其他命令1234docker stop 停止一个容器docker rm 删除一个容器docker import 导入一个容器docker export 导出一个容器]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[毕业设计周记(一)]]></title>
-    <url>%2F2017%2F03%2F10%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%2F%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%91%A8%E8%AE%B0(%E4%B8%80)%2F</url>
-    <content type="text"><![CDATA[本周算是正式开始做毕业设计,之前虽然一直在做,但是处于刚学习阶段,各方面做的都不是很好,因此自己也把第一版删除了,目前重构第二版.现在不止把这个当成毕业设计,而是想把他当成一个平台.用于自己学习到的技能在上面施展,因此很多没必要使用的东西都用上了. 关于判题内核,这个是一个难点.目前采取开源的方案,C++判题,使用JNI调用方式,(第一版是开源的windows判题内核,问题多多)WEB端和Judge端使用gRPC通信.目前卡在的难点判题内核是在linux下运行,但是自己用的是MAC,所以想采用Docker方案,这样的话还顺便更进一步解决了Judge的安全性问题,因此在学习Docker的知识. 因此目前进度: WEB端基本完成 Judge端完成 等待完成: Judge移植到Docker中 打通WEB端和Judge端的通信,也就是实现判题. 源码地址: https://github.com/nl101531/AUSTOJ2]]></content>
-      <categories>
-        <category>随谈</category>
-      </categories>
-      <tags>
-        <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2017%2F03%2F09%2Fhello-world%2F</url>
     <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
@@ -521,17 +389,6 @@
       </categories>
       <tags>
         <tag>随谈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[工作经验]]></title>
-    <url>%2F2017%2F02%2F28%2F%E9%9A%8F%E8%B0%88%2F%E5%B7%A5%E4%BD%9C%E7%BB%8F%E9%AA%8C(%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0)%2F</url>
-    <content type="text"><![CDATA[记录自己工作中的一点小经验,有不足的地方请指正. 1.调第三方的的服务的时候切记不能直接调用,为了扩展性要使用自己定义封装.例子:我要使用支付宝的sdk调用支付宝的支付,那么为了让支付宝的SDK不侵染业务代码,那么就应该在上层再封装一层,保证自己业务的代码中不出现其他的方的代码. 2.服务封装要尽可能确保只为一个层服务,尽量减少跨层级调用,比如controller层就应该避免调用dao层,而是调用service层. 3.某一个方法无关状态,且复用性高的话最好写成静态类调用方式.语义清晰,调用方便. 4.接手某一个业务时,最好先画出该业务的流程图,设计出大概的代码结构后再去写代码,这样虽然前期成本高,但是综合来看的话最节省时间和精力. 5.业务性的代码怎么安全怎么写,在安全的基础上适当保证代码简洁.比如simpleDateFormat是线程不安全的,最简单的做法就是在需要的时候new一个,在业务性的代码中不要使用ThreadLocal这些东西进行优化,这样会增加CR成本. 6.对于工作中出现的一些在他人帮助下解决的问题,自己要想办法复现,然后尝试自己独立解决. 7.updateXXX 不应该出现在 XXXService 里,因为不同的业务流程不同导致update的原因可能很多,这样就带来了无谓的复杂度,该操作应该放在DAO层,Service 层的功能是做某个逻辑，而不是做某个数据操作。职责不一样的.所谓的Service层复用指的是业务操作复用,而不是简单的代码复用. 8.对于和第三方服务商服务交互的报文信息尽可能的全部打出来,避免以后因为某业务撕逼.这很重要! 9.数据库经常有一些extend字段,对于这些字段对应DO提供String映射,在DTO中提供HashMap映射,因为该字段可能存出多种类型数据. 10.表结构的设计要分为变与不变来考虑,不变的地方先固定下来,变化的部分围绕着不变的来建立关系. 11.Service对应的方法一定要有一定的业务与之对应,比如我要删除一条记录,那么就有deleteById这样的方法.]]></content>
-      <categories>
-        <category>经验</category>
-      </categories>
-      <tags>
-        <tag>工作</tag>
       </tags>
   </entry>
   <entry>
