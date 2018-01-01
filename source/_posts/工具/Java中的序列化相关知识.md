@@ -1,5 +1,7 @@
 ---
 title: Java中序列化相关知识
+subtitle: Java中序列化相关知识
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805224.png
 author: 
   nick: 屈定
 tags:
