@@ -1,5 +1,9 @@
 ---
 title: Angular中引入第三方JS库
+subtitle: Angular中引入第三方JS库
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805636.png
+author: 
+  nick: 屈定
 tags:
   - angular
 categories: web

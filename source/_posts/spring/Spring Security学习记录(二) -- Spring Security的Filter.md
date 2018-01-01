@@ -1,5 +1,9 @@
 ---
 title: Spring Security学习记录(二) -- Spring Security的Filter
+subtitle: Spring Security学习记录(二) -- Spring Security的Filter
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806356.png
+author: 
+  nick: 屈定
 tags:
   - Spring    
 categories: Spring

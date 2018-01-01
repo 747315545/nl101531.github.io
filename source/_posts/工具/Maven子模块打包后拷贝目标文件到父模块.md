@@ -1,5 +1,9 @@
 ---
 title: Maven子模块打包后拷贝目标文件到父模块
+subtitle: Maven子模块打包后拷贝目标文件到父模块
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806286.png
+author: 
+  nick: 屈定
 tags:
   - maven    
 categories: maven

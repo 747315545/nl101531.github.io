@@ -1,5 +1,9 @@
 ---
 title: Java8学习记录(三)-强大的collect操作
+subtitle: Java8学习记录(三)-强大的collect操作
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805823.png
+author: 
+  nick: 屈定
 tags:
   -  java8
 categories:  java

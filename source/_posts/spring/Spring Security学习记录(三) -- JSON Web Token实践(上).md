@@ -1,5 +1,9 @@
 ---
 title: Spring Security学习记录(三) -- JSON Web Token实践(上)
+subtitle: Spring Security学习记录(三) -- JSON Web Token实践(上)
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806356.png
+author: 
+  nick: 屈定
 tags:
   - Spring    
 categories: Spring

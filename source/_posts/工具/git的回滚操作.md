@@ -1,5 +1,9 @@
 ---
 title: git的回滚操作
+subtitle: 公司发布系统出现问题,利用git reset进行强制回滚操作.
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805018.png
+author: 
+  nick: 屈定
 tags:
   - git    
 categories: git

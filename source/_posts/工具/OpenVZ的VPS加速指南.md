@@ -1,5 +1,9 @@
 ---
 title: OpenVZ的VPS加速指南
+subtitle: 推广搬瓦工的博文
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806095.png
+author: 
+  nick: 屈定
 tags:
   - shadowsocks    
 categories: vps

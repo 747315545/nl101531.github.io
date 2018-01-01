@@ -1,5 +1,9 @@
 ---
 title: Mybatis源码分析(二)--Sqlsession的执行流程
+subtitle: Mybatis中Sqlsession管理下的sql执行器是如何工作的?
+cover: http://oobu4m7ko.bkt.clouddn.com/1514804583.png
+author: 
+  nick: 屈定
 tags:
   - mybatis    
 categories: mybatis

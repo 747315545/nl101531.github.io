@@ -1,5 +1,9 @@
 ---
 title: Mybatis源码分析(三)--动态Sql中的参数解析
+subtitle: 分析对于输入参数Mybatis是如何映射到xml中.
+cover: http://oobu4m7ko.bkt.clouddn.com/1514804583.png
+author: 
+  nick: 屈定
 tags:
   - mybatis    
 categories: mybatis

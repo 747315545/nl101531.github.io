@@ -1,6 +1,8 @@
 ---
 title: ERP叛逃者(转)
 categories: 经验
+author: 
+  nick: 屈定
 tags:
  - 选择
 date: 2017-03-19 18:21:00

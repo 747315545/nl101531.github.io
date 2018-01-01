@@ -1,5 +1,9 @@
 ---
 title: Mybatis源码分析(一)--Mapper的动态代理
+subtitle: 分析Mapper接口是如何自动生成对应Java类,并与mapper.xml所关联起来的.
+cover: http://oobu4m7ko.bkt.clouddn.com/1514804583.png
+author: 
+  nick: 屈定
 tags:
   - mybatis    
   - 设计模式

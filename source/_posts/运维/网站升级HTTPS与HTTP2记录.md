@@ -1,5 +1,9 @@
 ---
 title: 网站升级HTTPS与HTTP2记录
+subtitle: 网站升级HTTPS与HTTP2记录
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805345.png
+author: 
+  nick: 屈定
 tags:
   - https    
   - http2

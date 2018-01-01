@@ -1,5 +1,7 @@
 ---
 title: Hello World
+author: 
+  nick: 屈定
 tags:
   - 随谈
 categories: 随谈

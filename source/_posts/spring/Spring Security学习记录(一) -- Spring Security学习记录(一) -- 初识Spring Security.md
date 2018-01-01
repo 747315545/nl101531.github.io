@@ -1,5 +1,9 @@
 ---
 title: Spring Security学习记录(一) -- 初识Spring Security
+subtitle: Spring Security学习记录(一) -- 初识Spring Security
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806356.png
+author: 
+  nick: 屈定
 tags:
   - Spring   
 categories: Spring

@@ -1,5 +1,9 @@
 ---
-title: redis学习记录(三)-redis中的数据结构
+title: Redis学习记录(三)-redis中的数据结构
+subtitle: Redis学习记录(三)-redis中的数据结构
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806506.png
+author: 
+  nick: 屈定
 tags:
   - redis
 categories: redis

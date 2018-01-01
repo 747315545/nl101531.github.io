@@ -1,5 +1,9 @@
 ---
-title: maven仓库清理脚本
+title: Maven仓库清理脚本
+subtitle: 清理Maven本地仓库残留的垃圾
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806286.png
+author: 
+  nick: 屈定
 tags:
   - maven    
 categories: maven

@@ -1,5 +1,9 @@
 ---
 title: Java中的四种引用
+subtitle: 学习Java中四种引用的异同.
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805224.png
+author: 
+  nick: 屈定
 tags:
   - java    
 categories: java

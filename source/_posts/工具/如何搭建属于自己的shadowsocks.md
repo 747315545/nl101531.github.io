@@ -1,5 +1,9 @@
 ---
 title: 如何搭建属于自己的shadowsocks
+subtitle: 如何搭建属于自己的shadowsocks
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806095.png
+author: 
+  nick: 屈定
 tags:
   - shadowsocks    
 categories: vps

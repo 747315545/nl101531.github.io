@@ -1,5 +1,7 @@
 ---
 title: 关于老项目替换dubbo的一点经验
+author: 
+  nick: 屈定
 tags:
   - dubbo    
 categories: 服务治理

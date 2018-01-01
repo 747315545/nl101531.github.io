@@ -1,5 +1,7 @@
 ---
 title: Java中序列化相关知识
+author: 
+  nick: 屈定
 tags:
   - jdk      
 categories: 工作问题

@@ -1,5 +1,9 @@
 ---
 title: Java8学习记录(二)-Stream原理
+subtitle: Java8学习记录(二)-Stream原理
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805823.png
+author: 
+  nick: 屈定
 tags:
   -  java8
 categories:  java 

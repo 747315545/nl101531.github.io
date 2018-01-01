@@ -1,5 +1,7 @@
 ---
 title: 对一个WEB请求的理解
+author: 
+  nick: 屈定
 tags:
   - http 
   - web

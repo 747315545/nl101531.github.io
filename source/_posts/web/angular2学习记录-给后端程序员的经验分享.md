@@ -1,5 +1,9 @@
 ---
-title: angular2学习记录-给后端程序员的经验分享
+title: Angular2学习记录-给后端程序员的经验分享
+subtitle: Angular2学习记录-给后端程序员的经验分享
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805636.png
+author: 
+  nick: 屈定
 tags:
   - angular
 categories: web

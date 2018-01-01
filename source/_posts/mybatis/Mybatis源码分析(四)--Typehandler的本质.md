@@ -1,5 +1,9 @@
 ---
 title: Mybatis源码分析(四)--TypeHandler的解析
+subtitle: 源码分析TypeHandler在Mybatis中是如何作为通用的数据转换器.
+cover: http://oobu4m7ko.bkt.clouddn.com/1514804583.png
+author: 
+  nick: 屈定
 tags:
   - mybatis
 categories:   mybatis    

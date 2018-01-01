@@ -1,5 +1,9 @@
 ---
 title: 由需求而产生的一款db导出excel的工具
+subtitle: 作为商业开发,给自己造的快速导出excel的轮子.
+cover: http://oobu4m7ko.bkt.clouddn.com/1514805104.png
+author: 
+  nick: 屈定
 tags:
   - excel    
   - 工具

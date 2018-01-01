@@ -1,5 +1,9 @@
 ---
 title: cnpm导致IDEA对于Angular项目提示失效
+subtitle: 搞了半天没提示,原来是cnpm的锅
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806017.png
+author: 
+  nick: 屈定
 tags:
   - angular
   - idea

@@ -1,5 +1,9 @@
 ---
-title: redis学习记录(四)-SpringDataRedis分析
+title: Redis学习记录(四)-SpringDataRedis分析
+subtitle: Redis学习记录(四)-SpringDataRedis分析
+cover: http://oobu4m7ko.bkt.clouddn.com/1514806506.png
+author: 
+  nick: 屈定
 tags:
   - redis
 categories: redis
