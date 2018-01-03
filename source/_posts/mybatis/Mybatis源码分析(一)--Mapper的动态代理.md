@@ -120,9 +120,9 @@ dlrow olleh
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
-      if (Object.class.equals(method.getDeclaringClass())) { ////判断是否为object,因为其不是接口
+      if (Object.class.equals(method.getDeclaringClass())) { //判断是否为Object,是的话则不是mapper接口代理方式
         return method.invoke(this, args);
-      } else if (isDefaultMethod(method)) { //判断是否为接口总的默认方法,jdk8允许接口中声明默认方法.
+      } else if (isDefaultMethod(method)) { //判断是否为接口中的默认方法,jdk8允许接口中声明默认方法.
         return invokeDefaultMethod(proxy, method, args);
       }
     } catch (Throwable t) {
