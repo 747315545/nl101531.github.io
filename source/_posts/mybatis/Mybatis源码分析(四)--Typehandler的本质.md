@@ -13,7 +13,8 @@ updated: 2017-12-15 23:14:46
 ### 学习前的疑问
 1. TypeHandler的主要功能是什么?
 2. TypeHandler如何配置?
-4. Mybatis是如何使用TypeHandler?(参数设置,结果映射)
+3. Mybatis是如何使用TypeHandler?(参数设置,结果映射)
+4. 实现通用枚举转换器的可行方案是什么?
 
 ### TypeHandler的主要功能是什么?
 `TypeHandler`是一个接口,那么其所拥有什么功能最简单的方法是看接口方法与注释(这里mybatis注释相当少),那么看下列方法.
@@ -132,11 +133,11 @@ public class UserIdentifyTypeHandler extends BaseTypeHandler<UserIdentifyType> {
 具体就不展开讨论了.
 
 ### 制作通用的枚举类处理器
-依照上述分析,如果想让枚举类的处理和基本类型一样的不需要显示的在mapper.xml上指定一些属性,几乎是不可能的一键事情,不过可以大大简化其使用方式,首先分析下对于枚举类两处的处理.
+依照上述分析,如果想让枚举类的处理和基本类型一样的不需要显示的在mapper.xml上指定一些属性,几乎是不可能的一件事情,不过可以大大简化其使用方式,首先分析下对于枚举类两处的处理.
 1. 参数设置时,mapper.xml中的sql字段什么都不指定直接#{value},那么最终会使用该value的**class名称**去获取到对应的typeHandler.
 2. 结果映射时,由上述优先级顺序可以得知对于枚举类会使用方式2**根据返回参数类型,也就是class名称**获取对应的typeHandler.
 
-那么通用转换器的实现思路很简单了,首先定义一个枚举类所使用的接口,然后编写通用处理,这里能实现还一个原因就是Class对象有`type.getEnumConstants()`方法可以获取到其所有枚举对象,也就是可以把数字映射为指定结果了,需要注意的是这里把每个枚举类都注入到`TypeHandlerRegistry`使用的是`@MappedTypes`注解,该注解生效是需要配置`mybatis.type-handlers-package`以包的形式扫,否则不生效.
+那么通用转换器的实现思路很简单了,要做的就是把对应枚举类的名称->typehandler初始化时注入到`TypeHandlerRegistry`中.首先定义一个枚举类所使用的接口,然后编写通用处理,这里能实现还一个原因就是Class对象有`type.getEnumConstants()`方法可以获取到其所有枚举对象,也就是可以把数字映射为指定结果了,需要注意的是这里把每个枚举类都注入到`TypeHandlerRegistry`使用的是`@MappedTypes`注解,该注解生效是需要配置`mybatis.type-handlers-package`以包的形式扫,否则不生效.
 
 下面的代码是copy自github,本文算是对其原理分析了一遍.[https://github.com/mybatis/mybatis-3/issues/42](https://github.com/mybatis/mybatis-3/issues/42)
 **EnumHasValue**
