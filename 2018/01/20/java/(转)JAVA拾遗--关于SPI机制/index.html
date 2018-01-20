@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><title>(转)JAVA拾遗--关于SPI机制 | 屈定's Blog - change from today</title><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="author" content="Qu Ding"><meta name="designer" content="minfive"><meta name="keywords" content="IT小生, Java, Spring, Mybatis, 后端工程师,"><meta name="description" content="记录成为程序员以来的历程,分享自己的认知,希望这种记录对你有帮助."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="format-detection" content="telephone=yes"><meta name="mobile-web-app-capable" content="yes"><meta name="robots" content="all"><link rel="canonical" href="http://mrdear.cn/2018/01/20/java/(转)JAVA拾遗--关于SPI机制/index.html"><link rel="icon" type="image/png" href="https://avatars1.githubusercontent.com/u/13889883?v=3&s=460" sizes="32x32"><link rel="stylesheet" href="/scss/base/index.css"><link rel="alternate" href="/atom.xml" title="屈定's Blog"><script>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="https://hm.baidu.com/hm.js?05272b7f33b576c5363b4fa34583f3c3";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script async src="https://www.googletagmanager.com/gtag/js?id=vI-8_Ee7chpyEu09yCt-bC91dWWmTx08Bb_Mv1gltl0"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","vI-8_Ee7chpyEu09yCt-bC91dWWmTx08Bb_Mv1gltl0")</script><link rel="stylesheet" href="/scss/views/page/post.css"></head><body ontouchstart><div id="page-loading" class="page page-loading" style="background-image:url(http://oo12ugek5.bkt.clouddn.com/blog/images/loader.gif)"></div><div id="page" class="page js-hidden"><header class="page__small-header page__header--small"><nav class="page__navbar"><div class="page__container navbar-container"><a class="page__logo" href="/" title="屈定's Blog" alt="屈定's Blog"><img src="http://oobu4m7ko.bkt.clouddn.com/newlogo.png" alt="屈定's Blog"></a><nav class="page__nav"><ul class="nav__list clearfix"><li class="nav__item"><a href="/" alt="首页" title="首页">首页</a></li><li class="nav__item"><a href="/archives" alt="归档" title="归档">归档</a></li><li class="nav__item"><a href="/about" alt="关于" title="关于">关于</a></li></ul></nav><button class="page__menu-btn" type="button"><i class="iconfont icon-menu"></i></button></div></nav></header><main class="page__container page__main"><div class="page__content"><article class="page__post"><div class="post__cover"><img src="http://oobu4m7ko.bkt.clouddn.com/1516424731.png" alt="(转)JAVA拾遗--关于SPI机制"></div><header class="post__info"><h1 class="post__title">(转)JAVA拾遗--关于SPI机制</h1><div class="post__mark"><div class="mark__block"><i class="mark__icon iconfont icon-write"></i><ul class="mark__list clearfix"><li class="mark__item"><a href="https://www.cnkirito.moe">徐靖峰</a></li></ul></div><div class="mark__block"><i class="mark__icon iconfont icon-time"></i><ul class="mark__list clearfix"><li class="mark__item"><span>2018-01-20</span></li></ul></div><div class="mark__block"><i class="mark__icon iconfont icon-tab"></i><ul class="mark__list clearfix"><li class="mark__item"><a href="/tags/java8/">Java8</a></li></ul></div><div class="mark__block"><i class="mark__icon iconfont icon-eye"></i><ul class="mark__list clearfix"><li id="busuanzi_container_page_pv" class="mark__item"><span id="busuanzi_value_page_pv"></span>次</li></ul></div></div></header><div class="post__content"><div class="toc"><ul><li><a href="#shi-xian-yi-ge-zi-ding-yi-de-spi">实现一个自定义的SPI</a><ul><li><a href="#1-xiang-mu-jie-gou">1 项目结构</a></li><li><a href="#2-interface-mo-kuai">2 interface模块</a></li><li><a href="#3-good-printer-mo-kuai">3 good-printer模块</a></li></ul></li><li><a href="#4-bad-printer-mo-kuai">4 bad-printer模块</a></li><li><a href="#5-invoker-mo-kuai">5 invoker模块</a></li><li><a href="#spi-zai-shi-ji-xiang-mu-zhong-de-ying-yong">SPI在实际项目中的应用</a></li><li><a href="#spi-zai-kuo-zhan-fang-mian-de-ying-yong">SPI在扩展方面的应用</a></li></ul><p></p></div><p></p><hr><blockquote><p>本文转自: <a href="https://www.cnkirito.moe/2017/11/09/spi/" target="_blank" rel="noopener">https://www.cnkirito.moe/2017/11/09/spi/</a><br>作者: 徐靖峰<br>其中加入了点自己的看法.</p></blockquote><hr><p>JDK提供的SPI(Service Provider Interface)机制，可能很多人不太熟悉，因为这个机制是针对厂商或者插件的，也可以在一些框架的扩展中看到。其核心类<code>java.util.ServiceLoader</code>可以在jdk1.8的文档中看到详细的介绍。虽然不太常见，但并不代表它不常用，恰恰相反，你无时无刻不在用它。玄乎了，莫急，思考一下你的项目中是否有用到第三方日志包，是否有用到数据库驱动？其实这些都和SPI有关。再来思考一下，现代的框架是如何加载日志依赖，加载数据库驱动的，你可能会对class.forName(“com.mysql.jdbc.Driver”)这段代码不陌生，这是每个java初学者必定遇到过的，但如今的数据库驱动仍然是这样加载的吗？你还能找到这段代码吗？这一切的疑问，将在本篇文章结束后得到解答。</p><p>首先介绍SPI机制是个什么东西</p><h3><span id="shi-xian-yi-ge-zi-ding-yi-de-spi">实现一个自定义的SPI</span><a href="#shi-xian-yi-ge-zi-ding-yi-de-spi" class="header-anchor">#</a></h3><h4><span id="1-xiang-mu-jie-gou">1 项目结构</span><a href="#1-xiang-mu-jie-gou" class="header-anchor">#</a></h4><p><img src="http://oobu4m7ko.bkt.clouddn.com/1516428820.png?imageMogr2/thumbnail/!70p" alt=""></p><ol><li>invoker是我们的用来测试的主项目。</li><li>interface是针对厂商和插件商定义的接口项目，只提供接口，不提供实现。</li><li>good-printer,bad-printer分别是两个厂商对interface的不同实现，所以他们会依赖于interface项目。<br>这个简单的demo就是让大家体验，在不改变invoker代码，只更改依赖的前提下，切换interface的实现厂商。<h4><span id="2-interface-mo-kuai">2 interface模块</span><a href="#2-interface-mo-kuai" class="header-anchor">#</a></h4><strong>2.1 moe.cnkirito.spi.api.Printer</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>interface只定义一个接口，不提供实现。规范的制定方一般都是比较牛叉的存在，这些接口通常位于java，javax前缀的包中。这里的Printer就是模拟一个规范接口。</p>
+<h4><span id="3-good-printer-mo-kuai">3 good-printer模块</span><a href="#3-good-printer-mo-kuai" class="header-anchor">#</a></h4><p><strong>3.1 good-printer\pom.xml</strong><br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>moe.cnkirito<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>interface<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<p>规范的具体实现类必然要依赖规范接口<br><strong>3.2 moe.cnkirito.spi.api.GoodPrinter</strong><br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoodPrinter</span> <span class="keyword">implements</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"你是个好人~"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p>
+<p>作为Printer规范接口的实现一<br><strong>3.3 resources\META-INF\services\moe.cnkirito.spi.api.Printer</strong><br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moe.cnkirito.spi.api.GoodPrinter</span><br></pre></td></tr></table></figure><p></p>
+<p>这里需要重点说明，每一个SPI接口都需要在自己项目的静态资源目录中声明一个services文件，文件名为实现规范接口的类名全路径，在此例中便是<code>moe.cnkirito.spi.api.Printer</code>，在文件中，则写上一行具体实现类的全路径，在此例中便是<code>moe.cnkirito.spi.api.GoodPrinter</code>。<br>这样一个厂商的实现便完成了。</p>
+<h3><span id="4-bad-printer-mo-kuai">4 bad-printer模块</span><a href="#4-bad-printer-mo-kuai" class="header-anchor">#</a></h3><p>我们在按照和good-printer模块中定义的一样的方式，完成另一个厂商对Printer规范的实现。<br><strong>4.1 bad-printer\pom.xml</strong><br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>moe.cnkirito<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>interface<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<p><strong>4.2 moe.cnkirito.spi.api.BadPrinter</strong><br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BadPrinter</span> <span class="keyword">implements</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我抽烟，喝酒，蹦迪，但我知道我是好女孩~"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p>
+<p><strong>4.3 resources\META-INF\services\moe.cnkirito.spi.api.Printer</strong><br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moe.cnkirito.spi.api.BadPrinter</span><br></pre></td></tr></table></figure><p></p>
+<p>这样，另一个厂商的实现便完成了。</p>
+<h3><span id="5-invoker-mo-kuai">5 invoker模块</span><a href="#5-invoker-mo-kuai" class="header-anchor">#</a></h3><p>这里的invoker便是我们自己的项目了。如果一开始我们想使用厂商good-printer的Printer实现，是需要将其的依赖引入。<br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>moe.cnkirito<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>interface<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>moe.cnkirito<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>good-printer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<p><strong>5.1 编写调用主类</strong><br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainApp</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ServiceLoader&lt;Printer&gt; printerLoader = ServiceLoader.load(Printer.class);</span><br><span class="line">        <span class="keyword">for</span> (Printer printer : printerLoader) &#123;</span><br><span class="line">            printer.print();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p>
+<p>ServiceLoader是<code>java.util</code>提供的用于加载固定类路径下文件的一个加载器，正是它加载了对应接口声明的实现类。<br><strong>5.2 打印结果1</strong><br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你是个好人~</span><br></pre></td></tr></table></figure><p></p>
+<p>如果在后续的方案中，想替换厂商的Printer实现，只需要将依赖更换<br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>moe.cnkirito<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>interface<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>moe.cnkirito<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>bad-printer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<p>调用主类无需变更代码，这符合开闭原则<br><strong>5.3 打印结果2</strong><br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我抽烟，喝酒，蹦迪，但我知道我是好女孩~</span><br></pre></td></tr></table></figure><p></p>
+<p>是不是很神奇呢？这一切对于调用者来说都是透明的，只需要切换依赖即可！</p>
+<h3><span id="spi-zai-shi-ji-xiang-mu-zhong-de-ying-yong">SPI在实际项目中的应用</span><a href="#spi-zai-shi-ji-xiang-mu-zhong-de-ying-yong" class="header-anchor">#</a></h3><p>先总结下有什么新知识，resources/META-INF/services下的文件似乎我们之前没怎么接触过，ServiceLoader也没怎么接触过。那么现在我们打开自己项目的依赖，看看有什么发现。<br>1.在mysql-connector-java-xxx.jar中发现了META-INF\services\java.sql.Driver文件，里面只有两行记录：<br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">com.mysql.jdbc.Driver</span><br><span class="line">com.mysql.fabric.jdbc.FabricMySQLDriver</span><br></pre></td></tr></table></figure><p></p>
+<p>我们可以分析出，java.sql.Driver是一个规范接口，<code>com.mysql.jdbc.Driver</code><br><code>com.mysql.fabric.jdbc.FabricMySQLDriver</code>则是mysql-connector-java-xxx.jar对这个规范的实现接口。<br>2.在jcl-over-slf4j-xxxx.jar中发现了META-INF\services\org.apache.commons.logging.LogFactory文件，里面只有一行记录：<br></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.apache.commons.logging.impl.SLF4JLogFactory</span><br></pre></td></tr></table></figure><p></p>
+<p>相信不用我赘述，大家都能理解这是什么含义了<br>3.更多的还有很多，有兴趣可以自己翻一翻项目路径下的那些jar包<br>既然说到了数据库驱动，索性再多说一点，还记得一道经典的面试题：class.forName(“com.mysql.jdbc.Driver”)到底做了什么事？</p>
+<p>先思考下：自己会怎么回答？</p>
+<p>都知道class.forName与类加载机制有关，会触发执行com.mysql.jdbc.Driver类中的静态方法，从而使主类加载数据库驱动。如果再追问，为什么它的静态块没有自动触发？可答：因为数据库驱动类的特殊性质，JDBC规范中明确要求Driver类必须向DriverManager注册自己，导致其必须由class.forName手动触发，这可以在java.sql.Driver中得到解释。完美了吗？还没，来到最新的DriverManager源码中，可以看到这样的注释,翻译如下：</p>
+<blockquote>
+<p><code>DriverManager</code> 类的方法 getConnection 和 getDrivers 已经得到提高以支持 Java Standard Edition Service Provider 机制。 JDBC 4.0 Drivers 必须包括 <code>META-INF/services/java.sql.Driver</code>文件。此文件包含 <code>java.sql.Driver</code> 的 JDBC 驱动程序实现的名称。例如，要加载 my.sql.Driver 类，META-INF/services/java.sql.Driver 文件需要包含下面的条目：<br><strong>my.sql.Driver</strong><br>应用程序不再需要使用 <code>Class.forName()</code>显式地加载 JDBC 驱动程序。当前使用 <code>Class.forName()</code> 加载 JDBC 驱动程序的现有程序将在不作修改的情况下继续工作。</p>
+</blockquote>
+<p>可以发现，Class.forName已经被弃用了，所以，这道题目的最佳回答，应当是和面试官牵扯到JAVA中的SPI机制，进而聊聊加载驱动的演变历史。<br><strong>java.sql.DriverManager</strong><br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Void <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ServiceLoader&lt;Driver&gt; loadedDrivers = ServiceLoader.load(Driver.class);</span><br><span class="line">    Iterator&lt;Driver&gt; driversIterator = loadedDrivers.iterator();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(driversIterator.hasNext()) &#123;</span><br><span class="line">            driversIterator.next();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(Throwable t) &#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p>
+<p>当然那，本节的内容还是主要介绍SPI，驱动这一块这是引申而出，如果不太理解，可以多去翻一翻jdk1.8中Driver和DriverManager的源码，相信会有不小的收获。</p>
+<p><strong>这里我的理解与作者的不大相同</strong><br>先看下<code>com.mysql.jdbc.Driver</code><br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.mysql.jdbc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> <span class="keyword">extends</span> <span class="title">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">sql</span>.<span class="title">Driver</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Driver</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      DriverManager.registerDriver(<span class="keyword">new</span> Driver());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException var1) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Can't register driver!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p>
+<p>逻辑很简单,在静态块中往<code>DriverManager</code>注册自己.那么为什么它的静态块没有自动触发,这个回答和作者不太一样了.<br>我的理解是JVM只要加载类那么一定会执行静态块中的代码,换句话说没执行也就是这个类根本没加载进内存.因为ClassLoader是按需加载模式,这也就是你用了一个jar包,可以不全部引入他的依赖原因所在,只要不触发对应的类加载,那么即使没有引入jar,也不会报<code>ClassNotFoundException</code>.<br>那么<code>Class.forName</code>作用是什么?作用是触发类加载,告诉JVM我这个系统运行需要加载这个类,那么JVM加载时会自动触发相应的静态块代码执行.<br>那么<code>SPI</code>与<code>Class.forName</code>有什么不同?本质都是触发加载,实例化出对象,只是SPI对于开发者来说是被动,Class.forName是主动.</p>
+<h3><span id="spi-zai-kuo-zhan-fang-mian-de-ying-yong">SPI在扩展方面的应用</span><a href="#spi-zai-kuo-zhan-fang-mian-de-ying-yong" class="header-anchor">#</a></h3><p>SPI不仅仅是为厂商指定的标准，同样也为框架扩展提供了一个思路。框架可以预留出SPI接口，这样可以在不侵入代码的前提下，通过增删依赖来扩展框架。前提是，框架得预留出核心接口，也就是本例中interface模块中类似的接口，剩下的适配工作便留给了开发者。</p>
+<p>例如我的上一篇文章 <a href="https://www.cnkirito.moe/2017/11/07/spring-cloud-sleuth/" target="_blank" rel="noopener">https://www.cnkirito.moe/2017/11/07/spring-cloud-sleuth/ </a>中介绍的motan中Filter的扩展，便是采用了SPI机制，熟悉这个设定之后再回头去了解一些框架的SPI扩展就不会太陌生了。</p>
+
+
+        
+        <div class="post-announce">
+            感谢您的阅读，本文由
+            <a href="http://mrdear.cn">屈定's Blog</a>
+            版权所有。如若转载，请注明出处：屈定's Blog（<a href="http://mrdear.cn/2018/01/20/java/(转)JAVA拾遗--关于SPI机制/">http://mrdear.cn/2018/01/20/java/(转)JAVA拾遗--关于SPI机制/</a>）
+        </div>
+        
+
+        <div class="post__prevs">
+            <div class="post__prev">
+                
+                <a href="/2018/01/14/mybatis/Mybatis源码分析(五)--ResultSetHandler分析/" title="Mybatis源码分析(五)--ResultSetHandler分析"><i class="iconfont icon-prev"></i>Mybatis源码分析(五)--ResultSetHandler分析</a>
+                
+            </div>
+            <div class="post__prev post__prev--right">
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+        
+            <div id="disqus_thread"></div>
+        
+    </div>
+
+    <aside class="page__sidebar">
+    
+
+    <form id="page-search-from" class="page__search-from" action="/search/">
+        <label class="search-form__item">
+            <input class="input" type="text" name="search" placeholder="Search...">
+            <i class="iconfont icon-search"></i>
+        </label>
+    </form>
+
+    
+        <div class="sidebar__block">
+            <h3 class="block__title">简介</h3>
+            <p class="block__text">记录成为程序员以来的历程,分享自己的认知,希望这种记录对你有帮助.</p>
+        </div>
+    
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章分类</h3>
+        <ul class="block-list"><li class="block-list-item"><a class="block-list-link" href="/categories/随谈/">随谈</a><span class="block-list-count">3</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/运维/">运维</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/经验/">经验</a><span class="block-list-count">4</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/服务治理/">服务治理</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/工具/">工具</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/工作问题/">工作问题</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/动漫/">动漫</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/web/">web</a><span class="block-list-count">5</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/vps/">vps</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/redis/">redis</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mybatis/">mybatis</a><span class="block-list-count">5</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/maven/">maven</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/java/">java</a><span class="block-list-count">6</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/git/">git</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/Spring/">Spring</a><span class="block-list-count">4</span></li></ul>
+    </div>
+    
+    <div class="sidebar__block">
+        <h3 class="block__title">最新文章</h3>
+        
+        <ul class="block-list latest-post-list">
+            
+                    <li class="latest-post-item">
+                        <a href="/2018/01/20/java/(转)JAVA拾遗--关于SPI机制/" title="(转)JAVA拾遗--关于SPI机制">
+                            <div class="item__cover">
+                                <img src="http://oobu4m7ko.bkt.clouddn.com/1516424731.png" alt="(转)JAVA拾遗--关于SPI机制">
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">(转)JAVA拾遗--关于SPI机制</h3>
+                                <span class="item__text">2018-01-20</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2018/01/14/mybatis/Mybatis源码分析(五)--ResultSetHandler分析/" title="Mybatis源码分析(五)--ResultSetHandler分析">
+                            <div class="item__cover">
+                                <img src="http://oobu4m7ko.bkt.clouddn.com/1514804583.png" alt="Mybatis源码分析(五)--ResultSetHandler分析">
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Mybatis源码分析(五)--ResultSetHandler分析</h3>
+                                <span class="item__text">2018-01-14</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2018/01/01/随谈/2018年上半年目标/" title="2018年上半年目标">
+                            <div class="item__cover">
+                                <img src="http://oobu4m7ko.bkt.clouddn.com/1514816155.png" alt="2018年上半年目标">
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">2018年上半年目标</h3>
+                                <span class="item__text">2018-01-01</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2017/12/15/mybatis/Mybatis源码分析(四)--Typehandler的本质/" title="Mybatis源码分析(四)--TypeHandler的解析">
+                            <div class="item__cover">
+                                <img src="http://oobu4m7ko.bkt.clouddn.com/1514804583.png" alt="Mybatis源码分析(四)--TypeHandler的解析">
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Mybatis源码分析(四)--TypeHandler的解析</h3>
+                                <span class="item__text">2017-12-15</span>
+                            </div>
+                        </a>
+                    </li>
+                
+        </ul>
+    
+    </div>
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章标签</h3>
+        
+        <ul class="block-list tag-list clearfix">
+            
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/Spring/">Spring</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/angular/">angular</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/bug/">bug</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/dubbo/">dubbo</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/excel/">excel</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/git/">git</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/http/">http</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/http2/">http2</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/https/">https</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/idea/">idea</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/java/">java</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/java8/">java8</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/jdk/">jdk</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/maven/">maven</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mybatis/">mybatis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/redis/">redis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/shadowsocks/">shadowsocks</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/web/">web</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/七牛/">七牛</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/动漫/">动漫</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/图片存储/">图片存储</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/学习方法/">学习方法</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/工具/">工具</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/经验/">经验</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/设计模式/">设计模式</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/选择/">选择</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/随谈/">随谈</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/面向对象/">面向对象</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/面试/">面试</a>
+                    </li>  
+                
+        </ul>
+    
+    </div>
+
+    
+</aside>
+</main>
+
+
+        
+            
+<footer class="page__footer">
+    <section class="footer__top">
+        <div class="page__container footer__container">
+            
+            <div class="footer-top__item footer-top__item--2">
+                <h3 class="item__title">关于</h3>
+                <div class="item__content">
+                    <p class="item__text">本站定位为个人博客,主要记录自己成为程序员以来的成长历程.</p>
+                    <ul class="footer__contact-info">
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-address"></i>
+                            <span>ShangHai, China</span>
+                        </li>
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-email2"></i>
+                            <span>niudear@foxmail.com</span>
+                        </li>
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-address"></i>
+                            <span>2017 皖ICP备17023807号</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+            
+                <div class="footer-top__item footer__image">
+                    <img src="http://oobu4m7ko.bkt.clouddn.com/1514796045.png?imageMogr2/thumbnail/!50p" alt="logo" title="屈定's Blog">
+                </div>
+            
+            
+            
+            
+        </div>
+    </section>
+    <section class="footer__bottom">
+        <div class="page__container footer__container">
+            <p class="footer__copyright">©
+                <a href="https://github.com/Mrminfive/hexo-theme-skapp" target="_blank">Skapp</a> 2017 powered by
+                <a href="http://hexo.io/" target="_blank">Hexo</a>, made by 
+                <a href="https://github.com/Mrminfive" target="_blank">minfive</a>, Hosted by 
+                <a href="https://pages.coding.me/" target="_blank">Coding Pages</a>.
+            </p>
+            <ul class="footer__social-network clearfix">
+                
+                
+                    <li class="social-network__item">
+                        <a href="https://github.com/mrdear" target="_blank" title="github">
+                            <i class="iconfont icon-github"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://www.zhihu.com/people/niu.dear/activities" target="_blank" title="知乎">
+                            <i class="iconfont icon-zhihu"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="mailto:niudear@foxmail.com" target="_blank" title="email">
+                            <i class="iconfont icon-email"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="/atom.xml" target="_blank" title="rss">
+                            <i class="iconfont icon-rss"></i>
+                        </a>
+                    </li>
+                
+                
+            </ul>
+        </div>
+    </section>
+</footer>
+        
+
+        
+            
+<div id="back-top" class="back-top back-top--hidden js-hidden">
+    <i class="iconfont icon-top"></i>
+</div>
+        
+    </div>
+
+    <script src="/js/common.js"></script>
+
+    
+    <script src="/js/page/post.js"></script>
+
+
+    
+    
+
+
+    <script>var disqus_shortname="mrdear",disqus_config=function(){this.page.url="http://mrdear.cn/2018/01/20/java/(转)JAVA拾遗--关于SPI机制/",this.page.identifier="/2018/01/20/java/(转)JAVA拾遗--关于SPI机制/",this.page.title="(转)JAVA拾遗--关于SPI机制"};!function(){var t=document,e=t.createElement("script");e.src="https://"+disqus_shortname+".disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>#live2dcanvas{position:fixed;width:150px;height:300px;opacity:1;left:0;z-index:999;pointer-events:none;bottom:-20px}</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();</script></body></html>
