@@ -147,7 +147,7 @@ sitemap:
 baidusitemap:
   path: baidusitemap.xml
 toc:
-  maxdepth: 3
+  maxdepth: 4
   class: toc
   slugify: transliteration
   decodeEntities: false
